@@ -3,44 +3,62 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aradel — Login</title>
+  <title>Schweppes — Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'DM Sans',sans-serif;background:#fff;min-height:100vh}
+    :root {
+      --primary-blue:        #2196F3; /* A vibrant blue */
+      --primary-blue-dark:   #1976D2; /* Darker shade for accents */
+      --primary-blue-light:  #E3F2FD; /* Lighter tint for backgrounds */
+      --text-dark:           #212121; /* Dark grey for primary text */
+      --white:               #FFFFFF;
+      --background-light:    #F5F5F5; /* Off-white for general background */
+      --text-muted:          #757575; /* Medium grey for muted text */
+      --border-light:        #E0E0E0; /* Light grey for borders */
+      --success-green:       #4CAF50;
+      --success-green-bg:    #E8F5E9;
+      --warning-orange:      #FF9800;
+      --warning-orange-bg:   #FFF3E0;
+      --danger-red:          #F44336;
+      --danger-red-bg:       #FFEBEE;
+      --display:             'Fraunces', serif;
+      --body:                'DM Sans', sans-serif;
+    }
+    body{font-family:var(--body);background:var(--background-light);min-height:100vh;color:var(--text-dark);}
     .wrap{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-    .hero{background:linear-gradient(155deg,#B91C3C 0%,#7F1228 100%);padding:56px 32px 48px;text-align:center;color:#fff;position:relative;overflow:hidden;flex-shrink:0}
+    .hero{background:linear-gradient(155deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);padding:56px 32px 48px;text-align:center;color:var(--white);position:relative;overflow:hidden;flex-shrink:0}
     .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,.07);border-radius:50%}
-    .seal-big{width:64px;height:64px;border-radius:50%;background:#fff;color:#B91C3C;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:28px;font-weight:700;margin:0 auto 14px;position:relative;z-index:1;border:3px solid rgba(255,255,255,.5)}
-    .logo{font-family:'Fraunces',serif;font-size:32px;font-weight:600;letter-spacing:-.5px;position:relative;z-index:1}
+    .seal-big{width:64px;height:64px;border-radius:50%;background:var(--white);color:var(--primary-blue);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;font-weight:700;margin:0 auto 14px;position:relative;z-index:1;border:3px solid rgba(255,255,255,.5)}
+    .logo{font-family:var(--display);font-size:32px;font-weight:600;letter-spacing:-.5px;position:relative;z-index:1}
     .logo-sub{font-size:13px;opacity:.85;margin-top:6px;position:relative;z-index:1;letter-spacing:.02em}
     .body{flex:1;padding:28px 24px 48px}
-    .title{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:#1A1611;margin-bottom:4px}
-    .sub{font-size:14px;color:#8A7F78;margin-bottom:24px}
+    .title{font-family:var(--display);font-size:24px;font-weight:600;color:var(--text-dark);margin-bottom:4px}
+    .sub{font-size:14px;color:var(--text-muted);margin-bottom:24px}
     .alert-box{padding:12px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:16px}
-    .a-error{background:#FEE2E2;color:#991B1B} .a-success{background:#E3F5EC;color:#0F7B4E}
+    .a-error{background:var(--danger-red-bg);color:var(--danger-red)} .a-success{background:var(--success-green-bg);color:var(--success-green)}
     .field{margin-bottom:16px}
-    .field label{display:block;font-size:13px;font-weight:600;color:#1A1611;margin-bottom:5px}
-    .field input{width:100%;padding:13px 16px;border:2px solid #EAE3DF;border-radius:10px;font-size:15px;color:#1A1611;background:#fff;outline:none;font-family:inherit;transition:border-color .2s}
-    .field input:focus{border-color:#B91C3C}
-    .forgot{display:block;text-align:right;font-size:13px;color:#B91C3C;font-weight:600;text-decoration:none;margin-top:-8px;margin-bottom:20px}
-    .btn{width:100%;padding:16px;border:none;border-radius:50px;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;background:#B91C3C;color:#fff;transition:opacity .15s,transform .12s}
+    .field label{display:block;font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:5px}
+    .field input{width:100%;padding:13px 16px;border:2px solid var(--border-light);border-radius:10px;font-size:15px;color:var(--text-dark);background:var(--white);outline:none;font-family:inherit;transition:border-color .2s}
+    .field input:focus{border-color:var(--primary-blue)}
+    .forgot{display:block;text-align:right;font-size:13px;color:var(--primary-blue);font-weight:600;text-decoration:none;margin-top:-8px;margin-bottom:20px}
+    .btn{width:100%;padding:16px;border:none;border-radius:50px;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;background:var(--primary-blue);color:var(--white);transition:opacity .15s,transform .12s}
     .btn:active{transform:scale(.98)} .btn:disabled{opacity:.4;cursor:not-allowed}
-    .switch{text-align:center;font-size:14px;color:#8A7F78;margin-top:20px}
-    .switch a{color:#B91C3C;font-weight:700;text-decoration:none}
+    .switch{text-align:center;font-size:14px;color:var(--text-muted);margin-top:20px}
+    .switch a{color:var(--primary-blue);font-weight:700;text-decoration:none}
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hero">
-    <div class="seal-big">A</div>
-    <div class="logo">Aradel</div>
-    <div class="logo-sub">Invest with confidence.</div>
+    <div class="seal-big">S</div>
+    <div class="logo">Schweppes</div>
+    <div class="logo-sub">Taste the refreshment.</div>
   </div>
   <div class="body">
     <div class="title">Welcome back</div>
-    <div class="sub">Sign in to your Aradel account</div>
+    <div class="sub">Sign in to your Schweppes account</div>
     <div id="alertBox" class="alert-box" style="display:none"></div>
     <div class="field"><label>Email Address</label><input type="email" id="email" placeholder="you@example.com" autocomplete="email"/></div>
     <div class="field"><label>Password</label><input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"/></div>
