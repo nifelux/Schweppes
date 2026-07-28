@@ -1,7 +1,10 @@
 {
-  "name": "aradel",
+  "name": "Schweppes",
   "version": "1.0.0",
-  "description": "Aradel Investment Platform",
+  "description": "Schweppes Investment Platform",
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0"
   }
