@@ -2,33 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aradel — Profile</title>
+  <title>Schweppes — Profile</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="assets/css/styes.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     :root{
-      --red:#C81E3A; --red-dark:#8F1128; --red-light:#E85C74;
-      --gold:#D4AF37; --gold-light:#F0D584;
-      --cream:#FBF6EC; --paper:#FFFFFF; --bg:#F5F1E8;
-      --ink:#1B1A22; --ink-soft:#4A4750; --muted:#8B8680;
-      --border:rgba(27,26,34,0.07);
-      --success:#1B9E6B; --success-bg:#E6F6EE;
-      --danger:#D6435C; --danger-bg:#FBEAEE;
-      --shadow-sm:0 2px 10px rgba(27,26,34,0.05);
-      --shadow-md:0 10px 30px rgba(27,26,34,0.08);
-      --shadow-lg:0 20px 60px rgba(27,26,34,0.14);
+      --primary-blue:        #2196F3;
+      --primary-blue-dark:   #1977D2;
+      --primary-blue-light:  #E3F2FD;
+      --text-dark:           #212121;
+      --white:               #FFFFFF;
+      --background-light:    #F5F5F5;
+      --text-muted:          #757575;
+      --border-light:        #E0E0E0;
+      --success-green:       #4CAF50;
+      --success-green-bg:    #E8F5E9;
+      --danger-red:          #F44336;
+      --danger-red-bg:       #FFEBEE;
+
+      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
+      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
+      --shadow-lg:0 20px 60px rgba(0,0,0,0.14);
+      --shadow-blue:0 16px 40px rgba(33,150,243,0.28);
+
       --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
       --ease:cubic-bezier(.22,1,.36,1);
     }
     *{box-sizing:border-box;}
     body{
-      margin:0;background:var(--bg);
+      margin:0;background:var(--background-light);
       background-image:
-        radial-gradient(circle at 100% 0%, rgba(212,175,55,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(200,30,58,0.05) 0%, transparent 40%);
+        radial-gradient(circle at 100% 0%, rgba(33,150,243,0.10) 0%, transparent 45%),
+        radial-gradient(circle at 0% 30%, rgba(25,118,210,0.05) 0%, transparent 40%);
       background-attachment:fixed;
       font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-      color:var(--ink); -webkit-font-smoothing:antialiased; overflow-x:hidden;
+      color:var(--text-dark); -webkit-font-smoothing:antialiased; overflow-x:hidden;
     }
     .page-wrap{max-width:520px;margin:0 auto;padding-bottom:110px;}
     a{text-decoration:none;color:inherit;}
@@ -43,14 +51,14 @@
       position:relative;overflow:hidden;
       background:
         radial-gradient(circle at 88% -10%, rgba(255,255,255,0.20) 0%, transparent 50%),
-        radial-gradient(circle at -10% 115%, rgba(212,175,55,0.30) 0%, transparent 50%),
-        linear-gradient(155deg,var(--red) 0%,var(--red-dark) 100%);
+        radial-gradient(circle at -10% 115%, rgba(33,150,243,0.30) 0%, transparent 50%),
+        linear-gradient(155deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);
       padding:34px 20px 56px; text-align:center; color:#fff;
-      box-shadow:0 20px 50px rgba(200,30,58,0.22);
+      box-shadow:var(--shadow-blue);
     }
     .profile-hero::before,.profile-hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);}
     .profile-hero::before{width:200px;height:200px;top:-90px;right:-50px;}
-    .profile-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(212,175,55,0.16);}
+    .profile-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(33,150,243,0.16);}
     .profile-hero > *{position:relative;z-index:1;}
 
     .avatar{
@@ -68,8 +76,8 @@
     .profile-hero .vip-badge{
       display:inline-block;margin-top:12px;font-size:11px;font-weight:700;letter-spacing:.03em;
       padding:6px 14px;border-radius:999px;
-      background:linear-gradient(135deg,var(--gold-light),var(--gold));
-      color:#4A3A05;box-shadow:0 4px 14px rgba(212,175,55,0.35);
+      background:linear-gradient(135deg,var(--primary-blue-light),var(--white));
+      color:var(--primary-blue-dark);box-shadow:0 4px 14px rgba(33,150,243,0.35);
     }
 
     .cards-strip{
@@ -77,129 +85,188 @@
       margin:-32px 16px 26px;position:relative;z-index:5;
     }
     .strip-card{
-      background:var(--paper);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);
-      border:1px solid var(--border);
+      background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);
+      border:1px solid var(--border-light);
       padding:16px 8px;text-align:center;
       transition:transform .18s var(--ease);
     }
     .strip-card:active{transform:translateY(-2px) scale(.98);}
-    .strip-val{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.01em;}
-    .strip-lbl{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+    .strip-val{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text-dark);letter-spacing:-.01em;}
+    .strip-lbl{font-size:10px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
 
     .section-title{
-      font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;
+      font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;
       letter-spacing:.09em;padding:0 20px;margin-bottom:10px;
     }
     .section{padding:0 16px;margin-bottom:22px;}
     .menu-group{
-      background:var(--paper);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);
-      border:1px solid var(--border);overflow:hidden;
+      background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);
+      border:1px solid var(--border-light);overflow:hidden;
     }
     .menu-item{
       display:flex;align-items:center;gap:14px;padding:15px 16px;
-      border-bottom:1px solid var(--border);
-      transition:background .16s var(--ease);
+      border-bottom:1px solid var(--border-light);
+      transition:background .15s;
     }
     .menu-item:last-child{border-bottom:none;}
-    .menu-item:active{background:var(--bg);}
-    .menu-icon{
-      width:40px;height:40px;border-radius:13px;flex-shrink:0;
-      display:flex;align-items:center;justify-content:center;font-size:18px;
-      background:linear-gradient(135deg,var(--cream),#fff);
-      box-shadow:inset 0 0 0 1px var(--border);
+    .menu-item:active{background:var(--background-light);}
+    .mi-ic{
+      width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      font-size:18px;background:var(--primary-blue-light);color:var(--primary-blue-dark);
     }
-    .menu-label{font-size:14px;font-weight:700;color:var(--ink);}
-    .menu-sub{font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:500;}
-    .menu-arrow{font-size:20px;color:var(--muted);opacity:.6;flex-shrink:0;}
+    .mi-txt{flex:1;}
+    .mi-txt strong{display:block;font-size:14.5px;font-weight:700;color:var(--text-dark);}
+    .mi-txt span{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+    .mi-go{font-size:18px;color:var(--border-light);}
 
-    .logout-btn{
-      margin:20px 16px 8px;width:calc(100% - 32px);padding:16px;border-radius:50px;
-      border:2px solid var(--danger);background:var(--danger-bg);color:var(--danger);
-      font-size:15px;font-weight:700;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;gap:8px;
-      transition:transform .16s var(--ease),background .16s var(--ease);
+    .signout-btn{
+      margin:10px 16px 0;width:calc(100% - 32px);padding:16px;border-radius:var(--radius-md);
+      background:var(--white);border:1px solid var(--border-light);
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      font-weight:700;font-size:14.5px;color:var(--danger-red);
+      transition:transform .15s var(--ease);
     }
-    .logout-btn:active{transform:scale(.97);background:var(--danger);color:#fff;}
+    .signout-btn:active{transform:scale(.97);}
 
+    /* ============================================================
+       BOTTOM NAVIGATION
+       ============================================================ */
     .bottom-nav{
-      position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;
-      will-change:transform;
-      max-width:488px;margin:0 auto;
-      display:flex;justify-content:space-around;align-items:center;
-      background:rgba(255,255,255,0.78);backdrop-filter:blur(20px) saturate(180%);
-      -webkit-backdrop-filter:blur(20px) saturate(180%);
-      border-radius:30px;padding:10px 10px;
-      box-shadow:0 16px 40px rgba(27,26,34,0.18),inset 0 0 0 1px rgba(255,255,255,0.6);
+      position:fixed;bottom:0;left:0;
+      width:100%;background:rgba(255,255,255,0.8);
+      backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      border-top:1px solid var(--border-light);
+      display:grid;grid-template-columns:repeat(4,1fr);
+      padding:9px 0 24px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.05);
     }
     .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-size:10.5px;font-weight:700;color:var(--muted);padding:8px 16px;border-radius:20px;
-      transition:all .22s var(--ease);
+      display:flex;flex-direction:column;align-items:center;gap:4px;
+      font-size:10px;font-weight:600;color:var(--text-muted);
+      padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;
     }
-    .nav-icon{font-size:19px;transition:transform .22s var(--ease);}
-    .nav-item.active{color:var(--red);background:var(--danger-bg);}
-    .nav-item.active .nav-icon{transform:translateY(-1px) scale(1.08);}
-    .nav-item:active{transform:scale(.92);}
-
-    #toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:100;}
-
-    @media (max-width:374px){
-      .cards-strip{margin-left:12px;margin-right:12px;}
-      .section{padding-left:12px;padding-right:12px;}
-      .profile-name{font-size:19px;}
-    }
+    .nav-icon{font-size:21px;line-height:1;}
+    .nav-item.active{color:var(--primary-blue);}
   </style>
 </head>
-<body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
+<body>
 <div class="page-wrap">
-  <div class="profile-hero anim anim-1">
-    <div class="avatar">👤</div>
-    <div class="profile-name" data-auth="full_name">User</div>
-    <div class="profile-email" data-auth="email">—</div>
-    <div class="profile-ref">Referral Code: <span data-auth="referral_code">—</span></div>
-    <div><span class="vip-badge vip-0" data-vip>Member</span></div>
-  </div>
+  <section class="profile-hero anim anim-1">
+    <div class="avatar" id="avatarLetter">U</div>
+    <div class="profile-name" id="userName">User</div>
+    <div class="profile-email" id="userPhone">—</div>
+    <div class="profile-ref">Referral Code: <span id="refCode">—</span></div>
+    <div class="vip-badge" id="vipBadge">Member</div>
+  </section>
 
-  <div class="cards-strip anim anim-2">
-    <div class="strip-card"><div class="strip-val" id="statBal">₦0</div><div class="strip-lbl">Balance</div></div>
-    <div class="strip-card"><div class="strip-val" id="statTeam">0</div><div class="strip-lbl">Team</div></div>
-    <div class="strip-card"><div class="strip-val" id="statProds">0</div><div class="strip-lbl">Products</div></div>
-  </div>
+  <section class="cards-strip anim anim-2">
+    <div class="strip-card">
+      <div class="strip-val" id="walletBalance">₦0</div>
+      <div class="strip-lbl">Balance</div>
+    </div>
+    <div class="strip-card">
+      <div class="strip-val" id="teamCount">0</div>
+      <div class="strip-lbl">Team</div>
+    </div>
+    <div class="strip-card">
+      <div class="strip-val" id="prodCount">0</div>
+      <div class="strip-lbl">Products</div>
+    </div>
+  </section>
 
   <div class="section-title anim anim-3">Assets</div>
-  <div class="section anim anim-3"><div class="menu-group">
-    <a class="menu-item" href="my-investments.html"><div class="menu-icon">📦</div><div style="flex:1"><div class="menu-label">My Investments</div><div class="menu-sub">Credited automatically — no action needed</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="bank-card.html"><div class="menu-icon">💳</div><div style="flex:1"><div class="menu-label">Bank Card</div><div class="menu-sub">Manage withdrawal accounts</div></div><div class="menu-arrow">›</div></a>
-  </div></div>
+  <section class="section anim anim-3">
+    <div class="menu-group">
+      <a href="my-investments.html" class="menu-item">
+        <div class="mi-ic">📦</div>
+        <div class="mi-txt"><strong>My Investments</strong><span>Credited automatically — no action needed</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="bank-card.html" class="menu-item">
+        <div class="mi-ic">💳</div>
+        <div class="mi-txt"><strong>Bank Card</strong><span>Manage withdrawal accounts</span></div>
+        <div class="mi-go">›</div>
+      </a>
+    </div>
+  </section>
 
-  <div class="section-title anim anim-3">History</div>
-  <div class="section anim anim-3"><div class="menu-group">
-    <a class="menu-item" href="recharge-history.html"><div class="menu-icon">📥</div><div style="flex:1"><div class="menu-label">Recharge History</div><div class="menu-sub">All deposit records</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="withdrawal-history.html"><div class="menu-icon">📤</div><div style="flex:1"><div class="menu-label">Withdrawal History</div><div class="menu-sub">All withdrawal records</div></div><div class="menu-arrow">›</div></a>
-  </div></div>
+  <div class="section-title anim anim-4">History</div>
+  <section class="section anim anim-4">
+    <div class="menu-group">
+      <a href="recharge-history.html" class="menu-item">
+        <div class="mi-ic">📥</div>
+        <div class="mi-txt"><strong>Recharge History</strong><span>All deposit records</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="withdrawal-history.html" class="menu-item">
+        <div class="mi-ic">📤</div>
+        <div class="mi-txt"><strong>Withdrawal History</strong><span>All withdrawal records</span></div>
+        <div class="mi-go">›</div>
+      </a>
+    </div>
+  </section>
 
-  <div class="section-title anim anim-4">Activities</div>
-  <div class="section anim anim-4"><div class="menu-group">
-    <a class="menu-item" href="daily-checkin.html"><div class="menu-icon">📅</div><div style="flex:1"><div class="menu-label">Daily Check-In</div><div class="menu-sub">Claim ₦50 every day</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="gift-code.html"><div class="menu-icon">🎁</div><div style="flex:1"><div class="menu-label">Gift Code</div><div class="menu-sub">Redeem bonus gift codes</div></div><div class="menu-arrow">›</div></a>
-  </div></div>
+  <div class="section-title anim anim-5">Activities</div>
+  <section class="section anim anim-5">
+    <div class="menu-group">
+      <a href="daily-checkin.html" class="menu-item">
+        <div class="mi-ic">📅</div>
+        <div class="mi-txt"><strong>Daily Check-In</strong><span>Claim ₦50 every day</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="gift-code.html" class="menu-item">
+        <div class="mi-ic">🎁</div>
+        <div class="mi-txt"><strong>Gift Code</strong><span>Redeem bonus gift codes</span></div>
+        <div class="mi-go">›</div>
+      </a>
+    </div>
+  </section>
 
-  <div class="section-title anim anim-4">Settings</div>
-  <div class="section anim anim-4"><div class="menu-group">
-    <a class="menu-item" href="edit-profile.html"><div class="menu-icon">✏️</div><div style="flex:1"><div class="menu-label">Edit Profile</div><div class="menu-sub">Update your information</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="change-password.html"><div class="menu-icon">🔐</div><div style="flex:1"><div class="menu-label">Change Password</div><div class="menu-sub">Keep your account secure</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="notifications.html"><div class="menu-icon">🔔</div><div style="flex:1"><div class="menu-label">Notifications</div><div class="menu-sub" id="notifSub">—</div></div><div class="menu-arrow">›</div></a>
-  </div></div>
+  <div class="section-title anim anim-6">Settings</div>
+  <section class="section anim anim-6">
+    <div class="menu-group">
+      <a href="profile.html" class="menu-item">
+        <div class="mi-ic">✏️</div>
+        <div class="mi-txt"><strong>Edit Profile</strong><span>Update your information</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="change-password.html" class="menu-item">
+        <div class="mi-ic">🔐</div>
+        <div class="mi-txt"><strong>Change Password</strong><span>Keep your account secure</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="notifications.html" class="menu-item">
+        <div class="mi-ic">🔔</div>
+        <div class="mi-txt"><strong>Notifications</strong><span>—</span></div>
+        <div class="mi-go">›</div>
+      </a>
+    </div>
+  </section>
 
-  <div class="section-title anim anim-4">Services</div>
-  <div class="section anim anim-4"><div class="menu-group">
-    <a class="menu-item" href="messages.html"><div class="menu-icon">✉️</div><div style="flex:1"><div class="menu-label">Messages</div><div class="menu-sub" id="msgSub">From admin</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="contact.html"><div class="menu-icon">📞</div><div style="flex:1"><div class="menu-label">Contact Support</div><div class="menu-sub">Get help from us</div></div><div class="menu-arrow">›</div></a>
-    <a class="menu-item" href="about.html"><div class="menu-icon">ℹ️</div><div style="flex:1"><div class="menu-label">About Aradel</div><div class="menu-sub">Learn about our platform</div></div><div class="menu-arrow">›</div></a>
-  </div></div>
+  <div class="section-title anim anim-7">Services</div>
+  <section class="section anim anim-7">
+    <div class="menu-group">
+      <a href="messages.html" class="menu-item">
+        <div class="mi-ic">✉️</div>
+        <div class="mi-txt"><strong>Messages</strong><span>From admin</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="contact.html" class="menu-item">
+        <div class="mi-ic">📞</div>
+        <div class="mi-txt"><strong>Contact Support</strong><span>Get help from us</span></div>
+        <div class="mi-go">›</div>
+      </a>
+      <a href="about.html" class="menu-item">
+        <div class="mi-ic">ℹ️</div>
+        <div class="mi-txt"><strong>About Schweppes</strong><span>Learn about our platform</span></div>
+        <div class="mi-go">›</div>
+      </a>
+    </div>
+  </section>
 
-  <button class="logout-btn anim anim-4" id="logoutBtn">🚪 Sign Out</button>
-  <div style="height:16px"></div>
+  <button class="signout-btn anim anim-8" onclick="window.AradelAuth.signOut()">
+    🚪 Sign Out
+  </button>
 </div>
 
 <nav class="bottom-nav">
@@ -208,57 +275,35 @@
   <button class="nav-item" onclick="location.href='team.html'"><span class="nav-icon">👥</span>Team</button>
   <button class="nav-item active" onclick="location.href='profile.html'"><span class="nav-icon">👤</span>Profile</button>
 </nav>
-<div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="assets/js/supabase.js" defer></script>
 <script src="assets/js/auth.js" defer></script>
-
-<!-- ============================================================
-     ORIGINAL BUSINESS LOGIC — UNCHANGED
-     ============================================================ -->
 <script>
 (function(){
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
   waitSb(async function(){
-    var s=await window.AradelAuth.requireAuth(); if(!s)return; var uid=s.user.id;
-    await window.AradelAuth.loadProfile(uid);
-    var {data:w}=await window.sb.from("wallets").select("balance").eq("user_id",uid).single();
-    document.getElementById("statBal").textContent="₦"+Number(w?.balance||0).toLocaleString();
-    var {count:tc}=await window.sb.from("profiles").select("id",{count:"exact",head:true}).eq("referred_by",uid);
-    document.getElementById("statTeam").textContent=tc||0;
-    var {count:pc}=await window.sb.from("user_products").select("id",{count:"exact",head:true}).eq("user_id",uid).eq("status","active");
-    document.getElementById("statProds").textContent=pc||0;
-    var {count:mc}=await window.sb.from("messages").select("id",{count:"exact",head:true}).or("user_id.eq."+uid+",user_id.is.null").eq("is_read",false);
-    if(mc>0) document.getElementById("msgSub").textContent=mc+" unread message"+(mc>1?"s":"");
-    var {count:nc}=await window.sb.from("notifications").select("id",{count:"exact",head:true}).eq("user_id",uid).eq("is_read",false);
-    document.getElementById("notifSub").textContent=nc>0?(nc+" unread"):"No new notifications";
-    document.getElementById("logoutBtn").addEventListener("click",function(){ if(confirm("Sign out of Aradel?")) window.AradelAuth.logout(); });
+    var s=await window.AradelAuth.requireAuth(); if(!s)return;
+    var uid=s.user.id;
+    var profile=await window.AradelAuth.loadProfile(uid);
+    if(profile){
+      document.getElementById("userName").textContent=profile.full_name||"User";
+      document.getElementById("avatarLetter").textContent=(profile.full_name||"U")[0].toUpperCase();
+      document.getElementById("userPhone").textContent=profile.phone||"—";
+      document.getElementById("refCode").textContent=profile.referral_code||"—";
+      document.getElementById("vipBadge").textContent=profile.vip_level>0?"VIP "+profile.vip_level:"Member";
+      
+      var {data:w}=await window.sb.from("wallets").select("*").eq("user_id",uid).single();
+      if(w) document.getElementById("walletBalance").textContent=window.AradelAuth.money(w.balance);
+      
+      var {count:tc}=await window.sb.from("profiles").select("*",{count:"exact",head:true}).eq("referrer_id",uid);
+      document.getElementById("teamCount").textContent=tc||0;
+      
+      var {count:pc}=await window.sb.from("user_products").select("*",{count:"exact",head:true}).eq("user_id",uid).eq("status","active");
+      document.getElementById("prodCount").textContent=pc||0;
+    }
+    document.querySelectorAll(".anim").forEach((el,i)=>setTimeout(()=>el.classList.add("in"),80*i));
   });
-})();
-</script>
-
-<!-- ============================================================
-     PRESENTATION-ONLY ENHANCEMENTS (additive, same as dashboard.html)
-     ============================================================ -->
-<script>
-(function(){
-  document.querySelectorAll(".anim").forEach(function(el,i){
-    setTimeout(function(){ el.classList.add("in"); }, 60*i);
-  });
-
-  // Same Android Chrome fixed-nav / collapsing-toolbar correction as dashboard.html
-  var nav=document.querySelector(".bottom-nav");
-  if(nav && window.visualViewport){
-    var pin=function(){
-      var vv=window.visualViewport;
-      var offset=(window.innerHeight-vv.height-vv.offsetTop);
-      nav.style.transform="translateY(-"+Math.max(0,offset)+"px)";
-    };
-    window.visualViewport.addEventListener("resize",pin);
-    window.visualViewport.addEventListener("scroll",pin);
-    pin();
-  }
 })();
 </script>
 </body>
