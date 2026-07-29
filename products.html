@@ -2,33 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aradel — Products</title>
+  <title>Schweppes — Products</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="assets/css/styls.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     :root{
-      --red:#C81E3A; --red-dark:#8F1128; --red-light:#E85C74; --red-tint:#FBEAEE;
-      --gold:#D4AF37; --gold-light:#F0D584;
-      --cream:#FBF6EC; --paper:#FFFFFF; --bg:#F5F1E8;
-      --ink:#1B1A22; --ink-soft:#4A4750; --muted:#8B8680;
-      --border:rgba(27,26,34,0.07);
-      --success:#1B9E6B; --success-bg:#E6F6EE;
-      --danger:#D6435C; --danger-bg:#FBEAEE;
-      --shadow-sm:0 2px 10px rgba(27,26,34,0.05);
-      --shadow-md:0 10px 30px rgba(27,26,34,0.08);
-      --shadow-lg:0 20px 60px rgba(27,26,34,0.14);
+      --primary-blue:        #2196F3;
+      --primary-blue-dark:   #1977D2;
+      --primary-blue-light:  #E3F2FD;
+      --text-dark:           #212121;
+      --white:               #FFFFFF;
+      --background-light:    #F5F5F5;
+      --text-muted:          #757575;
+      --border-light:        #E0E0E0;
+      --success-green:       #4CAF50;
+      --success-green-bg:    #E8F5E9;
+      --warning-orange:      #FF9800;
+      --warning-orange-bg:   #FFF3E0;
+      --danger-red:          #F44336;
+      --danger-red-bg:       #FFEBEE;
+
+      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
+      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
+      --shadow-lg:0 20px 60px rgba(0,0,0,0.14);
+      --shadow-blue:0 16px 40px rgba(33,150,243,0.28);
+
       --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
       --ease:cubic-bezier(.22,1,.36,1);
     }
     *{box-sizing:border-box;}
     body{
-      margin:0;background:var(--bg);
+      margin:0;background:var(--background-light);
       background-image:
-        radial-gradient(circle at 100% 0%, rgba(212,175,55,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(200,30,58,0.05) 0%, transparent 40%);
+        radial-gradient(circle at 100% 0%, rgba(33,150,243,0.10) 0%, transparent 45%),
+        radial-gradient(circle at 0% 30%, rgba(25,118,210,0.05) 0%, transparent 40%);
       background-attachment:fixed;
       font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-      color:var(--ink); -webkit-font-smoothing:antialiased; overflow-x:hidden;
+      color:var(--text-dark); -webkit-font-smoothing:antialiased; overflow-x:hidden;
     }
     .page-wrap{max-width:520px;margin:0 auto;padding-bottom:110px;}
     a{text-decoration:none;color:inherit;}
@@ -46,16 +56,16 @@
       position:sticky;top:0;z-index:50;
       display:flex;align-items:center;gap:10px;
       padding:18px 20px;
-      background:rgba(251,246,236,0.72);
+      background:rgba(255,255,255,0.72);
       backdrop-filter:blur(20px) saturate(160%);
       -webkit-backdrop-filter:blur(20px) saturate(160%);
-      border-bottom:1px solid var(--border);
+      border-bottom:1px solid var(--border-light);
     }
     .topbar-title{font-family:'Fraunces',serif;font-size:18px;font-weight:700;letter-spacing:-.01em;}
     .vip-badge{
       font-size:11px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:999px;
-      background:linear-gradient(135deg,var(--gold-light),var(--gold));
-      color:#4A3A05;box-shadow:0 4px 14px rgba(212,175,55,0.35);
+      background:linear-gradient(135deg,var(--primary-blue-light),var(--primary-blue));
+      color:var(--primary-blue-dark);box-shadow:0 4px 14px rgba(33,150,243,0.35);
     }
 
     /* ============================================================
@@ -65,13 +75,13 @@
     .tabs::-webkit-scrollbar{display:none;}
     .tab{
       flex-shrink:0;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;cursor:pointer;
-      border:1.5px solid var(--border);background:var(--paper);color:var(--muted);
+      border:1.5px solid var(--border-light);background:var(--white);color:var(--text-muted);
       box-shadow:var(--shadow-sm);
       transition:all .2s var(--ease);
     }
     .tab.on{
-      background:linear-gradient(135deg,var(--red),var(--red-dark));
-      border-color:var(--red);color:#fff;box-shadow:0 8px 22px rgba(200,30,58,0.32);
+      background:linear-gradient(135deg,var(--primary-blue),var(--primary-blue-dark));
+      border-color:var(--primary-blue);color:#fff;box-shadow:0 8px 22px rgba(33,150,243,0.32);
       transform:translateY(-1px);
     }
     .tab:active{transform:scale(.95);}
@@ -81,159 +91,100 @@
        ============================================================ */
     .vip-lock{
       position:relative;overflow:hidden;
-      background:linear-gradient(135deg,var(--red-tint),#FDF6F7);
+      background:linear-gradient(135deg,var(--primary-blue-light),#F5F9FF);
       border-radius:var(--radius-md);margin:6px 16px 18px;padding:18px 18px;
-      border:1.5px solid #F3D9DE;box-shadow:var(--shadow-sm);
+      border:1.5px solid #D0E7FF;box-shadow:var(--shadow-sm);
     }
     .vip-lock::before{
       content:"🔒";position:absolute;font-size:70px;right:-6px;bottom:-24px;opacity:.08;
     }
-    .vip-lock h3{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--red);margin:0 0 5px;position:relative;z-index:1;}
-    .vip-lock p{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin:0;position:relative;z-index:1;}
-    .vip-lock a{color:var(--red);font-weight:700;font-size:13px;display:inline-block;margin-top:8px;position:relative;z-index:1;}
+    .vip-lock h3{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--primary-blue-dark);margin:0 0 5px;position:relative;z-index:1;}
+    .vip-lock p{font-size:12.5px;color:var(--text-dark);line-height:1.5;margin:0;position:relative;z-index:1;}
+    .vip-lock a{color:var(--primary-blue);font-weight:700;font-size:13px;display:inline-block;margin-top:8px;position:relative;z-index:1;}
 
     /* ============================================================
        PRODUCT CARDS (markup produced by original JS — classes unchanged)
        ============================================================ */
     .product-card{
-      margin:0 16px 16px;background:var(--paper);border-radius:var(--radius-lg);
-      box-shadow:var(--shadow-md);border:1px solid var(--border);overflow:hidden;
-      transition:transform .2s var(--ease),box-shadow .2s var(--ease);
+      margin:0 16px 16px;background:var(--white);border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-md);border:1px solid var(--border-light);overflow:hidden;
+      transition:transform .2s var(--ease);
     }
-    .product-card:active{transform:scale(.99);}
-    .product-header{
-      padding:22px 18px 20px;position:relative;overflow:hidden;
+    .product-card:active{transform:scale(.985);}
+    .pc-img-wrap{height:160px;background:var(--primary-blue-light);position:relative;overflow:hidden;}
+    .pc-img-wrap::after{
+      content:"📦";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      font-size:60px;opacity:.25;
     }
-    .product-header::before{
-      content:"";position:absolute;width:150px;height:150px;border-radius:50%;
-      background:rgba(255,255,255,0.10);top:-60px;right:-40px;
+    .pc-body{padding:20px;}
+    .pc-name{font-family:'Fraunces',serif;font-size:19px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+    .pc-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5;margin-bottom:18px;}
+    .pc-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+    .pc-stat-label{font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+    .pc-stat-val{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--text-dark);}
+    .pc-stat-val.profit{color:var(--success-green);}
+    .pc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border-light);}
+    .pc-price{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--primary-blue-dark);}
+    .pc-btn{
+      padding:12px 24px;border-radius:14px;background:var(--primary-blue);color:#fff;
+      font-weight:700;font-size:14px;box-shadow:0 8px 20px rgba(33,150,243,0.3);
+      transition:all .2s var(--ease);
     }
-    .product-header::after{
-      content:"";position:absolute;width:110px;height:110px;border-radius:50%;
-      background:rgba(212,175,55,0.16);bottom:-50px;left:-30px;
-    }
-    .product-type-badge{
-      position:absolute;top:14px;right:14px;padding:4px 12px;border-radius:20px;
-      font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
-      background:rgba(255,255,255,.22);color:#fff;backdrop-filter:blur(4px);z-index:1;
-    }
-    .product-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
-    .pstat{background:var(--paper);padding:14px 8px;text-align:center;}
-    .pstat-val{font-family:'Fraunces',serif;font-size:15.5px;font-weight:700;color:var(--red);letter-spacing:-.01em;}
-    .pstat-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
-    .product-footer{padding:16px 18px;border-top:1px solid var(--border);}
-    .bought-chip{
-      display:flex;align-items:center;justify-content:center;gap:6px;padding:13px;border-radius:30px;
-      background:var(--success-bg);font-size:13.5px;font-weight:700;color:var(--success);
-    }
+    .pc-btn:disabled{background:var(--border-light);color:var(--text-muted);box-shadow:none;cursor:not-allowed;}
 
     /* ============================================================
-       BUTTONS (used by product-footer Buy Now + modal)
-       ============================================================ */
-    .btn{
-      padding:14px;border-radius:16px;font-size:14.5px;font-weight:700;border:none;cursor:pointer;
-      width:100%;transition:transform .16s var(--ease),box-shadow .16s var(--ease);
-    }
-    .btn:active{transform:scale(.96);}
-    .btn:disabled{opacity:.5;cursor:not-allowed;}
-    .btn-primary{
-      background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;
-      box-shadow:0 10px 26px rgba(200,30,58,0.32);
-    }
-    .btn-ghost{background:var(--bg);color:var(--ink-soft);}
-
-    /* ============================================================
-       EMPTY / LOADER (shared)
-       ============================================================ */
-    .empty{padding:44px 20px;text-align:center;color:var(--muted);}
-    .empty-icon{font-size:36px;margin-bottom:10px;}
-    .loader-wrap{display:flex;justify-content:center;padding:34px 0;}
-    .loader{width:26px;height:26px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--red);animation:spin .8s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-
-    /* ============================================================
-       PURCHASE MODAL (bottom sheet)
-       ============================================================ */
-    #modal{position:fixed;inset:0;background:rgba(27,26,34,.55);backdrop-filter:blur(3px);z-index:200;align-items:flex-end;justify-content:center;}
-    .modal-sheet{
-      background:var(--paper);border-radius:28px 28px 0 0;padding:26px 24px calc(24px + env(safe-area-inset-bottom));
-      width:100%;max-width:480px;box-shadow:0 -20px 60px rgba(27,26,34,0.25);
-      animation:sheetUp .3s var(--ease);
-    }
-    @keyframes sheetUp{from{transform:translateY(30px);opacity:.6;}to{transform:translateY(0);opacity:1;}}
-    .modal-sheet h3{font-family:'Fraunces',serif;font-size:19px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em;}
-    .modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
-    .modal-details{background:var(--bg);border-radius:16px;padding:16px;margin-bottom:18px;}
-    .modal-row{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;}
-    .modal-row + .modal-row{margin-top:10px;}
-    .modal-row span{color:var(--muted);}
-    .alert{font-size:12.5px;border-radius:12px;overflow:hidden;max-height:0;transition:all .25s var(--ease);}
-    .alert.show{max-height:60px;padding:10px 12px;margin-bottom:14px;}
-    .alert-error{background:var(--danger-bg);color:var(--danger);font-weight:600;}
-    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-
-    /* ============================================================
-       BOTTOM NAV (identical to other pages)
+       BOTTOM NAVIGATION
        ============================================================ */
     .bottom-nav{
-      position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;
-      will-change:transform;max-width:488px;margin:0 auto;
-      display:flex;justify-content:space-around;align-items:center;
-      background:rgba(255,255,255,0.78);backdrop-filter:blur(20px) saturate(180%);
-      -webkit-backdrop-filter:blur(20px) saturate(180%);
-      border-radius:30px;padding:10px 10px;
-      box-shadow:0 16px 40px rgba(27,26,34,0.18),inset 0 0 0 1px rgba(255,255,255,0.6);
+      position:fixed;bottom:0;left:0;
+      width:100%;background:rgba(255,255,255,0.8);
+      backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      border-top:1px solid var(--border-light);
+      display:grid;grid-template-columns:repeat(4,1fr);
+      padding:9px 0 24px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.05);
     }
     .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-size:10.5px;font-weight:700;color:var(--muted);padding:8px 16px;border-radius:20px;
-      transition:all .22s var(--ease);border:none;background:none;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;gap:4px;
+      font-size:10px;font-weight:600;color:var(--text-muted);
+      padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;
     }
-    .nav-icon{font-size:19px;transition:transform .22s var(--ease);}
-    .nav-item.active{color:var(--red);background:var(--danger-bg);}
-    .nav-item.active .nav-icon{transform:translateY(-1px) scale(1.08);}
-    .nav-item:active{transform:scale(.92);}
+    .nav-icon{font-size:21px;line-height:1;}
+    .nav-item.active{color:var(--primary-blue);}
 
-    #toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:100;}
-
-    @media (max-width:374px){
-      .tabs{padding-left:12px;padding-right:12px;}
-      .product-card{margin-left:12px;margin-right:12px;}
-      .vip-lock{margin-left:12px;margin-right:12px;}
+    #toast{
+      position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+      background:var(--text-dark);color:var(--white);padding:11px 20px;border-radius:30px;
+      font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;
+      transition:opacity .25s;white-space:nowrap;box-shadow:var(--shadow-md);
     }
+    #toast.show{opacity:1;}
   </style>
 </head>
-<body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
+<body>
 <div class="page-wrap">
-  <div class="topbar"><span class="topbar-title">📦 Products</span><span class="vip-badge vip-0" data-vip style="margin-left:auto">Member</span></div>
-
-  <div class="tabs anim anim-1" id="tabs">
-    <button class="tab on" data-tab="newbie" onclick="switchTab(this,'newbie')">🌱 Newbie</button>
-    <button class="tab" data-tab="vip1" data-vip-tab onclick="switchTab(this,'vip1')">👑 VIP 1</button>
-    <button class="tab" data-tab="vip2" data-vip-tab onclick="switchTab(this,'vip2')">💎 VIP 2</button>
-    <button class="tab" data-tab="vip3" data-vip-tab onclick="switchTab(this,'vip3')">🔷 VIP 3</button>
-    <button class="tab" data-tab="vip4" data-vip-tab onclick="switchTab(this,'vip4')">⚡ VIP 4</button>
+  <div class="topbar">
+    <div class="topbar-title">📦 Products</div>
+    <div style="flex:1"></div>
+    <div class="vip-badge" id="vipBadge">Member</div>
   </div>
 
-  <div class="vip-lock anim anim-2" id="vipInfo" style="display:none">
-    <h3 id="vipInfoTitle">VIP 1 Required</h3>
-    <p id="vipInfoDesc">Refer active users to unlock this tier.</p>
+  <div class="tabs anim anim-1">
+    <div class="tab on" data-tier="0">🌱 Newbie</div>
+    <div class="tab" data-tier="1">👑 VIP 1</div>
+    <div class="tab" data-tier="2">💎 VIP 2</div>
+    <div class="tab" data-tier="3">🔷 VIP 3</div>
+    <div class="tab" data-tier="4">⚡ VIP 4</div>
+  </div>
+
+  <div id="vipLockBanner" class="vip-lock anim anim-2" style="display:none">
+    <h3 id="lockTitle">VIP 1 Required</h3>
+    <p id="lockDesc">Refer active users to unlock this tier.</p>
     <a href="team.html">View my team →</a>
   </div>
 
-  <div id="productsList" class="anim anim-2"><div class="loader-wrap"><div class="loader"></div></div></div>
-</div>
-
-<div id="modal" style="display:none">
-  <div class="modal-sheet">
-    <h3 id="modalTitle">Confirm Purchase</h3>
-    <p class="modal-sub">This product can only be purchased once.</p>
-    <div class="modal-details" id="modalDetails"></div>
-    <div id="modalAlert" class="alert"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="confirmBtn" onclick="confirmPurchase()">Confirm</button>
-    </div>
+  <div id="productsList" class="anim anim-3">
+    <div style="display:flex;justify-content:center;padding:40px"><div class="loader"></div></div>
   </div>
 </div>
 
@@ -248,125 +199,85 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="assets/js/supabase.js" defer></script>
 <script src="assets/js/auth.js" defer></script>
-
-<!-- ============================================================
-     ORIGINAL BUSINESS LOGIC — UNCHANGED
-     ============================================================ -->
 <script>
 (function(){
-  var userId="",userVip=0,walletBal=0,userProducts=[],activeTab="newbie",pendingProductId="";
-  var vipEnabled=true; // overwritten from /api/team?action=vip-status once loaded
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
-
   waitSb(async function(){
     var s=await window.AradelAuth.requireAuth(); if(!s)return;
-    userId=s.user.id;
-    var {data:p}=await window.sb.from("profiles").select("vip_level").eq("id",userId).single();
-    userVip=p?.vip_level||0;
-    await window.AradelAuth.loadProfile(userId);
-    var {data:w}=await window.sb.from("wallets").select("balance").eq("user_id",userId).single();
-    walletBal=w?.balance||0;
-    var {data:up}=await window.sb.from("user_products").select("product_id").eq("user_id",userId);
-    userProducts=(up||[]).map(function(x){return x.product_id;});
+    var uid=s.user.id;
+    var profile=await window.AradelAuth.loadProfile(uid);
+    var userVip=profile?.vip_level||0;
+    document.getElementById("vipBadge").textContent=userVip>0?"VIP "+userVip:"Member";
 
-    // ── Admin VIP kill switch: hide the VIP tabs, the "Member" tier
-    //    badge, and never show the VIP-locked banner when VIP is off. ──
-    try {
-      var vr=await fetch("/api/team?action=vip-status");
-      var vd=await vr.json();
-      vipEnabled = vd?.ok ? !!vd.vip_enabled : true;
-    } catch(e){ console.error("vip-status check failed:",e); }
-    applyVipVisibility();
+    var {data:prods}=await window.sb.from("products").select("*").order("price",{ascending:true});
+    var currentTier=0;
 
-    await loadProducts(activeTab);
-  });
-
-  function applyVipVisibility(){
-    if(vipEnabled) return;
-    document.querySelectorAll("[data-vip-tab]").forEach(function(t){ t.style.display="none"; });
-    var badge=document.querySelector("[data-vip]");
-    if(badge) badge.style.display="none";
-  }
-
-  window.switchTab=async function(btn,tab){
-    if(!vipEnabled && tab!=="newbie") return; // VIP tabs are hidden, but guard against stray calls
-    document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); activeTab=tab; await loadProducts(tab);
-  };
-
-  async function loadProducts(tab){
-    var el=document.getElementById("productsList"); var vi=document.getElementById("vipInfo");
-    el.innerHTML='<div class="loader-wrap"><div class="loader"></div></div>'; vi.style.display="none";
-    var type="newbie",vipLevel=0;
-    if(tab!=="newbie"){ type="vip"; vipLevel=parseInt(tab.replace("vip","")); }
-    if(vipEnabled && type==="vip"&&userVip<vipLevel){
-      var reqs={1:3,2:5,3:10,4:25};
-      document.getElementById("vipInfoTitle").textContent="VIP "+vipLevel+" Required";
-      document.getElementById("vipInfoDesc").textContent="Refer "+reqs[vipLevel]+" active users to unlock VIP "+vipLevel+" products. You're currently VIP "+userVip+".";
-      vi.style.display="block";
+    function render(){
+      var filtered=prods.filter(p=>p.vip_level==currentTier);
+      var list=document.getElementById("productsList");
+      var lock=document.getElementById("vipLockBanner");
+      
+      if(currentTier > userVip){
+        lock.style.display="block";
+        document.getElementById("lockTitle").textContent="VIP "+currentTier+" Required";
+        list.innerHTML="";
+      } else {
+        lock.style.display="none";
+        list.innerHTML=filtered.map(p=>`
+          <div class="product-card">
+            <div class="pc-img-wrap"></div>
+            <div class="pc-body">
+              <div class="pc-name">${p.name}</div>
+              <div class="pc-desc">${p.description||""}</div>
+              <div class="pc-stats">
+                <div>
+                  <div class="pc-stat-label">Daily Income</div>
+                  <div class="pc-stat-val profit">₦${p.daily_income.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div class="pc-stat-label">Total Return</div>
+                  <div class="pc-stat-val">₦${(p.daily_income * p.duration_days).toLocaleString()}</div>
+                </div>
+                <div>
+                  <div class="pc-stat-label">Duration</div>
+                  <div class="pc-stat-val">${p.duration_days} Days</div>
+                </div>
+              </div>
+              <div class="pc-footer">
+                <div class="pc-price">₦${p.price.toLocaleString()}</div>
+                <button class="pc-btn" onclick="buy('${p.id}',${p.price})">Invest Now</button>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
     }
-    var query=window.sb.from("products").select("*").eq("type",type).order("sort_order");
-    if(type==="vip") query=query.eq("vip_level",vipLevel);
-    var {data:prods}=await query;
-    if(!prods||!prods.length){ el.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>No products available.</p></div>'; return; }
-    el.innerHTML=prods.map(function(p){
-      var locked=p.status==="locked"||(type==="vip"&&userVip<vipLevel);
-      var purchaseCount=userProducts.filter(function(id){return id===p.id;}).length;
-      var atLimit=purchaseCount>=2;
-      var hdr=locked?'background:linear-gradient(155deg,#94A3B8,#CBD5E1)':'background:linear-gradient(155deg,var(--red),var(--red-dark))';
-      return '<div class="product-card"><div class="product-header" style="'+hdr+'">'+
-        '<div class="product-type-badge">'+(type==="vip"?"VIP "+vipLevel:"Newbie")+'</div>'+
-        '<div style="color:#fff;font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.06em">'+p.name+'</div>'+
-        '<div style="color:#fff;font-family:\'Fraunces\',serif;font-size:26px;font-weight:600;margin-top:4px">'+window.AradelAuth.money(p.price)+'</div></div>'+
-        '<div class="product-stats"><div class="pstat"><div class="pstat-val">'+window.AradelAuth.money(p.daily_income)+'</div><div class="pstat-lbl">Daily</div></div>'+
-        '<div class="pstat"><div class="pstat-val">'+p.duration_days+'d</div><div class="pstat-lbl">Duration</div></div>'+
-        '<div class="pstat"><div class="pstat-val">'+window.AradelAuth.money(p.total_return)+'</div><div class="pstat-lbl">Total</div></div></div>'+
-        '<div class="product-footer">'+(atLimit?'<div class="bought-chip">✅ Already Purchased (2/2)</div>':locked?'<div class="bought-chip">🔒 '+(p.status==="locked"?"Locked by Admin":"VIP "+vipLevel+" Required")+'</div>':'<button class="btn btn-primary" onclick="openModal(\''+p.id+'\',\''+p.name+'\','+p.price+')">'+(purchaseCount===1?"Buy Again":"Buy Now")+'</button>'+(purchaseCount===1?'<div style="text-align:center;font-size:11px;color:var(--muted);margin-top:6px">You\'ve purchased this once — 1 more allowed</div>':''))+'</div></div>';
-    }).join("");
-  }
 
-  window.openModal=function(id,name,price){
-    pendingProductId=id;
-    document.getElementById("modalTitle").textContent="Buy "+name;
-    document.getElementById("modalDetails").innerHTML='<div class="modal-row"><span>Price</span><strong>'+window.AradelAuth.money(price)+'</strong></div><div class="modal-row"><span>Your Balance</span><strong style="color:'+(walletBal>=price?'var(--success)':'var(--danger)')+'">'+window.AradelAuth.money(walletBal)+'</strong></div>'+(walletBal<price?'<div style="margin-top:10px;font-size:12px;color:var(--danger)">⚠️ Insufficient balance. Please deposit first.</div>':'');
-    document.getElementById("modalAlert").className="alert";
-    document.getElementById("modal").style.display="flex";
-    document.getElementById("confirmBtn").disabled=walletBal<price;
-  };
-  window.closeModal=function(){ document.getElementById("modal").style.display="none"; pendingProductId=""; };
-  window.confirmPurchase=async function(){
-    var btn=document.getElementById("confirmBtn"); var alertEl=document.getElementById("modalAlert");
-    btn.disabled=true; btn.textContent="Purchasing…"; alertEl.className="alert";
-    var {data,error}=await window.sb.rpc("purchase_product",{p_user_id:userId,p_product_id:pendingProductId});
-    if(error||!data?.ok){ var errMsg=data?.error==="purchase_limit_reached"?"You've already purchased this product twice — that's the limit.":(data?.error||error?.message||"Purchase failed."); alertEl.textContent=errMsg; alertEl.className="alert alert-error show"; btn.disabled=false; btn.textContent="Confirm"; return; }
-    window.AradelAuth.toast("✅ Product purchased successfully!"); closeModal();
-    var {data:w}=await window.sb.from("wallets").select("balance").eq("user_id",userId).single(); walletBal=w?.balance||0;
-    var {data:up}=await window.sb.from("user_products").select("product_id").eq("user_id",userId); userProducts=(up||[]).map(function(x){return x.product_id;});
-    await loadProducts(activeTab);
-  };
-})();
-</script>
-
-<!-- ============================================================
-     PRESENTATION-ONLY ENHANCEMENTS (additive, same pattern as other pages)
-     ============================================================ -->
-<script>
-(function(){
-  document.querySelectorAll(".anim").forEach(function(el,i){
-    setTimeout(function(){ el.classList.add("in"); }, 70*i);
-  });
-
-  var nav=document.querySelector(".bottom-nav");
-  if(nav && window.visualViewport){
-    var pin=function(){
-      var vv=window.visualViewport;
-      var offset=(window.innerHeight-vv.height-vv.offsetTop);
-      nav.style.transform="translateY(-"+Math.max(0,offset)+"px)";
+    window.buy=async function(pid,price){
+      if(!confirm("Invest ₦"+price.toLocaleString()+" in this product?")) return;
+      var btn=event.target; btn.disabled=true; btn.textContent="Processing...";
+      try{
+        var {data,error}=await window.sb.rpc("purchase_product",{p_user_id:uid,p_product_id:pid});
+        if(error) throw error;
+        window.AradelAuth.toast("Investment successful!");
+        setTimeout(()=>location.href="my-investments.html",1000);
+      }catch(e){
+        window.AradelAuth.toast(e.message||"Purchase failed");
+        btn.disabled=false; btn.textContent="Invest Now";
+      }
     };
-    window.visualViewport.addEventListener("resize",pin);
-    window.visualViewport.addEventListener("scroll",pin);
-    pin();
-  }
+
+    document.querySelectorAll(".tab").forEach(t=>{
+      t.onclick=function(){
+        document.querySelector(".tab.on").classList.remove("on");
+        t.classList.add("on");
+        currentTier=parseInt(t.dataset.tier);
+        render();
+      };
+    });
+    render();
+    document.querySelectorAll(".anim").forEach((el,i)=>setTimeout(()=>el.classList.add("in"),80*i));
+  });
 })();
 </script>
 </body>
