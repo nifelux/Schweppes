@@ -1,116 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schweppes — Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root {
-      --primary-blue:        #2196F3; /* A vibrant blue */
-      --primary-blue-dark:   #1976D2; /* Darker shade for accents */
-      --primary-blue-light:  #E3F2FD; /* Lighter tint for backgrounds */
-      --text-dark:           #212121; /* Dark grey for primary text */
-      --white:               #FFFFFF;
-      --background-light:    #F5F5F5; /* Off-white for general background */
-      --text-muted:          #757575; /* Medium grey for muted text */
-      --border-light:        #E0E0E0; /* Light grey for borders */
-      --success-green:       #4CAF50;
-      --success-green-bg:    #E8F5E9;
-      --warning-orange:      #FF9800;
-      --warning-orange-bg:   #FFF3E0;
-      --danger-red:          #F44336;
-      --danger-red-bg:       #FFEBEE;
-      --display:             'Fraunces', serif;
-      --body:                'DM Sans', sans-serif;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    body{font-family:var(--body);background:var(--background-light);min-height:100vh;color:var(--text-dark);}
-    .wrap{max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
-    .hero{background:linear-gradient(155deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);padding:56px 32px 48px;text-align:center;color:var(--white);position:relative;overflow:hidden;flex-shrink:0}
-    .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,.07);border-radius:50%}
-    .seal-big{width:64px;height:64px;border-radius:50%;background:var(--white);color:var(--primary-blue);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;font-weight:700;margin:0 auto 14px;position:relative;z-index:1;border:3px solid rgba(255,255,255,.5)}
-    .logo{font-family:var(--display);font-size:32px;font-weight:600;letter-spacing:-.5px;position:relative;z-index:1}
-    .logo-sub{font-size:13px;opacity:.85;margin-top:6px;position:relative;z-index:1;letter-spacing:.02em}
-    .body{flex:1;padding:28px 24px 48px}
-    .title{font-family:var(--display);font-size:24px;font-weight:600;color:var(--text-dark);margin-bottom:4px}
-    .sub{font-size:14px;color:var(--text-muted);margin-bottom:24px}
-    .alert-box{padding:12px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:16px}
-    .a-error{background:var(--danger-red-bg);color:var(--danger-red)} .a-success{background:var(--success-green-bg);color:var(--success-green)}
-    .field{margin-bottom:16px}
-    .field label{display:block;font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:5px}
-    .field input{width:100%;padding:13px 16px;border:2px solid var(--border-light);border-radius:10px;font-size:15px;color:var(--text-dark);background:var(--white);outline:none;font-family:inherit;transition:border-color .2s}
-    .field input:focus{border-color:var(--primary-blue)}
-    .forgot{display:block;text-align:right;font-size:13px;color:var(--primary-blue);font-weight:600;text-decoration:none;margin-top:-8px;margin-bottom:20px}
-    .btn{width:100%;padding:16px;border:none;border-radius:50px;cursor:pointer;font-size:15px;font-weight:700;font-family:inherit;background:var(--primary-blue);color:var(--white);transition:opacity .15s,transform .12s}
-    .btn:active{transform:scale(.98)} .btn:disabled{opacity:.4;cursor:not-allowed}
-    .switch{text-align:center;font-size:14px;color:var(--text-muted);margin-top:20px}
-    .switch a{color:var(--primary-blue);font-weight:700;text-decoration:none}
+
+    :root {
+      --primary: #2196F3;
+      --primary-dark: #1976D2;
+      --primary-light: #E3F2FD;
+      --text-dark: #212121;
+      --white: #FFFFFF;
+      --background-light: #F5F5F5;
+      --text-muted: #757575;
+      --border-light: #E0E0E0;
+      --success-green: #4CAF50;
+      --danger-red: #F44336;
+      --display: 'Fraunces', serif;
+      --body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      font-family: var(--body);
+      background: linear-gradient(to bottom right, var(--white), var(--primary-light), var(--white));
+      min-height: 100vh;
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 440px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid var(--border-light);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: var(--display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .nav-links {
+      display: none;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .icon-circle svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .title {
+      font-family: var(--display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: none;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 12px 16px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-family: var(--body);
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px;
+    }
+
+    .toggle-password:hover {
+      color: var(--text-dark);
+    }
+
+    .form-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .forgot-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .forgot-link:hover {
+      color: var(--primary-dark);
+    }
+
+    .btn {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .footer-text {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 24px;
+    }
+
+    .footer-text a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-text a:hover {
+      color: var(--primary-dark);
+    }
+
+    .alert {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .alert.show {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .alert-error {
+      background: #FFEBEE;
+      color: var(--danger-red);
+      border: 1px solid #FFCDD2;
+    }
+
+    svg {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <div class="seal-big">S</div>
-    <div class="logo">Schweppes</div>
-    <div class="logo-sub">Taste the refreshment.</div>
-  </div>
-  <div class="body">
-    <div class="title">Welcome back</div>
-    <div class="sub">Sign in to your Schweppes account</div>
-    <div id="alertBox" class="alert-box" style="display:none"></div>
-    <div class="field"><label>Email Address</label><input type="email" id="email" placeholder="you@example.com" autocomplete="email"/></div>
-    <div class="field"><label>Password</label><input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"/></div>
-    <a href="forgot-password.html" class="forgot">Forgot password?</a>
-    <button class="btn" id="loginBtn">Sign In</button>
-    <div class="switch">Don't have an account? <a href="register.html">Create one</a></div>
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/js/supabase.js"></script>
-<script>
-(function(){
-  function cleanMsg(msg){
-    if(!msg) return null;
-    var s = String(msg).trim();
-    if(s==="{}"||s==="[]"||s==="[object Object]"||s==="undefined") return null;
-    try { var p = JSON.parse(s); if(p&&p.message) return p.message; } catch(e){}
-    return s;
-  }
-  function showAlert(msg,type){
-    var el=document.getElementById("alertBox");
-    var clean=cleanMsg(msg)||(type==="success"?"Success!":"Login failed. Please check your credentials.");
-    el.textContent=clean; el.className="alert-box "+(type==="success"?"a-success":"a-error"); el.style.display="block";
-  }
-  function checkSession(){
-    if(!window.sb) return;
-    window.sb.auth.getSession().then(function(r){ if(r.data?.session) location.href="/dashboard.html"; });
-  }
-  if(window.sb){ checkSession(); } else { window.addEventListener("load", checkSession); }
+  <div class="wrap">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-section">
+        <div class="logo-icon">📊</div>
+        <div class="logo-text">Schweppes</div>
+      </div>
+      <nav class="nav-links">
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="register.html">Register</a>
+      </nav>
+    </header>
 
-  function doLogin(){
-    var btn=document.getElementById("loginBtn");
-    var email=document.getElementById("email").value.trim();
-    var pass=document.getElementById("password").value;
-    document.getElementById("alertBox").style.display="none";
-    if(!email||!pass){ showAlert("Please enter your email and password.","error"); return; }
-    if(!window.sb){ showAlert("Connection error. Please refresh and try again.","error"); return; }
-    btn.disabled=true; btn.textContent="Signing in…";
-    window.sb.auth.signInWithPassword({email,password:pass}).then(function(r){
-      if(r.error){
-        var msg=cleanMsg(r.error.message);
-        if(!msg||msg.toLowerCase().includes("email not confirmed")){
-          msg = msg ? "Please check your email and confirm your account first." : "Login failed. Please check your email and password.";
-        }
-        showAlert(msg,"error"); btn.disabled=false; btn.textContent="Sign In"; return;
+    <!-- Main Content -->
+    <main class="body">
+      <div class="login-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <div class="icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+            </svg>
+          </div>
+          <h1 class="title">Welcome Back</h1>
+          <p class="subtitle">Sign in to your Schweppes account</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="card">
+          <div id="errorAlert" class="alert alert-error">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span id="errorMessage"></span>
+          </div>
+
+          <form id="loginForm">
+            <!-- Email Field -->
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-input" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="password" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword()">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Forgot -->
+            <div class="form-footer">
+              <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" id="loginBtn">Sign In</button>
+          </form>
+        </div>
+
+        <!-- Footer -->
+        <p class="footer-text">
+          Don't have an account? <a href="register.html">Sign up</a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase.js"></script>
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+    }
+
+    (function(){
+      function cleanMsg(msg){
+        if(!msg) return null;
+        var s = String(msg).trim();
+        if(s==="{}"||s==="[]"||s==="[object Object]"||s==="undefined") return null;
+        try { var p = JSON.parse(s); if(p&&p.message) return p.message; } catch(e){}
+        return s;
       }
-      location.href="/dashboard.html";
-    }).catch(function(){ showAlert("Something went wrong. Please try again.","error"); btn.disabled=false; btn.textContent="Sign In"; });
-  }
-  document.getElementById("loginBtn").addEventListener("click", doLogin);
-  document.getElementById("password").addEventListener("keydown", function(e){ if(e.key==="Enter") doLogin(); });
-})();
-</script>
+      function showError(msg){
+        var el=document.getElementById("errorAlert");
+        var span=document.getElementById("errorMessage");
+        span.textContent = cleanMsg(msg) || "Login failed. Please check your credentials.";
+        el.classList.add("show");
+      }
+      function hideError(){
+        document.getElementById("errorAlert").classList.remove("show");
+      }
+
+      function checkSession(){
+        if(!window.sb) return;
+        window.sb.auth.getSession().then(function(r){ if(r.data?.session) location.href="/dashboard.html"; });
+      }
+      if(window.sb){ checkSession(); } else { window.addEventListener("load", checkSession); }
+
+      function handleLogin(event){
+        event.preventDefault();
+        var btn=document.getElementById("loginBtn");
+        var email=document.getElementById("email").value.trim();
+        var password=document.getElementById("password").value;
+        hideError();
+
+        if(!email||!password){ showError("Please fill in all fields"); return; }
+        if(!window.sb){ showError("Connection error. Please refresh and try again."); return; }
+
+        btn.disabled=true; btn.textContent="Signing in…";
+        window.sb.auth.signInWithPassword({email:email,password:password}).then(function(r){
+          if(r.error){
+            var msg=cleanMsg(r.error.message);
+            if(!msg||msg.toLowerCase().includes("email not confirmed")){
+              msg = msg ? "Please check your email and confirm your account first." : "Login failed. Please check your email and password.";
+            }
+            showError(msg); btn.disabled=false; btn.textContent="Sign In"; return;
+          }
+          location.href="/dashboard.html";
+        }).catch(function(){ showError("Something went wrong. Please try again."); btn.disabled=false; btn.textContent="Sign In"; });
+      }
+
+      document.getElementById("loginForm").addEventListener("submit", handleLogin);
+    })();
+  </script>
 </body>
 </html>
