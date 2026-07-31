@@ -2,619 +2,270 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Schweppes — Home</title>
+  <title>Aradel — Home</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
-    /* ============================================================
-       SCHWEPPES DESIGN TOKENS — premium blue & white palette
-       ============================================================ */
-    :root{
-      --primary-blue:        #2196F3;
-      --primary-blue-dark:   #1977D2;
-      --primary-blue-light:  #E3F2FD;
-      --text-dark:           #212121;
-      --white:               #FFFFFF;
-      --background-light:    #F5F5F5;
-      --text-muted:          #757575;
-      --border-light:        #E0E0E0;
-      --success-green:       #4CAF50;
-      --success-green-bg:    #E8F5E9;
-      --warning-orange:      #FF9800;
-      --warning-orange-bg:   #FFF3E0;
-      --danger-red:          #F44336;
-      --danger-red-bg:       #FFEBEE;
+    /* Dashboard-specific premium treatment — self-contained, doesn't
+       touch shared styles.css so other pages are unaffected. */
+    *{box-sizing:border-box}
+    body{background:var(--bg)}
+    .page-wrap{max-width:480px;margin:0 auto;padding-bottom:110px}
 
-      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
-      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
-      --shadow-lg:0 20px 60px rgba(0,0,0,0.14);
-      --shadow-blue:0 16px 40px rgba(33,150,243,0.28);
+    .anim{opacity:0;transform:translateY(14px)}
+    .anim.in{animation:riseIn .6s cubic-bezier(.22,1,.36,1) forwards}
+    @keyframes riseIn{to{opacity:1;transform:translateY(0)}}
+    @media (prefers-reduced-motion:reduce){.anim{opacity:1;transform:none;animation:none}}
 
-      --radius-sm:14px;
-      --radius-md:20px;
-      --radius-lg:28px;
-      --radius-xl:32px;
-
-      --ease:cubic-bezier(.22,1,.36,1);
-    }
-
-    *{box-sizing:border-box;}
-    html{-webkit-text-size-adjust:100%;}
-    body{
-      margin:0;
-      background:var(--background-light);
-      background-image:
-        radial-gradient(circle at 100% 0%, rgba(33,150,243,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(25,118,210,0.05) 0%, transparent 40%);
-      background-attachment:fixed;
-      font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-      color:var(--text-dark);
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-    }
-    .page-wrap{max-width:520px;margin:0 auto;padding-bottom:110px;position:relative;}
-    a{text-decoration:none;color:inherit;}
-    button{font-family:inherit;border:none;background:none;cursor:pointer;}
-    svg{stroke-linecap:round;stroke-linejoin:round;display:block;}
-
-    /* ============ reveal-on-load utility (paired with enhancement script) ============ */
-    .anim{opacity:0;transform:translateY(18px);}
-    .anim.in{animation:riseIn .7s var(--ease) forwards;}
-    @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
-    @media (prefers-reduced-motion: reduce){
-      .anim{opacity:1;transform:none;animation:none;}
-      *{scroll-behavior:auto !important;}
-    }
-
-    /* ============================================================
-       1. STICKY GLASS HEADER
-       ============================================================ */
+    /* Glass header */
     .app-header{
-      position:sticky;top:0;z-index:50;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:18px 20px;
-      background:rgba(255,255,255,0.72);
-      backdrop-filter:blur(20px) saturate(160%);
-      -webkit-backdrop-filter:blur(20px) saturate(160%);
-      border-bottom:1px solid var(--border-light);
+      position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+      padding:16px 20px;background:rgba(255,255,255,.75);backdrop-filter:blur(18px) saturate(160%);
+      -webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--border);
     }
-    .greeting-eyebrow{
-      font-size:11.5px;letter-spacing:.04em;color:var(--text-muted);font-weight:600;
-      text-transform:uppercase;
+    .greeting-eyebrow{font-size:11.5px;letter-spacing:.04em;color:var(--muted);font-weight:600;text-transform:uppercase}
+    .greeting-name{font-family:var(--display);font-size:18px;font-weight:600;color:var(--ink);margin-top:2px}
+    .header-actions{display:flex;align-items:center;gap:10px}
+    .icon-btn{
+      width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      background:var(--paper);box-shadow:var(--shadow);position:relative;color:var(--ink);
+      transition:transform .16s cubic-bezier(.22,1,.36,1);
     }
-    .greeting-name{
-      font-family:'Fraunces',serif;font-size:19px;font-weight:600;color:var(--text-dark);
-      margin-top:2px;letter-spacing:-.01em;
-    }
-    .header-actions{display:flex;align-items:center;gap:10px;}
-    .vip-badge{
-      font-size:11px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:999px;
-      background:linear-gradient(135deg,var(--primary-blue-light),var(--primary-blue));
-      color:var(--primary-blue-dark);box-shadow:0 4px 14px rgba(33,150,243,0.35);
-    }
-    .notif-btn{
-      width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-      background:var(--white);box-shadow:var(--shadow-sm);position:relative;
-      transition:transform .18s var(--ease);
-    }
-    .notif-btn svg{width:19px;height:19px;stroke:var(--text-dark);stroke-width:2;fill:none;}
-    .notif-btn:active{transform:scale(.9);}
+    .icon-btn:active{transform:scale(.9)}
     #notifBadge{
-      display:none;position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 3px;
-      border-radius:999px;background:var(--danger-red);color:#fff;font-size:9.5px;font-weight:700;
-      align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(244,67,54,0.5);
+      display:none;position:absolute;top:-3px;right:-3px;min-width:16px;height:16px;padding:0 3px;
+      border-radius:999px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;
+      align-items:center;justify-content:center;
     }
 
-    /* ============================================================
-       2. HERO WALLET CARD
-       ============================================================ */
-    .hero-section{padding:18px 16px 6px;}
+    /* Hero */
+    .hero-section{padding:16px 16px 4px}
     .hero-card{
-      position:relative;overflow:hidden;
-      border-radius:var(--radius-xl);
-      padding:30px 26px 26px;
-      background:
-        radial-gradient(circle at 85% -10%, rgba(255,255,255,0.22) 0%, transparent 55%),
-        radial-gradient(circle at -10% 110%, rgba(33,150,243,0.35) 0%, transparent 50%),
-        linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
-      box-shadow:var(--shadow-blue);
-      color:var(--white);
+      position:relative;overflow:hidden;border-radius:26px;padding:28px 24px 24px;
+      background:linear-gradient(145deg,var(--blue) 0%,var(--blue-dark) 100%);
+      box-shadow:0 16px 40px rgba(29,140,242,.28);color:#fff;
     }
-    .hero-card::before,.hero-card::after{
-      content:"";position:absolute;border-radius:50%;
-      background:rgba(255,255,255,0.08);
-    }
-    .hero-card::before{width:220px;height:220px;top:-90px;right:-60px;}
-    .hero-card::after{width:150px;height:150px;bottom:-70px;left:-40px;background:rgba(33,150,243,0.18);}
-    .hero-inner{position:relative;z-index:1;}
-    .hero-label{
-      font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
-      opacity:.82;display:flex;align-items:center;gap:6px;
-    }
-    .hero-amount{
-      font-family:'Fraunces',serif;font-weight:700;font-size:40px;letter-spacing:-.02em;
-      margin:8px 0 14px;line-height:1;
-      text-shadow:0 4px 20px rgba(0,0,0,0.15);
-    }
-    .hero-meta{display:flex;align-items:center;gap:8px;font-size:12.5px;opacity:.85;flex-wrap:wrap;}
-    .hero-meta b{font-weight:700;letter-spacing:.02em;}
-    .hero-divider{width:1px;height:12px;background:rgba(255,255,255,0.35);}
-    .hero-actions{display:flex;gap:10px;margin-top:22px;}
+    .hero-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08);top:-80px;right:-50px}
+    .hero-card::after{content:'';position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-60px;left:-30px}
+    .hero-inner{position:relative;z-index:1}
+    .hero-label{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;opacity:.82}
+    .hero-amount{font-family:var(--display);font-weight:700;font-size:38px;letter-spacing:-.02em;margin:8px 0 4px;line-height:1}
+    .hero-ref{font-size:12px;opacity:.8}
+    .hero-ref b{font-weight:700;opacity:1}
+    .hero-actions{display:flex;gap:10px;margin-top:20px}
     .hero-btn{
-      flex:1;padding:14px 0;border-radius:16px;font-weight:700;font-size:14.5px;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-      transition:transform .16s var(--ease),box-shadow .16s var(--ease);
-      position:relative;overflow:hidden;
+      flex:1;padding:13px 0;border-radius:14px;font-weight:700;font-size:14px;
+      display:flex;align-items:center;justify-content:center;gap:7px;
+      transition:transform .15s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;
     }
-    .hero-btn:active{transform:scale(.96);}
-    .hero-btn.fill{background:var(--white);color:var(--primary-blue-dark);box-shadow:0 8px 22px rgba(0,0,0,0.18);}
-    .hero-btn.ghost{background:rgba(255,255,255,0.14);color:var(--white);border:1.5px solid rgba(255,255,255,0.5);backdrop-filter:blur(6px);}
+    .hero-btn:active{transform:scale(.96)}
+    .hero-btn.fill{background:#fff;color:var(--blue-dark)}
+    .hero-btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.4)}
 
-    /* ============================================================
-       3. STATISTICS SECTION
-       ============================================================ */
-    .section{padding:22px 16px 4px;}
-    .stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-    .stat-box{
-      background:var(--white);border-radius:var(--radius-md);padding:18px 16px;
-      box-shadow:var(--shadow-sm);border:1px solid var(--border-light);
-      transition:transform .2s var(--ease),box-shadow .2s var(--ease);
-      position:relative;overflow:hidden;
-    }
-    .stat-box:active{transform:translateY(-2px) scale(.99);box-shadow:var(--shadow-md);}
-    .stat-box .stat-ic{
-      width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-      margin-bottom:12px;
-    }
-    .stat-ic svg{width:17px;height:17px;stroke-width:2;fill:none;}
-    .stat-box[data-tone="deposit"] .stat-ic{background:var(--danger-red-bg);}
-    .stat-box[data-tone="deposit"] .stat-ic svg{stroke:var(--danger-red);}
-    .stat-box[data-tone="profit"] .stat-ic{background:var(--success-green-bg);}
-    .stat-box[data-tone="profit"] .stat-ic svg{stroke:var(--success-green);}
-    .stat-val{
-      font-family:'Fraunces',serif;font-weight:700;font-size:20px;color:var(--text-dark);letter-spacing:-.01em;
-    }
-    .stat-lbl{font-size:12px;color:var(--text-muted);font-weight:600;margin-top:3px;}
+    /* Stats */
+    .section{padding:20px 16px 4px}
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .stat-box{background:var(--paper);border-radius:16px;padding:14px 10px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center}
+    .stat-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+    .stat-ic.deposit{background:var(--blue-tint);color:var(--blue-dark)}
+    .stat-ic.profit{background:var(--success-bg);color:var(--success)}
+    .stat-ic.ref{background:#F3E8FE;color:#7C3AED}
+    .stat-val{font-family:var(--display);font-size:15px;font-weight:600;color:var(--ink)}
+    .stat-lbl{font-size:10px;color:var(--muted);font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:.03em}
 
-    /* ============================================================
-       4. QUICK ACTIONS
-       ============================================================ */
-    .sec-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px;margin-bottom:14px;}
-    .sec-row h2{font-family:'Fraunces',serif;font-size:17.5px;font-weight:600;letter-spacing:-.01em;}
-    .sec-row a{font-size:13px;color:var(--primary-blue);font-weight:700;}
-
-    .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px;margin-bottom:8px;}
-    .quick-item{
-      display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px 6px 14px;
-      border-radius:var(--radius-md);background:var(--white);box-shadow:var(--shadow-sm);
-      border:1px solid var(--border-light);
-      cursor:pointer;font-size:11px;font-weight:700;color:var(--text-muted);
-      -webkit-tap-highlight-color:transparent;
-      transition:transform .18s var(--ease),box-shadow .18s var(--ease);
-      position:relative;overflow:hidden;
-    }
-    .quick-item:active{transform:scale(.94);}
-    .quick-item-icon{
-      width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-      background:linear-gradient(135deg,var(--primary-blue-light),var(--white));
-      box-shadow:inset 0 0 0 1px var(--border-light);
-    }
-    .quick-item-icon svg{width:19px;height:19px;stroke:var(--primary-blue-dark);stroke-width:2;fill:none;}
-    .quick-grid a:nth-child(1) .quick-item-icon{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);}
-    .quick-grid a:nth-child(2) .quick-item-icon{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
-    .quick-grid a:nth-child(3) .quick-item-icon{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
-    .quick-grid a:nth-child(4) .quick-item-icon{background:linear-gradient(135deg,#FFEBEE,#FFCDD2);}
-    .quick-grid a:nth-child(5) .quick-item-icon{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);}
-    .quick-grid a:nth-child(6) .quick-item-icon{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
-    .quick-grid a:nth-child(7) .quick-item-icon{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
-    .quick-grid a:nth-child(8) .quick-item-icon{background:linear-gradient(135deg,#FFEBEE,#FFCDD2);}
-
-    /* ripple (added purely via ::after + JS toggling a class, no markup change needed) */
-    .ripple-el{position:absolute;border-radius:50%;background:rgba(33,150,243,0.18);
-      transform:scale(0);animation:rippleAnim .55s var(--ease);pointer-events:none;}
-    @keyframes rippleAnim{to{transform:scale(2.6);opacity:0;}}
-
-    /* ============================================================
-       6. INCOME BANNER
-       ============================================================ */
+    /* Auto income banner */
     .income-strip{
-      position:relative;overflow:hidden;
-      background:linear-gradient(120deg,#0D47A1 0%,#1565C0 55%,#1976D2 100%);
-      border-radius:var(--radius-lg);margin:6px 16px 20px;padding:20px 20px;
-      display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-md);
+      position:relative;overflow:hidden;background:linear-gradient(120deg,#0D3B7A,#1565C0,var(--blue));
+      border-radius:20px;margin:16px 16px 4px;padding:18px 18px;display:flex;align-items:center;gap:14px;
+      box-shadow:var(--shadow-md);
     }
-    .income-strip::before{
-      content:"";position:absolute;width:160px;height:160px;border-radius:50%;
-      background:radial-gradient(circle,rgba(33,150,243,0.35),transparent 70%);
-      top:-60px;right:-40px;
-    }
-    .income-strip .ic{
-      width:46px;height:46px;border-radius:14px;flex-shrink:0;
-      background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;
-      position:relative;z-index:1;backdrop-filter:blur(4px);
-    }
-    .income-strip .ic svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none;}
-    .income-strip .txt{position:relative;z-index:1;}
-    .income-strip .txt strong{display:block;font-size:13.5px;font-weight:700;color:var(--white);}
-    .income-strip .txt span{font-size:11.5px;color:#BBDEFB;opacity:.85;line-height:1.4;}
+    .income-strip .ic{width:42px;height:42px;border-radius:12px;flex-shrink:0;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff}
+    .income-strip .txt strong{display:block;font-size:13px;font-weight:700;color:#fff}
+    .income-strip .txt span{font-size:11.5px;color:#BBDEFB;opacity:.9;line-height:1.4}
 
-    /* ============================================================
-       7. PROMOTION BANNER
-       ============================================================ */
-    .promo-banner{
-      margin:0 16px 22px;border-radius:var(--radius-lg);padding:22px 22px;position:relative;overflow:hidden;
-      background:linear-gradient(135deg,var(--primary-blue) 0%, #1976D2 100%);
-      box-shadow:0 14px 34px rgba(33,150,243,0.32);
-      display:flex;align-items:center;justify-content:space-between;gap:14px;
-    }
-    .promo-banner::before{
-      content:"✦";position:absolute;font-size:110px;right:-10px;bottom:-40px;color:rgba(255,255,255,0.14);
-      font-family:'Fraunces',serif;
-    }
-    .promo-text{position:relative;z-index:1;}
-    .promo-text .pt-title{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:var(--white);}
-    .promo-text .pt-sub{font-size:12.5px;color:#BBDEFB;margin-top:3px;font-weight:600;}
-    .promo-btn{
-      position:relative;z-index:1;flex-shrink:0;background:var(--text-dark);color:var(--white);font-weight:700;font-size:13px;
-      padding:12px 18px;border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,0.25);
-      transition:transform .16s var(--ease);
-    }
-    .promo-btn:active{transform:scale(.94);}
+    /* Section row */
+    .sec-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px;margin-bottom:12px}
+    .sec-row h2{font-family:var(--display);font-size:16px;font-weight:600}
+    .sec-row a{font-size:13px;color:var(--blue);font-weight:700;display:flex;align-items:center;gap:2px}
 
-    /* ============================================================
-       5. INVESTMENT SECTION  (markup produced by original JS — classes kept identical)
-       ============================================================ */
-    .mini-product{
-      background:var(--white);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);
-      border:1px solid var(--border-light);
-      padding:16px 18px;margin:0 16px 12px;display:flex;align-items:center;justify-content:space-between;
-      transition:transform .2s var(--ease),box-shadow .2s var(--ease);
-      position:relative;
+    /* Quick actions */
+    .quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px;margin-bottom:18px}
+    .quick-item{
+      display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px 12px;
+      border-radius:16px;background:var(--paper);box-shadow:var(--shadow);border:1px solid var(--border);
+      cursor:pointer;font-size:10.5px;font-weight:700;color:var(--muted);-webkit-tap-highlight-color:transparent;
+      transition:transform .15s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;
     }
-    .mini-product:active{transform:scale(.98);}
-    .mp-name{font-size:14.5px;font-weight:700;color:var(--text-dark);letter-spacing:-.005em;}
-    .mp-prog{font-size:11.5px;color:var(--text-muted);margin-top:3px;font-weight:600;}
-    .mp-earn{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--success-green);}
-    .prog-bar{height:6px;background:var(--background-light);border-radius:6px;margin-top:8px;overflow:hidden;width:130px;box-shadow:inset 0 0 0 1px var(--border-light);}
-    .prog-fill{
-      height:100%;border-radius:6px;
-      background:linear-gradient(90deg,var(--primary-blue),var(--primary-blue-dark));
-      box-shadow:0 0 10px rgba(33,150,243,0.4);
-      transition:width 1s var(--ease);
-    }
-    /* status badge injected by enhancement script (data attribute only, no logic change) */
-    .mp-status{
-      position:absolute;top:-8px;right:14px;font-size:9.5px;font-weight:800;letter-spacing:.04em;
-      text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--success-green);color:var(--white);
-      box-shadow:0 4px 10px rgba(76,175,80,0.4);
-    }
+    .quick-item:active{transform:scale(.94)}
+    .qi-icon{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+    .qi-icon.c1{background:var(--blue-tint);color:var(--blue-dark)}
+    .qi-icon.c2{background:var(--success-bg);color:var(--success)}
+    .qi-icon.c3{background:#FEF3C7;color:#92400E}
+    .qi-icon.c4{background:#FCE7F3;color:#BE185D}
+    .ripple-el{position:absolute;border-radius:50%;background:rgba(29,140,242,.18);transform:scale(0);animation:rip .55s cubic-bezier(.22,1,.36,1);pointer-events:none}
+    @keyframes rip{to{transform:scale(3);opacity:0}}
 
-    .empty{padding:40px 20px;text-align:center;color:var(--text-muted);}
-    .empty-icon{width:34px;height:34px;margin:0 auto 10px;color:var(--border-light);}
-    .empty-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.5;fill:none;}
-    .loader-wrap{display:flex;justify-content:center;padding:30px 0;}
-    .loader{
-      width:26px;height:26px;border-radius:50%;border:3px solid var(--border-light);
-      border-top-color:var(--primary-blue);animation:spin .8s linear infinite;
-    }
-    @keyframes spin{to{transform:rotate(360deg);}}
+    /* Investment card */
+    .mini-product{background:var(--paper);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);padding:14px 16px;margin:0 16px 10px;display:flex;align-items:center;justify-content:space-between}
+    .mp-name{font-size:14px;font-weight:700;color:var(--ink)}
+    .mp-prog{font-size:11.5px;color:var(--muted);margin-top:2px;font-weight:600}
+    .mp-earn{font-family:var(--display);font-size:15px;font-weight:600;color:var(--success)}
+    .prog-bar{height:5px;background:var(--bg);border-radius:5px;margin-top:7px;overflow:hidden;width:120px}
+    .prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),var(--blue-dark));transition:width 1s cubic-bezier(.22,1,.36,1)}
 
-    /* ============================================================
-       8. RECENT TRANSACTIONS (markup produced by original JS)
-       ============================================================ */
-    .card{
-      background:transparent;margin:0 16px 20px;padding:0;
-    }
-    .list-item{
-      display:flex;align-items:center;justify-content:space-between;padding:14px 16px;
-      border-bottom:1px solid var(--border-light);background:var(--white);
-    }
-    .list-item:last-child{border-bottom:none;}
-    .li-title{font-size:14px;font-weight:600;color:var(--text-dark);}
-    .li-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
-    .li-amount{font-family:'Fraunces',serif;font-size:15px;font-weight:600;}
-    .li-amount.credit{color:var(--success-green);}
-    .li-amount.debit{color:var(--danger-red);}
+    .empty{padding:36px 20px;text-align:center;color:var(--muted)}
+    .empty-icon{margin-bottom:10px;color:var(--muted);opacity:.5}
+    .loader-wrap{display:flex;justify-content:center;padding:28px 0}
+    .loader{width:26px;height:26px;border-radius:50%;border:3px solid var(--blue-tint);border-top-color:var(--blue);animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* ============================================================
-       9. BOTTOM NAVIGATION
-       ============================================================ */
+    /* Transactions */
+    .card{background:var(--paper);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin:0 16px 20px}
+    .list-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)}
+    .list-item:last-child{border-bottom:none}
+    .li-title{font-size:14px;font-weight:600;color:var(--ink)}
+    .li-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+    .li-amount{font-family:var(--display);font-size:14.5px;font-weight:600}
+    .li-amount.credit{color:var(--success)}
+    .li-amount.debit{color:var(--danger)}
+
+    /* Bottom nav */
     .bottom-nav{
-      position:fixed;bottom:0;left:0;
-      width:100%;background:rgba(255,255,255,0.8);
-      backdrop-filter:blur(20px) saturate(180%);
-      -webkit-backdrop-filter:blur(20px) saturate(180%);
-      border-top:1px solid var(--border-light);
-      display:grid;grid-template-columns:repeat(4,1fr);
-      padding:9px 0 24px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.05);
+      position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+      background:rgba(255,255,255,.85);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+      border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);
+      padding:9px 0 22px;z-index:100;box-shadow:0 -4px 20px rgba(16,25,40,.05);
     }
-    .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:4px;
-      font-size:10px;font-weight:600;color:var(--text-muted);
-      padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;
-    }
-    .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
-    .nav-item.active{color:var(--primary-blue);}
+    .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:var(--muted);padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden}
+    .nav-item.active{color:var(--blue)}
 
-    /* ============================================================
-       10. WELCOME POPUP
-       ============================================================ */
-    #welcomeOverlay{
-      position:fixed;top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      z-index:1000;display:flex;align-items:center;justify-content:center;
-      opacity:0;pointer-events:none;transition:opacity .3s var(--ease);
-    }
-    #welcomeOverlay.show{opacity:1;pointer-events:auto;}
-    .welcome-card{
-      background:var(--white);border-radius:var(--radius-xl);width:calc(100% - 40px);
-      max-width:380px;overflow:hidden;box-shadow:var(--shadow-lg);
-      transform:scale(.9);opacity:0;transition:transform .3s var(--ease),opacity .3s var(--ease);
-    }
-    #welcomeOverlay.show .welcome-card{transform:scale(1);opacity:1;}
-    .welcome-hero{
-      background:linear-gradient(135deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);
-      color:var(--white);padding:30px 20px 25px;text-align:center;position:relative;overflow:hidden;
-    }
-    .welcome-hero::before{
-      content:"";position:absolute;width:180px;height:180px;border-radius:50%;
-      background:rgba(255,255,255,0.1);
-      top:-70px;right:-50px;
-    }
-    .welcome-close{
-      position:absolute;top:15px;right:15px;width:30px;height:30px;border-radius:50%;
-      background:rgba(255,255,255,0.15);color:var(--white);
-      display:flex;align-items:center;justify-content:center;
-    }
-    .welcome-close svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none;}
-    .welcome-icon{width:44px;height:44px;margin:0 auto 10px;position:relative;z-index:1;}
-    .welcome-icon svg{width:100%;height:100%;stroke:#fff;stroke-width:1.6;fill:none;}
-    .welcome-title{font-family:'Fraunces',serif;font-size:24px;font-weight:700;margin-bottom:5px;position:relative;z-index:1;}
-    .welcome-sub{font-size:14px;opacity:.9;line-height:1.5;position:relative;z-index:1;}
-    .welcome-body{padding:20px;}
-    .welcome-link{
-      display:flex;align-items:center;gap:14px;padding:15px;border-radius:16px;
-      background:var(--background-light);margin-bottom:12px;transition:transform .15s var(--ease);
-    }
-    .welcome-link:active{transform:scale(.98);}
-    .welcome-link.tg .wl-icon{background:#E3F2FD;color:#2196F3;}
-    .welcome-link.wa .wl-icon{background:#E8F5E9;color:#4CAF50;}
-    .wl-icon{
-      width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-      flex-shrink:0;
-    }
-    .wl-icon svg{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
-    .wl-txt{flex:1;}
-    .wl-txt strong{display:block;font-size:15px;font-weight:700;color:var(--text-dark);}
-    .wl-txt span{font-size:12px;color:var(--text-muted);margin-top:2px;}
-    .wl-go{font-size:20px;color:var(--text-muted);}
-    .welcome-skip{
-      width:100%;padding:14px;border-radius:16px;background:var(--border-light);
-      color:var(--text-muted);font-weight:700;font-size:14px;margin-top:8px;
-    }
-
-    /* ============================================================
-       11. TOAST NOTIFICATIONS
-       ============================================================ */
-    #toast{
-      position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-      background:var(--text-dark);color:var(--white);padding:11px 20px;border-radius:30px;
-      font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;
-      transition:opacity .25s;white-space:nowrap;box-shadow:var(--shadow-md);
-    }
-    #toast.show{opacity:1;}
+    #toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap}
+    #toast.show{opacity:1}
   </style>
 </head>
-<body>
+<body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
+
 <div class="page-wrap">
   <header class="app-header">
-    <div class="greeting">
-      <div class="greeting-eyebrow" id="greetingEyebrow">Good morning</div>
-      <div class="greeting-name">Hello, <span data-auth="full_name">User</span></div>
+    <div>
+      <div class="greeting-eyebrow" id="greetingEyebrow">Good day</div>
+      <div class="greeting-name" data-auth="full_name">User</div>
     </div>
     <div class="header-actions">
-      <div class="vip-badge vip-0" data-vip>Member</div>
-      <button class="notif-btn anim anim-1" onclick="location.href='notifications.html'">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <div id="notifBadge"></div>
+      <span class="vip-badge vip-0" data-vip style="font-size:11px">Member</span>
+      <button class="icon-btn" onclick="location.href='notifications.html'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+        <span id="notifBadge"></span>
       </button>
     </div>
   </header>
 
-  <section class="hero-section anim anim-2">
+  <section class="hero-section anim anim-1">
     <div class="hero-card">
       <div class="hero-inner">
         <div class="hero-label">Total Balance</div>
-        <div class="hero-amount" id="walletBalance">₦0</div>
-        <div class="hero-meta">
-          <div>Last credited: <b id="lastCredited">Not yet</b></div>
-          <div class="hero-divider"></div>
-          <div>Daily Income: <b id="dailyIncomeTotal">₦0</b></div>
-        </div>
+        <div class="hero-amount" id="walletBalance">₦0.00</div>
+        <div class="hero-ref">Ref: <b data-auth="referral_code">—</b></div>
         <div class="hero-actions">
-          <button class="hero-btn fill" onclick="location.href='recharge.html'">Deposit</button>
-          <button class="hero-btn ghost" onclick="location.href='withdraw.html'">Withdraw</button>
+          <button class="hero-btn fill" onclick="location.href='recharge.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12l5 5 5-5"/></svg>
+            Deposit
+          </button>
+          <button class="hero-btn ghost" onclick="location.href='withdraw.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 17V7M7 12l5-5 5 5"/></svg>
+            Withdraw
+          </button>
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="section anim anim-2">
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-ic deposit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v3H5"/><path d="M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10h-4a2 2 0 1 0 0 4h4"/></svg></div>
+        <div class="stat-val" id="statDeposit">₦0</div>
+        <div class="stat-lbl">Deposited</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-ic profit"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+        <div class="stat-val" id="statProfit">₦0</div>
+        <div class="stat-lbl">Profit</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-ic ref"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c2.4.4 4.5 2.4 4.5 5.8"/></svg></div>
+        <div class="stat-val" id="statRef">₦0</div>
+        <div class="stat-lbl">Referral</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="income-strip anim anim-2" id="incomeStrip" style="display:none">
+    <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z"/></svg></div>
+    <div class="txt"><strong>Income credits automatically at midnight</strong><span>No action needed — check back tomorrow for today's earnings</span></div>
   </section>
 
   <section class="section anim anim-3">
-    <div class="stats-row">
-      <div class="stat-box" data-tone="deposit">
-        <div class="stat-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></div>
-        <div class="stat-val" id="statDeposit">₦0</div>
-        <div class="stat-lbl">Total Deposit</div>
-      </div>
-      <div class="stat-box" data-tone="profit">
-        <div class="stat-ic"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 17"/><polyline points="17 6 23 6 23 12"/></svg></div>
-        <div class="stat-val" id="statProfit">₦0</div>
-        <div class="stat-lbl">Total Profit</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section anim anim-4">
-    <div class="sec-row">
-      <h2>Quick Actions</h2>
-    </div>
+    <div class="sec-row"><h2>Quick Actions</h2></div>
     <div class="quick-grid">
-      <a href="recharge.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></div>
-        Deposit
-      </a>
-      <a href="withdraw.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg></div>
-        Withdraw
-      </a>
-      <a href="team.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        Team
-      </a>
-      <a href="my-investments.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div>
-        Investments
-      </a>
-      <a href="products.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-        Products
-      </a>
-      <a href="daily-checkin.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        Check-in
-      </a>
-      <a href="gift-code.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
-        Gift Code
-      </a>
-      <a href="profile.html" class="quick-item">
-        <div class="quick-item-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
-        Settings
-      </a>
+      <a class="quick-item" href="products.html"><div class="qi-icon c1"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>Products</a>
+      <a class="quick-item" href="team.html"><div class="qi-icon c2"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c2.4.4 4.5 2.4 4.5 5.8"/></svg></div>My Team</a>
+      <a class="quick-item" href="daily-checkin.html"><div class="qi-icon c3"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg></div>Check In</a>
+      <a class="quick-item" href="gift-code.html"><div class="qi-icon c4"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18"/><path d="M12 9v12"/><path d="M12 9c-1.8 0-3.2-1.3-3.2-3S10.2 3 12 5c1.8-2 4-.3 4 1s-1.4 3-4 3z"/></svg></div>Gift Code</a>
+      <a class="quick-item" href="recharge-history.html"><div class="qi-icon c1"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></div>History</a>
+      <a class="quick-item" href="messages.html"><div class="qi-icon c2"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 6l9 7 9-7"/></svg></div>Messages</a>
+      <a class="quick-item" href="bank-card.html"><div class="qi-icon c3"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></div>Bank Card</a>
+      <a class="quick-item" href="profile.html"><div class="qi-icon c4"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>Profile</a>
     </div>
   </section>
 
-  <section class="section">
-    <div class="sec-row">
-      <h2>Active Investments</h2>
-      <a href="my-investments.html">View All</a>
-    </div>
-    <div id="activeProducts">
-      <div class="loader-wrap"><div class="loader"></div></div>
-    </div>
+  <section class="section" style="padding-top:0">
+    <div class="sec-row"><h2>Active Investments</h2><a href="my-investments.html">View all <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a></div>
+    <div id="activeProducts"><div class="loader-wrap"><div class="loader"></div></div></div>
   </section>
 
   <section class="section">
-    <div class="income-strip">
-      <div class="ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-      <div class="txt">
-        <strong>Boost Your Income!</strong>
-        <span>Invite friends and earn up to ₦10,000 bonus.</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="promo-banner">
-      <div class="promo-text">
-        <div class="pt-title">Limited Time Offer!</div>
-        <div class="pt-sub">Get 20% extra on your next deposit.</div>
-      </div>
-      <button class="promo-btn" onclick="location.href='recharge.html'">Claim Now</button>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="sec-row">
-      <h2>Recent Transactions</h2>
-      <a href="recharge-history.html">View All</a>
-    </div>
-    <div class="card">
-      <div id="recentTx">
-        <div class="loader-wrap"><div class="loader"></div></div>
-      </div>
-    </div>
+    <div class="sec-row"><h2>Recent Transactions</h2><a href="recharge-history.html">View all <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></a></div>
+    <div class="card" id="recentTx"><div class="loader-wrap"><div class="loader"></div></div></div>
   </section>
 </div>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" onclick="location.href='dashboard.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-  <button class="nav-item" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products</button>
-  <button class="nav-item" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team</button>
-  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
+  <button class="nav-item active" onclick="location.href='dashboard.html'"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5L12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>Home</button>
+  <button class="nav-item" onclick="location.href='products.html'"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Products</button>
+  <button class="nav-item" onclick="location.href='team.html'"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2c2.4.4 4.5 2.4 4.5 5.8"/></svg>Team</button>
+  <button class="nav-item" onclick="location.href='profile.html'"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>Profile</button>
 </nav>
 <div id="toast"></div>
-
-<!-- ============================================================
-     WELCOME / COMMUNITY POPUP — shows on every dashboard visit
-     ============================================================ -->
-<div id="welcomeOverlay" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
-  <div class="welcome-card">
-    <div class="welcome-hero">
-      <button class="welcome-close" onclick="closeWelcome()" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <div class="welcome-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-      <div class="welcome-title" id="welcomeTitle">Welcome to Schweppes</div>
-      <div class="welcome-sub">Join our official community for updates, support, and announcements straight from the team.</div>
-    </div>
-    <div class="welcome-body">
-      <a class="welcome-link tg" href="https://t.me/+ZBPQYNyTdks0NjI8" target="_blank" rel="noopener">
-        <span class="wl-icon"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
-        <span class="wl-txt"><strong>Telegram Group</strong><span>Announcements &amp; updates</span></span>
-        <span class="wl-go">›</span>
-      </a>
-      <a class="welcome-link wa" href="https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1" target="_blank" rel="noopener">
-        <span class="wl-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
-        <span class="wl-txt"><strong>WhatsApp Group</strong><span>Chat with the community</span></span>
-        <span class="wl-go">›</span>
-      </a>
-      <button class="welcome-skip" onclick="closeWelcome()">Maybe later</button>
-    </div>
-  </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <script src="assets/js/supabase.js" defer></script>
 <script src="assets/js/auth.js" defer></script>
-
-<!-- ============================================================
-     BUSINESS LOGIC
-     ============================================================ -->
 <script>
 (function(){
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
   waitSb(async function(){
     var s=await window.AradelAuth.requireAuth(); if(!s)return;
     var uid=s.user.id;
-    await window.AradelAuth.loadProfile(uid); // fills [data-auth="full_name"] and the [data-vip] badge
+    await window.AradelAuth.loadProfile(uid);
 
     var {data:w}=await window.sb.from("wallets").select("*").eq("user_id",uid).single();
     if(w){
       document.getElementById("walletBalance").textContent=window.AradelAuth.money(w.balance);
       document.getElementById("statDeposit").textContent="₦"+Number(w.total_deposit||0).toLocaleString();
       document.getElementById("statProfit").textContent="₦"+Number(w.total_profit||0).toLocaleString();
+      document.getElementById("statRef").textContent="₦"+Number(w.total_referral_bonus||0).toLocaleString();
     }
-
-    // Daily income total (across ALL active plans, not just the 3 shown below)
-    // and last daily-income credit date — both were static placeholder text
-    // ("₦0" / "Just now") in the design; wired to real data here.
-    var {data:activeAll}=await window.sb.from("user_products").select("daily_income").eq("user_id",uid).eq("status","active");
-    var dailyTotal=(activeAll||[]).reduce(function(sum,p){return sum+Number(p.daily_income||0);},0);
-    document.getElementById("dailyIncomeTotal").textContent=window.AradelAuth.money(dailyTotal);
-
-    var {data:lastCredit}=await window.sb.from("wallet_transactions").select("created_at").eq("user_id",uid).eq("type","daily_income").order("created_at",{ascending:false}).limit(1).single();
-    if(lastCredit) document.getElementById("lastCredited").textContent=window.AradelAuth.timeAgo(lastCredit.created_at);
-
-    var emptyBoxIcon='<div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>';
 
     var {data:prods}=await window.sb.from("user_products").select("*, products(name)").eq("user_id",uid).eq("status","active").limit(3);
     var ap=document.getElementById("activeProducts");
     if(!prods||!prods.length){
-      ap.innerHTML='<div class="empty">'+emptyBoxIcon+'<p>No active investments yet.<br><a href="products.html" style="color:var(--primary-blue);font-weight:700">Browse products →</a></p></div>';
+      ap.innerHTML='<div class="empty"><p>No active investments yet.<br><a href="products.html" style="color:var(--blue);font-weight:700">Browse products →</a></p></div>';
     } else {
+      document.getElementById("incomeStrip").style.display="flex";
       ap.innerHTML=prods.map(function(p){
         var pct=p.duration_days?Math.min(100,Math.round((p.days_collected/p.duration_days)*100)):0;
-        return '<div class="mini-product" data-days-collected="'+p.days_collected+'"><div><div class="mp-name">'+p.products?.name+'</div><div class="mp-prog">'+p.days_collected+'/'+p.duration_days+' days</div><div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div></div><div class="mp-earn">+'+window.AradelAuth.money(p.daily_income)+'/day</div></div>';
+        return '<div class="mini-product"><div><div class="mp-name">'+p.products?.name+'</div><div class="mp-prog">'+p.days_collected+'/'+p.duration_days+' days</div><div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div></div><div class="mp-earn">+'+window.AradelAuth.money(p.daily_income)+'/day</div></div>';
       }).join("");
     }
 
@@ -634,41 +285,18 @@
 })();
 </script>
 
-<!-- ============================================================
-     PRESENTATION-ONLY ENHANCEMENTS
-     ============================================================ -->
+<!-- Presentation-only enhancements — greeting, entrance animation, ripple -->
 <script>
 (function(){
-  // Time-of-day greeting
   var h=new Date().getHours();
   var eyebrow=document.getElementById("greetingEyebrow");
-  if(eyebrow) eyebrow.textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening");
+  if(eyebrow) eyebrow.textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+" 👋";
 
-  // Entrance reveal
   document.querySelectorAll(".anim").forEach(function(el,i){
-    setTimeout(function(){ el.classList.add("in"); }, 80*i);
+    setTimeout(function(){ el.classList.add("in"); }, 70*i);
   });
 
-  // Fix: Android Chrome miscalculates position:fixed against a stale
-  // viewport height when its address-bar toolbar collapses/expands,
-  // which can make backdrop-filter elements like .bottom-nav render
-  // detached from the true bottom edge. Re-pin using visualViewport.
-  var nav=document.querySelector(".bottom-nav");
-  if(nav && window.visualViewport){
-    var pin=function(){
-      var vv=window.visualViewport;
-      var offset=(window.innerHeight-vv.height-vv.offsetTop);
-      nav.style.transform="translateY(-"+Math.max(0,offset)+"px)";
-    };
-    window.visualViewport.addEventListener("resize",pin);
-    window.visualViewport.addEventListener("scroll",pin);
-    pin();
-  }
-
-  // Ripple on quick actions / buttons
-  document.querySelectorAll(".quick-item,.hero-btn,.promo-btn,.nav-item").forEach(function(el){
-    el.style.position=el.style.position||"relative";
-    el.style.overflow="hidden";
+  document.querySelectorAll(".quick-item,.hero-btn,.nav-item,.icon-btn").forEach(function(el){
     el.addEventListener("click",function(e){
       var r=document.createElement("span");
       var rect=el.getBoundingClientRect();
@@ -680,69 +308,6 @@
       el.appendChild(r);
       setTimeout(function(){ r.remove(); },550);
     });
-  });
-
-  // Balance count-up whenever #walletBalance text is set by the business-logic script
-  var balanceEl=document.getElementById("walletBalance");
-  if(balanceEl){
-    var mo=new MutationObserver(function(){
-      balanceEl.style.transition="none";
-      balanceEl.style.opacity="0.35";
-      balanceEl.style.transform="translateY(4px)";
-      requestAnimationFrame(function(){
-        balanceEl.style.transition="opacity .5s var(--ease), transform .5s var(--ease)";
-        balanceEl.style.opacity="1";
-        balanceEl.style.transform="translateY(0)";
-      });
-    });
-    mo.observe(balanceEl,{childList:true,characterData:true,subtree:true});
-  }
-
-  // Investment cards: add a status badge once rendered. A plan with
-  // days_collected === 0 hasn't had its first payout yet (see the
-  // day-one-credit fix on the investments page), so it's flagged
-  // "Starts Tonight" here instead of "Active" to avoid implying income
-  // has already started flowing.
-  var apEl=document.getElementById("activeProducts");
-  if(apEl){
-    var apo=new MutationObserver(function(){
-      apEl.querySelectorAll(".mini-product").forEach(function(card){
-        if(card.querySelector(".mp-status")) return;
-        var fill=card.querySelector(".prog-fill");
-        var pct=fill?parseInt(fill.style.width)||0:0;
-        var daysCollected=parseInt(card.getAttribute("data-days-collected"))||0;
-        var badge=document.createElement("span");
-        badge.className="mp-status";
-        if(pct>=100){ badge.textContent="Completed"; badge.style.background="var(--success-green)"; }
-        else if(daysCollected===0){ badge.textContent="Starts Tonight"; badge.style.background="var(--primary-blue)"; }
-        else { badge.textContent="Active"; }
-        card.appendChild(badge);
-      });
-    });
-    apo.observe(apEl,{childList:true});
-  }
-})();
-</script>
-
-<!-- ============================================================
-     WELCOME / COMMUNITY POPUP LOGIC — shows every time a logged-in
-     user lands on the dashboard (no dismissal persistence, by design).
-     ============================================================ -->
-<script>
-(function(){
-  function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
-  window.closeWelcome=function(){
-    var ov=document.getElementById("welcomeOverlay");
-    ov.classList.remove("show");
-    setTimeout(function(){ ov.style.display="none"; },250);
-  };
-  waitSb(async function(){
-    var s=await window.AradelAuth.requireAuth(); if(!s)return; // only show to authenticated users
-    setTimeout(function(){
-      var ov=document.getElementById("welcomeOverlay");
-      ov.style.display="flex";
-      requestAnimationFrame(function(){ ov.classList.add("show"); });
-    }, 500);
   });
 })();
 </script>
