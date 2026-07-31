@@ -2,42 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aradel — My Team</title>
+  <title>Schweppes — My Team</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="assets/css/styes.css"/>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
-    :root{
-      --red:#C81E3A; --red-dark:#8F1128; --red-light:#E85C74; --red-tint:#FBEAEE;
-      --gold:#D4AF37; --gold-light:#F0D584;
-      --cream:#FBF6EC; --paper:#FFFFFF; --bg:#F5F1E8;
-      --ink:#1B1A22; --ink-soft:#4A4750; --muted:#8B8680;
-      --border:rgba(27,26,34,0.07);
-      --success:#1B9E6B; --success-bg:#E6F6EE;
-      --danger:#D6435C; --danger-bg:#FBEAEE;
-      --shadow-sm:0 2px 10px rgba(27,26,34,0.05);
-      --shadow-md:0 10px 30px rgba(27,26,34,0.08);
-      --shadow-lg:0 20px 60px rgba(27,26,34,0.14);
-      --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
-      --ease:cubic-bezier(.22,1,.36,1);
-    }
-    *{box-sizing:border-box;}
-    body{
-      margin:0;background:var(--bg);
-      background-image:
-        radial-gradient(circle at 100% 0%, rgba(212,175,55,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(200,30,58,0.05) 0%, transparent 40%);
-      background-attachment:fixed;
-      font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
-      color:var(--ink); -webkit-font-smoothing:antialiased; overflow-x:hidden;
-    }
-    .page-wrap{max-width:520px;margin:0 auto;padding-bottom:110px;}
-    a{text-decoration:none;color:inherit;}
-    button{font-family:inherit;border:none;background:none;cursor:pointer;}
+    /* Page-specific styles only — page-wrap, card, stat-box, empty,
+       loader, bottom-nav, vip-badge, #toast, and .anim all come from
+       the shared stylesheet. Redeclaring any of those here risks the
+       same partial-property cascade conflict already found on the
+       profile page (see that page's notes on .bottom-nav). */
 
-    .anim{opacity:0;transform:translateY(16px);}
-    .anim.in{animation:riseIn .6s var(--ease) forwards;}
-    @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
-    @media (prefers-reduced-motion: reduce){ .anim{opacity:1;transform:none;animation:none;} }
+    svg{stroke-linecap:round;stroke-linejoin:round;}
 
     /* ============================================================
        REFERRAL HERO
@@ -46,16 +21,18 @@
       position:relative;overflow:hidden;
       background:
         radial-gradient(circle at 88% -10%, rgba(255,255,255,0.20) 0%, transparent 50%),
-        radial-gradient(circle at -10% 115%, rgba(212,175,55,0.30) 0%, transparent 50%),
-        linear-gradient(155deg,var(--red) 0%,var(--red-dark) 100%);
+        radial-gradient(circle at -10% 115%, rgba(255,255,255,0.14) 0%, transparent 50%),
+        linear-gradient(155deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);
       padding:26px 20px 46px; color:#fff;
-      box-shadow:0 20px 50px rgba(200,30,58,0.22);
+      box-shadow:0 20px 50px rgba(33,150,243,0.28);
     }
     .ref-hero::before,.ref-hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);}
     .ref-hero::before{width:200px;height:200px;top:-90px;right:-50px;}
-    .ref-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(212,175,55,0.16);}
+    .ref-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(255,255,255,0.10);}
     .ref-hero > *{position:relative;z-index:1;}
-    .ref-hero-label{font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;opacity:.85;margin-bottom:4px;}
+    .ref-hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+    .ref-hero-label{font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;opacity:.85;}
+    .ref-hero .vip-badge{background:rgba(255,255,255,.9);}
     .ref-code-box{
       background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);
       border-radius:16px;padding:16px 18px;margin-top:14px;
@@ -64,62 +41,52 @@
     }
     .ref-code{font-family:'Fraunces',serif;font-size:22px;font-weight:700;letter-spacing:.09em;}
     .copy-btn{
+      display:flex;align-items:center;gap:6px;
       padding:9px 16px;border-radius:20px;background:rgba(255,255,255,.22);color:#fff;
-      font-size:12px;font-weight:700;cursor:pointer;transition:transform .16s var(--ease);
+      font-size:12px;font-weight:700;cursor:pointer;transition:transform .16s var(--ease, ease);border:none;
     }
     .copy-btn:active{transform:scale(.93);}
+    .copy-btn svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.5;fill:none;}
     .ref-link-box{
       background:rgba(255,255,255,.10);border-radius:12px;padding:11px 15px;margin-top:10px;
       font-size:11.5px;color:rgba(255,255,255,.82);word-break:break-all;
     }
     .share-row{margin-top:12px;}
-    .share-row .copy-btn{background:#fff;color:var(--red-dark);font-weight:800;padding:10px 18px;box-shadow:0 8px 20px rgba(0,0,0,0.18);}
+    .share-row .copy-btn{background:#fff;color:var(--primary-blue-dark);font-weight:800;padding:10px 18px;box-shadow:0 8px 20px rgba(0,0,0,0.18);}
+    .share-row .copy-btn svg{width:15px;height:15px;stroke-width:2;}
 
     /* ============================================================
        VIP PROGRESS
        ============================================================ */
     .vip-progress{
-      background:var(--paper);border-radius:var(--radius-lg);margin:-30px 16px 18px;padding:20px;
-      box-shadow:var(--shadow-lg);border:1px solid var(--border);position:relative;z-index:5;
+      background:var(--white);border-radius:22px;margin:-30px 16px 18px;padding:20px;
+      box-shadow:var(--shadow-md);border:1px solid var(--border-light);position:relative;z-index:5;
     }
-    .vip-prog-title{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;letter-spacing:-.01em;}
+    .vip-prog-title{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:14px;letter-spacing:-.01em;}
     .vip-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
     .vip-tier{
-      border-radius:14px;padding:12px 6px;text-align:center;border:1.5px solid var(--border);
-      background:var(--bg);transition:all .2s var(--ease);
+      border-radius:14px;padding:12px 6px;text-align:center;border:1.5px solid var(--border-light);
+      background:var(--background-light);transition:all .2s;
     }
     .vip-tier.unlocked{
-      border-color:var(--gold);background:linear-gradient(155deg,var(--gold-light),#F7E4A8);
-      box-shadow:0 8px 20px rgba(212,175,55,0.28);transform:translateY(-2px);
+      border-color:#FFC107;background:linear-gradient(155deg,#FFF3CD,#FCE7A8);
+      box-shadow:0 8px 20px rgba(255,193,7,0.25);transform:translateY(-2px);
     }
-    .vt-label{font-size:12px;font-weight:700;color:var(--muted);}
-    .vip-tier.unlocked .vt-label{color:#4A3A05;}
-    .vt-req{font-size:9.5px;color:var(--muted);margin-top:3px;font-weight:600;}
-    .vip-tier.unlocked .vt-req{color:#5C4812;}
-    .vt-icon{font-size:21px;margin-bottom:5px;}
-
-    /* ============================================================
-       STATS ROW
-       ============================================================ */
-    .section{padding:0 16px;}
-    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-    .stat-box{
-      background:var(--paper);border-radius:var(--radius-md);padding:16px 10px;text-align:center;
-      box-shadow:var(--shadow-sm);border:1px solid var(--border);
-    }
-    .stat-val{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:var(--ink);letter-spacing:-.01em;}
-    .stat-lbl{font-size:10.5px;color:var(--muted);font-weight:700;margin-top:4px;text-transform:uppercase;letter-spacing:.04em;}
+    .vt-label{font-size:12px;font-weight:700;color:var(--text-muted);}
+    .vip-tier.unlocked .vt-label{color:#7A5C00;}
+    .vt-req{font-size:9.5px;color:var(--text-muted);margin-top:3px;font-weight:600;}
+    .vip-tier.unlocked .vt-req{color:#8A6A00;}
+    .vt-icon{width:20px;height:20px;margin:0 auto 5px;color:var(--text-muted);}
+    .vt-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:2;fill:none;}
+    .vip-tier.unlocked .vt-icon{color:#B8860B;}
 
     /* ============================================================
        TEAM DEPOSITS CARD
        ============================================================ */
-    .deposits-card{
-      background:var(--paper);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);
-      border:1px solid var(--border);margin:0 16px 20px;overflow:hidden;
-    }
+    .deposits-card{margin:0 16px 20px;overflow:hidden;}
     .dc-header{
       position:relative;overflow:hidden;
-      background:linear-gradient(155deg,var(--red),var(--red-dark));padding:20px 18px;color:#fff;
+      background:linear-gradient(155deg,var(--primary-blue),var(--primary-blue-dark));padding:20px 18px;color:#fff;
     }
     .dc-header::before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.10);top:-50px;right:-30px;}
     .dc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;opacity:.85;position:relative;z-index:1;}
@@ -127,10 +94,10 @@
     .dc-sub{font-size:12px;opacity:.85;margin-top:5px;position:relative;z-index:1;}
     .dc-breakdown{display:grid;grid-template-columns:repeat(3,1fr);}
     .dc-breakdown.levels-1{grid-template-columns:repeat(1,1fr);}
-    .dc-item{padding:14px 8px;text-align:center;border-right:1px solid var(--border);}
+    .dc-item{padding:14px 8px;text-align:center;border-right:1px solid var(--border-light);}
     .dc-item:last-child{border-right:none;}
-    .dc-item-val{font-family:'Fraunces',serif;font-size:14.5px;font-weight:700;color:var(--red);}
-    .dc-item-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.03em;font-weight:700;}
+    .dc-item-val{font-family:'Fraunces',serif;font-size:14.5px;font-weight:700;color:var(--primary-blue);}
+    .dc-item-lbl{font-size:10px;color:var(--text-muted);margin-top:3px;text-transform:uppercase;letter-spacing:.03em;font-weight:700;}
 
     /* ============================================================
        LEVEL TABS + MEMBERS LIST
@@ -138,69 +105,40 @@
     .level-tabs{display:flex;gap:8px;padding:0 16px 14px;}
     .ltab{
       flex:1;padding:11px 4px;border-radius:12px;font-size:12px;font-weight:700;text-align:center;
-      border:1.5px solid var(--border);background:var(--paper);color:var(--muted);
-      box-shadow:var(--shadow-sm);transition:all .2s var(--ease);
+      border:1.5px solid var(--border-light);background:var(--white);color:var(--text-muted);
+      box-shadow:var(--shadow);transition:all .2s;
     }
     .ltab.on{
-      background:linear-gradient(135deg,var(--red),var(--red-dark));border-color:var(--red);color:#fff;
-      box-shadow:0 8px 20px rgba(200,30,58,0.3);
+      background:linear-gradient(135deg,var(--primary-blue),var(--primary-blue-dark));border-color:var(--primary-blue);color:#fff;
+      box-shadow:0 8px 20px rgba(33,150,243,0.3);
     }
     .ltab:active{transform:scale(.96);}
 
-    .card{background:var(--paper);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);border:1px solid var(--border);overflow:hidden;}
+    .members-card{margin:0 16px;}
     .member-item{
-      display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);
-      background:var(--paper);transition:background .16s var(--ease);
+      display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-light);
+      background:var(--white);transition:background .16s;
     }
     .member-item:last-child{border-bottom:none;}
-    .member-item:active{background:var(--bg);}
+    .member-item:active{background:var(--background-light);}
     .member-avatar{
       width:42px;height:42px;border-radius:50%;
-      background:linear-gradient(135deg,var(--red-tint),#fff);
+      background:var(--primary-blue-light);
       display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
-      color:var(--red);font-weight:800;font-family:'Fraunces',serif;
-      box-shadow:inset 0 0 0 1px var(--border);
+      color:var(--primary-blue-dark);font-weight:800;font-family:'Fraunces',serif;
     }
-    .member-name{font-size:14px;font-weight:700;color:var(--ink);}
-    .member-date{font-size:11px;color:var(--muted);margin-top:2px;font-weight:500;}
+    .member-name{font-size:14px;font-weight:700;color:var(--text-dark);}
+    .member-date{font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:500;}
     .member-status{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.02em;}
-    .status-active{background:var(--success-bg);color:var(--success);}
-    .status-inactive{background:var(--bg);color:var(--muted);}
+    .status-active{background:var(--success-green-bg);color:var(--success-green);}
+    .status-inactive{background:var(--background-light);color:var(--text-muted);}
 
-    .empty{padding:44px 20px;text-align:center;color:var(--muted);}
-    .empty-icon{font-size:36px;margin-bottom:10px;}
-    .loader-wrap{display:flex;justify-content:center;padding:34px 0;}
-    .loader{width:26px;height:26px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--red);animation:spin .8s linear infinite;}
-    @keyframes spin{to{transform:rotate(360deg);}}
-
-    /* ============================================================
-       BOTTOM NAV (identical to other pages)
-       ============================================================ */
-    .bottom-nav{
-      position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;
-      will-change:transform;max-width:488px;margin:0 auto;
-      display:flex;justify-content:space-around;align-items:center;
-      background:rgba(255,255,255,0.78);backdrop-filter:blur(20px) saturate(180%);
-      -webkit-backdrop-filter:blur(20px) saturate(180%);
-      border-radius:30px;padding:10px 10px;
-      box-shadow:0 16px 40px rgba(27,26,34,0.18),inset 0 0 0 1px rgba(255,255,255,0.6);
-    }
-    .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:3px;
-      font-size:10.5px;font-weight:700;color:var(--muted);padding:8px 16px;border-radius:20px;
-      transition:all .22s var(--ease);
-    }
-    .nav-icon{font-size:19px;transition:transform .22s var(--ease);}
-    .nav-item.active{color:var(--red);background:var(--danger-bg);}
-    .nav-item.active .nav-icon{transform:translateY(-1px) scale(1.08);}
-    .nav-item:active{transform:scale(.92);}
-
-    #toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:100;}
+    .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
 
     @media (max-width:374px){
       .vip-progress{margin-left:12px;margin-right:12px;}
-      .section,.deposits-card,.level-tabs{padding-left:12px;padding-right:12px;}
-      .deposits-card{margin-left:12px;margin-right:12px;}
+      .deposits-card,.members-card{margin-left:12px;margin-right:12px;}
+      .level-tabs{padding-left:12px;padding-right:12px;}
       .ref-code{font-size:18px;}
     }
   </style>
@@ -208,19 +146,33 @@
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
   <div class="ref-hero anim anim-1">
-    <div class="ref-hero-label">Your Referral Code</div>
-    <div class="ref-code-box"><div class="ref-code" id="refCode">—</div><button class="copy-btn" onclick="copyCode()">COPY</button></div>
+    <div class="ref-hero-top">
+      <div class="ref-hero-label">Your Referral Code</div>
+      <span class="vip-badge vip-0" data-vip>Member</span>
+    </div>
+    <div class="ref-code-box">
+      <div class="ref-code" id="refCode">—</div>
+      <button class="copy-btn" onclick="copyCode()">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        COPY
+      </button>
+    </div>
     <div class="ref-link-box" id="refLink">Loading…</div>
-    <div class="share-row"><button class="copy-btn" onclick="shareLink()">📤 Share Link</button></div>
+    <div class="share-row">
+      <button class="copy-btn" onclick="shareLink()">
+        <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Share Link
+      </button>
+    </div>
   </div>
 
   <div class="vip-progress anim anim-2" id="vipProgressCard" style="display:none">
-    <div class="vip-prog-title">VIP Level Progress <span id="activeRefs" style="color:var(--muted);font-weight:400;font-size:12px"></span></div>
+    <div class="vip-prog-title">VIP Level Progress <span id="activeRefs" style="color:var(--text-muted);font-weight:400;font-size:12px"></span></div>
     <div class="vip-tiers">
-      <div class="vip-tier" id="vt1"><div class="vt-icon">🥉</div><div class="vt-label">VIP 1</div><div class="vt-req">3 refs</div></div>
-      <div class="vip-tier" id="vt2"><div class="vt-icon">🥈</div><div class="vt-label">VIP 2</div><div class="vt-req">5 refs</div></div>
-      <div class="vip-tier" id="vt3"><div class="vt-icon">🥇</div><div class="vt-label">VIP 3</div><div class="vt-req">10 refs</div></div>
-      <div class="vip-tier" id="vt4"><div class="vt-icon">💎</div><div class="vt-label">VIP 4</div><div class="vt-req">25 refs</div></div>
+      <div class="vip-tier" id="vt1"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 1</div><div class="vt-req">3 refs</div></div>
+      <div class="vip-tier" id="vt2"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 2</div><div class="vt-req">5 refs</div></div>
+      <div class="vip-tier" id="vt3"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 3</div><div class="vt-req">10 refs</div></div>
+      <div class="vip-tier" id="vt4"><div class="vt-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg></div><div class="vt-label">VIP 4</div><div class="vt-req">25 refs</div></div>
     </div>
   </div>
 
@@ -232,7 +184,7 @@
     </div>
   </div>
 
-  <div class="deposits-card anim anim-3">
+  <div class="deposits-card card anim anim-3">
     <div class="dc-header"><div class="dc-label">Total Team Deposits</div><div class="dc-amount" id="teamDepositsTotal">₦0</div><div class="dc-sub" id="dcSub">Combined deposits from your entire downline</div></div>
     <div class="dc-breakdown" id="dcBreakdown">
       <div class="dc-item"><div class="dc-item-val" id="l1Deposits">₦0</div><div class="dc-item-lbl">Level 1</div></div>
@@ -250,10 +202,10 @@
 </div>
 
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='dashboard.html'"><span class="nav-icon">🏠</span>Home</button>
-  <button class="nav-item" onclick="location.href='products.html'"><span class="nav-icon">📦</span>Products</button>
-  <button class="nav-item active" onclick="location.href='team.html'"><span class="nav-icon">👥</span>Team</button>
-  <button class="nav-item" onclick="location.href='profile.html'"><span class="nav-icon">👤</span>Profile</button>
+  <button class="nav-item" onclick="location.href='dashboard.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+  <button class="nav-item" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products</button>
+  <button class="nav-item active" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team</button>
+  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
 </nav>
 <div id="toast"></div>
 
@@ -277,6 +229,7 @@
     refCode=p?.referral_code||""; document.getElementById("refCode").textContent=refCode;
     var link=location.origin+"/register.html?ref="+refCode;
     document.getElementById("refLink").textContent=link;
+    window.AradelAuth.loadProfile(userId); // fills the VIP badge in the hero via [data-vip]
 
     try {
       var r=await fetch("/api/team?user_id="+userId);
@@ -358,7 +311,7 @@
     var members=level===1?l1Members:level===2?l2Members:l3Members;
     var el=document.getElementById("membersList");
     if(!members.length){ el.innerHTML='<div class="empty"><div class="empty-icon">👥</div><p>No Level '+level+' members yet.</p></div>'; return; }
-    el.innerHTML='<div class="card" style="margin:0 16px">'+(members.map(function(m){
+    el.innerHTML='<div class="card members-card">'+(members.map(function(m){
       var active=m.isActive!==false;
       var name=m.full_name||m.email||"User";
       return '<div class="member-item"><div class="member-avatar">'+name[0].toUpperCase()+'</div><div style="flex:1"><div class="member-name">'+name+'</div><div class="member-date">Joined '+new Date(m.created_at).toLocaleDateString()+'</div></div><span class="member-status '+(active?"status-active":"status-inactive")+'">'+(active?"Active":"Inactive")+'</span></div>';
@@ -368,32 +321,9 @@
   window.copyCode=function(){ navigator.clipboard.writeText(refCode).then(function(){window.AradelAuth.toast("Referral code copied!");}); };
   window.shareLink=function(){
     var link=location.origin+"/register.html?ref="+refCode;
-    if(navigator.share){ navigator.share({title:"Join Aradel",text:"Join me on Aradel and earn daily! Use my code: "+refCode,url:link}); }
+    if(navigator.share){ navigator.share({title:"Join Schweppes",text:"Join me on Schweppes and earn daily! Use my code: "+refCode,url:link}); }
     else { navigator.clipboard.writeText(link).then(function(){window.AradelAuth.toast("Referral link copied!");}); }
   };
-})();
-</script>
-
-<!-- ============================================================
-     PRESENTATION-ONLY ENHANCEMENTS (additive, same pattern as other pages)
-     ============================================================ -->
-<script>
-(function(){
-  document.querySelectorAll(".anim").forEach(function(el,i){
-    setTimeout(function(){ el.classList.add("in"); }, 70*i);
-  });
-
-  var nav=document.querySelector(".bottom-nav");
-  if(nav && window.visualViewport){
-    var pin=function(){
-      var vv=window.visualViewport;
-      var offset=(window.innerHeight-vv.height-vv.offsetTop);
-      nav.style.transform="translateY(-"+Math.max(0,offset)+"px)";
-    };
-    window.visualViewport.addEventListener("resize",pin);
-    window.visualViewport.addEventListener("scroll",pin);
-    pin();
-  }
 })();
 </script>
 </body>
