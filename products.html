@@ -142,23 +142,17 @@
 
     /* ============================================================
        BOTTOM NAVIGATION
+       Positioning, centering, and item styling all come from the
+       shared assets/css/styles.css .bottom-nav rule (left:50% +
+       transform:translateX(-50%) + max-width:480px — the correct,
+       mobile-centered version used across the site). Redeclaring
+       .bottom-nav here only overrides the properties actually listed
+       (e.g. left:0) and leaves transform/max-width from the shared
+       file still applied — which shoves the bar half its own width
+       off-screen. .nav-icon is the one addition needed: the shared
+       rule was written for emoji icons (font-size), not SVGs.
        ============================================================ */
-    .bottom-nav{
-      position:fixed;bottom:0;left:0;
-      width:100%;background:rgba(255,255,255,0.8);
-      backdrop-filter:blur(20px) saturate(160%);
-      -webkit-backdrop-filter:blur(20px) saturate(160%);
-      border-top:1px solid var(--border-light);
-      display:grid;grid-template-columns:repeat(4,1fr);
-      padding:9px 0 24px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.05);
-    }
-    .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:4px;
-      font-size:10px;font-weight:600;color:var(--text-muted);
-      padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;
-    }
     .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
-    .nav-item.active{color:var(--primary-blue);}
 
     #toast{
       position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
