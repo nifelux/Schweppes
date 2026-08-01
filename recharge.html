@@ -2,47 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aradel — Recharge</title>
+  <title>Schweppes — Recharge</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
-    .balance-pill { background:var(--red-tint); border-radius:30px; padding:10px 16px; text-align:center; margin:16px; font-size:13px; color:var(--red); font-weight:600; }
+    :root{
+      --primary-blue:        #2196F3;
+      --primary-blue-dark:   #1977D2;
+      --primary-blue-light:  #E3F2FD;
+      --text-dark:           #212121;
+      --white:               #FFFFFF;
+      --background-light:    #F5F5F5;
+      --text-muted:          #757575;
+      --border-light:        #E0E0E0;
+      --success-green:       #4CAF50;
+      --success-green-bg:    #E8F5E9;
+      --warning-orange:      #FF9800;
+      --warning-orange-bg:   #FFF3E0;
+      --danger-red:          #F44336;
+      --danger-red-bg:       #FFEBEE;
+      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
+    }
+    svg{stroke-linecap:round;stroke-linejoin:round;display:block;}
+    .balance-pill { background:var(--primary-blue-light); border-radius:30px; padding:10px 16px; text-align:center; margin:16px; font-size:13px; color:var(--primary-blue-dark); font-weight:600; }
     .amount-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:0 16px; }
-    .amt-chip { background:var(--paper); border:2px solid var(--border); border-radius:12px; padding:14px 6px; text-align:center; cursor:pointer; transition:all .15s; -webkit-tap-highlight-color:transparent; }
-    .amt-chip.on { background:var(--red); border-color:var(--red); color:#fff; }
+    .amt-chip { background:var(--white); border:2px solid var(--border-light); border-radius:12px; padding:14px 6px; text-align:center; cursor:pointer; transition:all .15s; -webkit-tap-highlight-color:transparent; }
+    .amt-chip.on { background:var(--primary-blue); border-color:var(--primary-blue); color:#fff; }
     .amt-chip .amt-val { font-family:'Fraunces',serif; font-size:14px; font-weight:600; }
-    .method-badge { padding:6px 16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
-    .mb-manual  { background:var(--warn-bg); color:var(--warn); }
-    .mb-monnify { background:var(--success-bg); color:var(--success); }
-    .method-card { margin:16px; background:var(--paper); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; }
+    .method-badge { display:flex; align-items:center; gap:8px; padding:10px 16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+    .method-badge svg{width:15px;height:15px;stroke-width:2;fill:none;}
+    .mb-manual  { background:var(--warning-orange-bg); color:var(--warning-orange); }
+    .mb-manual svg{stroke:var(--warning-orange);}
+    .mb-monnify { background:var(--success-green-bg); color:var(--success-green); }
+    .mb-monnify svg{stroke:var(--success-green);}
+    .method-card { margin:16px; background:var(--white); border-radius:16px; box-shadow:var(--shadow-sm); overflow:hidden; border:1px solid var(--border-light); }
     .transfer-info { padding:16px; }
-    .ti-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); }
+    .ti-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border-light); }
     .ti-row:last-of-type { border-bottom:none; }
-    .ti-label { font-size:12px; color:var(--muted); }
-    .ti-val { font-family:'Fraunces',serif; font-size:14px; font-weight:600; color:var(--ink); }
-    .copy-btn { padding:4px 10px; border-radius:6px; background:var(--red-tint); color:var(--red); font-size:11px; font-weight:700; border:none; cursor:pointer; margin-left:6px; }
-    .narration-box { background:linear-gradient(155deg,var(--red-tint),#fff); border-radius:12px; padding:14px 16px; margin:0 16px; text-align:center; }
-    .nar-label { font-size:11px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:.06em; }
-    .nar-code { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--red); letter-spacing:.05em; margin:6px 0; }
-    .nar-hint { font-size:11px; color:var(--muted); }
-    .status-bar { margin:12px 16px 0; padding:12px 14px; border-radius:12px; font-size:13px; font-weight:600; display:none; }
-    .status-bar.show { display:block; }
-    .sb-pending { background:var(--success-bg); color:var(--success); }
-    .sb-success { background:var(--success-bg); color:var(--success); }
-    .sb-failed  { background:var(--danger-bg); color:var(--danger); }
-    .monnify-perm-note { background:var(--success-bg); border-radius:12px; padding:14px 16px; margin:0 16px 16px; font-size:12px; color:var(--success); line-height:1.5; }
-    .field-label { padding:0 16px; font-size:12px; font-weight:600; color:var(--muted); display:block; margin-bottom:6px; margin-top:12px; }
-    .sender-hint { padding:0 16px; font-size:11px; color:var(--muted); margin-top:5px; }
+    .ti-label { font-size:12px; color:var(--text-muted); }
+    .ti-val { font-family:'Fraunces',serif; font-size:14px; font-weight:600; color:var(--text-dark); }
+    .copy-btn { padding:4px 10px; border-radius:6px; background:var(--primary-blue-light); color:var(--primary-blue-dark); font-size:11px; font-weight:700; border:none; cursor:pointer; margin-left:6px; }
+    .narration-box { background:linear-gradient(155deg,var(--primary-blue-light),#fff); border-radius:12px; padding:14px 16px; margin:0 16px; text-align:center; }
+    .nar-label { display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; font-weight:700; color:var(--primary-blue-dark); text-transform:uppercase; letter-spacing:.06em; }
+    .nar-label svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;}
+    .nar-code { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--primary-blue-dark); letter-spacing:.05em; margin:6px 0; }
+    .nar-hint { font-size:11px; color:var(--text-muted); }
+    .status-bar { display:flex; align-items:center; gap:8px; margin:12px 16px 0; padding:12px 14px; border-radius:12px; font-size:13px; font-weight:600; display:none; }
+    .status-bar.show { display:flex; }
+    .status-bar svg{width:16px;height:16px;stroke-width:2.2;fill:none;flex-shrink:0;}
+    .sb-pending { background:var(--warning-orange-bg); color:var(--warning-orange); }
+    .sb-pending svg{stroke:var(--warning-orange);}
+    .sb-success { background:var(--success-green-bg); color:var(--success-green); }
+    .sb-success svg{stroke:var(--success-green);}
+    .sb-failed  { background:var(--danger-red-bg); color:var(--danger-red); }
+    .sb-failed svg{stroke:var(--danger-red);}
+    .monnify-perm-note { display:flex; gap:10px; background:var(--success-green-bg); border-radius:12px; padding:14px 16px; margin:0 16px 16px; font-size:12px; color:var(--success-green); line-height:1.5; }
+    .monnify-perm-note svg{width:18px;height:18px;stroke:var(--success-green);stroke-width:2;fill:none;flex-shrink:0;margin-top:1px;}
+    .field-label { padding:0 16px; font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px; margin-top:12px; }
+    .sender-hint { padding:0 16px; font-size:11px; color:var(--text-muted); margin-top:5px; }
+    .info-box{margin:0 16px;background:var(--primary-blue-light);border-radius:12px;padding:14px;}
+    .info-box-title{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--primary-blue-dark);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+    .info-box-title svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;}
+    .info-box li{font-size:12px;color:var(--primary-blue-dark);padding-left:12px;position:relative;}
+    .info-box li span{position:absolute;left:0;}
   </style>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
-  <div class="topbar"><a class="back-btn" href="dashboard.html">‹</a><span class="topbar-title">💰 Recharge Wallet</span></div>
+  <div class="topbar">
+    <a class="back-btn" href="dashboard.html">‹</a>
+    <span class="topbar-title" style="display:flex;align-items:center;gap:8px">
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--primary-blue);stroke-width:2;fill:none"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+      Recharge Wallet
+    </span>
+  </div>
   <div class="balance-pill">Your Balance: <strong id="walBal">₦0.00</strong></div>
 
   <!-- ═══ MANUAL FLOW UI (amount picker) ═══ -->
   <div id="manualAmountSection">
-    <div style="padding:0 16px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Select Amount</div>
+    <div style="padding:0 16px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px">Select Amount</div>
     <div class="amount-grid">
       <div class="amt-chip" data-v="500" onclick="pickAmt(this)"><div class="amt-val">₦500</div></div>
       <div class="amt-chip" data-v="1000" onclick="pickAmt(this)"><div class="amt-val">₦1,000</div></div>
@@ -52,7 +90,7 @@
       <div class="amt-chip" data-v="20000" onclick="pickAmt(this)"><div class="amt-val">₦20,000</div></div>
     </div>
     <div style="padding:12px 16px 0">
-      <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px">Or enter custom amount</label>
+      <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:6px">Or enter custom amount</label>
       <input class="field-input" type="number" id="customAmt" placeholder="Enter amount (min ₦500)" oninput="onCustomAmt(this.value)"/>
     </div>
 
@@ -64,7 +102,10 @@
   </div>
 
   <div class="method-card" style="margin-top:16px" id="methodCard">
-    <div id="methodBadge" class="method-badge mb-manual">🏦 Manual Bank Transfer</div>
+    <div id="methodBadge" class="method-badge mb-manual">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="21" x2="21" y2="21"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="5 6 12 3 19 6"/><line x1="4" y1="10" x2="4" y2="21"/><line x1="20" y1="10" x2="20" y2="21"/><line x1="8" y1="14" x2="8" y2="17"/><line x1="12" y1="14" x2="12" y2="17"/><line x1="16" y1="14" x2="16" y2="17"/></svg>
+      <span id="methodBadgeText">Manual Bank Transfer</span>
+    </div>
     <div class="transfer-info" id="manualTransferInfo">
       <div class="ti-row"><span class="ti-label">Bank</span><span class="ti-val" id="man-bank">—</span></div>
       <div class="ti-row"><span class="ti-label">Account Number</span><span><span class="ti-val" id="acctNo">—</span><button class="copy-btn" onclick="cp('acctNo')">COPY</button></span></div>
@@ -74,7 +115,7 @@
   </div>
 
   <div class="narration-box" id="narrationBox" style="display:none">
-    <div class="nar-label">⚠️ Use this narration / description</div>
+    <div class="nar-label"><svg viewBox="0 0 24 24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Use this narration / description</div>
     <div class="nar-code" id="narCode">—</div>
     <button class="copy-btn" style="margin-top:4px;padding:6px 14px;font-size:12px" onclick="cp('narCode')">COPY NARRATION</button>
     <p class="nar-hint" style="margin-top:6px">Include this code in your bank transfer description</p>
@@ -83,7 +124,10 @@
   <!-- ═══ MONNIFY UI (permanent account, shown instead of amount picker) ═══ -->
   <div id="monnifySection" style="display:none">
     <div class="method-card">
-      <div class="method-badge mb-monnify">⚡ Monnify — Your Permanent Account</div>
+      <div class="method-badge mb-monnify">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Monnify — Your Permanent Account
+      </div>
       <div class="transfer-info">
         <div class="ti-row"><span class="ti-label">Bank</span><span class="ti-val" id="mon-bank">Loading…</span></div>
         <div class="ti-row"><span class="ti-label">Account Number</span><span><span class="ti-val" id="mon-acct">Loading…</span><button class="copy-btn" onclick="cp('mon-acct')">COPY</button></span></div>
@@ -91,7 +135,8 @@
       </div>
     </div>
     <div class="monnify-perm-note">
-      💡 This account is <strong>permanently yours</strong>. Transfer any amount, any time — no need to start a new deposit each time. Funds reflect automatically within minutes, every time.
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span>This account is <strong>permanently yours</strong>. Transfer any amount, any time — no need to start a new deposit each time. Funds reflect automatically within minutes, every time.</span>
     </div>
   </div>
 
@@ -101,11 +146,11 @@
     <button class="btn btn-primary" id="rechBtn" disabled>Continue</button>
   </div>
 
-  <div style="margin:0 16px;background:var(--red-tint);border-radius:12px;padding:14px">
-    <div style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">ℹ️ Important</div>
+  <div class="info-box">
+    <div class="info-box-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Important</div>
     <ul style="list-style:none;display:flex;flex-direction:column;gap:5px" id="infoList">
-      <li style="font-size:12px;color:var(--red-dark);padding-left:12px;position:relative"><span style="position:absolute;left:0">•</span>Minimum deposit: ₦500</li>
-      <li style="font-size:12px;color:var(--red-dark);padding-left:12px;position:relative"><span style="position:absolute;left:0">•</span>Approval/crediting takes a few minutes</li>
+      <li><span>•</span>Minimum deposit: ₦500</li>
+      <li><span>•</span>Approval/crediting takes a few minutes</li>
     </ul>
   </div>
   <div style="height:20px"></div>
@@ -119,6 +164,10 @@
 (function(){
   var selAmt=0,senderName="",userId="",userEmail="",fullName="",activeMethod="manual",pollT=null,currentRef="";
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
+
+  var ICON_PENDING='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  var ICON_SUCCESS='<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+  var ICON_FAILED='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
 
   waitSb(async function(){
     var s=await window.AradelAuth.requireAuth(); if(!s)return;
@@ -153,9 +202,10 @@
       methodCard.style.display="none";
       monnifySection.style.display="block";
       btn.style.display="none"; // no "continue" step needed — account is always ready
-      infoList.innerHTML = '<li style="font-size:12px;color:var(--red-dark);padding-left:12px;position:relative"><span style="position:absolute;left:0">•</span>Your account works forever — bookmark this page</li>'+
-        '<li style="font-size:12px;color:var(--red-dark);padding-left:12px;position:relative"><span style="position:absolute;left:0">•</span>Any amount is accepted, no minimum enforced by the account itself</li>'+
-        '<li style="font-size:12px;color:var(--red-dark);padding-left:12px;position:relative"><span style="position:absolute;left:0">•</span>Funds usually reflect within minutes</li>';
+      infoList.innerHTML =
+        '<li><span>•</span>Your account works forever — bookmark this page</li>'+
+        '<li><span>•</span>Any amount is accepted, no minimum enforced by the account itself</li>'+
+        '<li><span>•</span>Funds usually reflect within minutes</li>';
       loadMonnifyAccount();
     } else {
       manualAmt.style.display="block";
@@ -163,7 +213,6 @@
       monnifySection.style.display="none";
       btn.style.display="block";
       badge.className="method-badge mb-manual";
-      badge.textContent="🏦 Manual Bank Transfer";
     }
   }
 
@@ -229,7 +278,7 @@
       btn.textContent="Waiting for approval…";
       var sb=document.getElementById("statusBar");
       sb.className="status-bar sb-pending show";
-      sb.textContent="⏳ Transfer sent? We'll credit your wallet once approved.";
+      sb.innerHTML=ICON_PENDING+'<span>Transfer sent? We\'ll credit your wallet once approved.</span>';
       startPoll(currentRef);
     }catch(e){ window.AradelAuth.toast("Network error"); btn.disabled=false; btn.textContent="Continue"; }
   }
@@ -244,13 +293,13 @@
         if(d.status==="completed"){
           clearInterval(pollT);
           sb.className="status-bar sb-success show";
-          sb.textContent="✅ Wallet credited successfully! Redirecting…";
+          sb.innerHTML=ICON_SUCCESS+'<span>Wallet credited successfully! Redirecting…</span>';
           setTimeout(function(){location.href="/dashboard.html";},2000);
         }
         if(d.status==="rejected"){
           clearInterval(pollT);
           sb.className="status-bar sb-failed show";
-          sb.textContent="❌ Deposit rejected. Please contact support.";
+          sb.innerHTML=ICON_FAILED+'<span>Deposit rejected. Please contact support.</span>';
         }
       }catch(e){console.warn(e);}
     },6000);
@@ -263,5 +312,4 @@
 })();
 </script>
 </body>
-      </html>
-  
+</html>
