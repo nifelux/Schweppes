@@ -318,23 +318,16 @@
 
     /* ============================================================
        9. BOTTOM NAVIGATION
+       Positioning, centering, and item styling all come from the
+       shared assets/css/styles.css .bottom-nav rule (left:50% +
+       transform:translateX(-50%) + max-width:480px). Redeclaring
+       .bottom-nav here only overrides the properties actually listed
+       (e.g. left:0) and leaves transform/max-width from the shared
+       file still applied — which shoves the bar half its own width
+       off-screen. .nav-icon is the one addition needed: the shared
+       rule was written for emoji icons (font-size), not SVGs.
        ============================================================ */
-    .bottom-nav{
-      position:fixed;bottom:0;left:0;
-      width:100%;background:rgba(255,255,255,0.8);
-      backdrop-filter:blur(20px) saturate(180%);
-      -webkit-backdrop-filter:blur(20px) saturate(180%);
-      border-top:1px solid var(--border-light);
-      display:grid;grid-template-columns:repeat(4,1fr);
-      padding:9px 0 24px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.05);
-    }
-    .nav-item{
-      display:flex;flex-direction:column;align-items:center;gap:4px;
-      font-size:10px;font-weight:600;color:var(--text-muted);
-      padding:6px;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;
-    }
     .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
-    .nav-item.active{color:var(--primary-blue);}
 
     /* ============================================================
        10. WELCOME POPUP
@@ -558,12 +551,12 @@
       <div class="welcome-sub">Join our official community for updates, support, and announcements straight from the team.</div>
     </div>
     <div class="welcome-body">
-      <a class="welcome-link tg" href="https://t.me/+ZBPQYNyTdks0NjI8" target="_blank" rel="noopener">
+      <a class="welcome-link tg" id="welcomeTgLink" href="https://t.me/+ZBPQYNyTdks0NjI8" target="_blank" rel="noopener">
         <span class="wl-icon"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
         <span class="wl-txt"><strong>Telegram Group</strong><span>Announcements &amp; updates</span></span>
         <span class="wl-go">›</span>
       </a>
-      <a class="welcome-link wa" href="https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1" target="_blank" rel="noopener">
+      <a class="welcome-link wa" id="welcomeWaLink" href="https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1" target="_blank" rel="noopener">
         <span class="wl-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
         <span class="wl-txt"><strong>WhatsApp Group</strong><span>Chat with the community</span></span>
         <span class="wl-go">›</span>
@@ -738,6 +731,19 @@
   };
   waitSb(async function(){
     var s=await window.AradelAuth.requireAuth(); if(!s)return; // only show to authenticated users
+
+    // Telegram/WhatsApp links here are admin-editable (Settings → Contact &
+    // Community Links). Fetch the live values; the hrefs already on the
+    // links are just a fallback if this request fails.
+    try{
+      var r=await fetch("/api/team?action=contact-links");
+      var d=await r.json();
+      if(d.ok && d.links){
+        if(d.links.telegram_community_url) document.getElementById("welcomeTgLink").href=d.links.telegram_community_url;
+        if(d.links.whatsapp_url) document.getElementById("welcomeWaLink").href=d.links.whatsapp_url;
+      }
+    }catch(e){ console.warn("Could not load contact links, using defaults:",e); }
+
     setTimeout(function(){
       var ov=document.getElementById("welcomeOverlay");
       ov.style.display="flex";
