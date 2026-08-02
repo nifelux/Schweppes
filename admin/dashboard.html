@@ -240,6 +240,19 @@
     </div>
 
     <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">Contact &amp; Community Links</div>
+      <div style="padding:14px">
+        <div style="font-size:12px;color:#8A7F78;margin-bottom:12px">Used on the Contact page and the welcome popup shown on the user dashboard. Updates here apply everywhere immediately — no app update needed.</div>
+        <div class="a-field"><label class="a-label">Telegram Support URL</label><input class="a-input" id="tgSupportInput" placeholder="https://t.me/YourSupportUsername"/></div>
+        <div class="a-field"><label class="a-label">Telegram Community URL</label><input class="a-input" id="tgCommunityInput" placeholder="https://t.me/+xxxxxxxxxxxx"/></div>
+        <div class="a-field"><label class="a-label">WhatsApp URL</label><input class="a-input" id="waLinkInput" placeholder="https://chat.whatsapp.com/xxxxxxxxxxxx"/></div>
+        <div class="a-field"><label class="a-label">Customer Service Link</label><input class="a-input" id="csLinkInput" placeholder="tel:+2340000000000"/></div>
+        <button onclick="saveContactLinks()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Contact Links</button>
+        <div id="contactLinksAlert" class="alert" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <div class="a-card" style="margin-bottom:14px">
       <div class="a-card-title">Welcome Bonus</div>
       <div style="padding:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
@@ -763,6 +776,11 @@
     document.getElementById("bankAcctInput").value=extraSettings.deposit_account_number||"";
     document.getElementById("bankNameOnAcctInput").value=extraSettings.deposit_account_name||"";
 
+    document.getElementById("tgSupportInput").value=extraSettings.telegram_support_url||"https://t.me/Aradel32";
+    document.getElementById("tgCommunityInput").value=extraSettings.telegram_community_url||"https://t.me/+ZBPQYNyTdks0NjI8";
+    document.getElementById("waLinkInput").value=extraSettings.whatsapp_url||"https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1";
+    document.getElementById("csLinkInput").value=extraSettings.customer_service_url||"tel:+2340000000000";
+
     welcomeBonusOn = extraSettings.welcome_bonus_enabled==="true";
     document.getElementById("welcomeBonusAmountInput").value=extraSettings.welcome_bonus_amount||"0";
     applyWelcomeBonusUI();
@@ -793,6 +811,21 @@
     var r=await fetch("/api/admin?action=set-bank-details",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({bank_name,account_number,account_name,admin_id:adminId})});
     var d=await r.json();
     if(d.ok){ window.AradelAuth.toast("✅ Bank details updated"); } else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
+
+  window.saveContactLinks=async function(){
+    var telegram_support_url=document.getElementById("tgSupportInput").value.trim();
+    var telegram_community_url=document.getElementById("tgCommunityInput").value.trim();
+    var whatsapp_url=document.getElementById("waLinkInput").value.trim();
+    var customer_service_url=document.getElementById("csLinkInput").value.trim();
+    var al=document.getElementById("contactLinksAlert"); al.className="alert";
+    if(!telegram_support_url||!telegram_community_url||!whatsapp_url||!customer_service_url){
+      al.textContent="Fill in all four fields"; al.className="alert alert-error show"; return;
+    }
+    var r=await fetch("/api/admin?action=set-contact-links",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegram_support_url,telegram_community_url,whatsapp_url,customer_service_url,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Contact links updated — live on Contact page & dashboard popup"); }
+    else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
   };
 
   var welcomeBonusOn=false;
