@@ -6,11 +6,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
+    :root{
+      --primary-blue:        #2196F3;
+      --primary-blue-dark:   #1977D2;
+      --primary-blue-light:  #E3F2FD;
+      --text-dark:           #212121;
+      --white:               #FFFFFF;
+      --background-light:    #F5F5F5;
+      --text-muted:          #757575;
+      --border-light:        #E0E0E0;
+      --success-green:       #4CAF50;
+      --success-green-bg:    #E8F5E9;
+      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
+      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
+      --ease:cubic-bezier(.22,1,.36,1);
+    }
+
     /* Page-specific styles only — page-wrap, card, stat-box, empty,
        loader, bottom-nav, vip-badge, #toast, and .anim all come from
        the shared stylesheet. Redeclaring any of those here risks the
        same partial-property cascade conflict already found on the
-       profile page (see that page's notes on .bottom-nav). */
+       profile page (see that page's notes on .bottom-nav). The :root
+       block above is different — a variable definition doesn't have
+       that partial-merge risk, and giving this page its own copy
+       means it renders correctly even if the shared stylesheet fails
+       to load or serves a stale/different version. */
 
     svg{stroke-linecap:round;stroke-linejoin:round;}
 
