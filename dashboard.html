@@ -326,6 +326,11 @@
        ============================================================ */
     .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
     .nav-item.active{color:var(--primary-blue);}
+    /* The nav's left edge was sitting at screen-center instead of the bar
+       being centered around it — left:50% needs a matching -50% transform
+       to actually center a fixed element, and that half of the shared
+       rule wasn't taking effect. Patching only the missing property here. */
+    .bottom-nav{transform:translateX(-50%) !important;}
 
     /* ============================================================
        10. WELCOME POPUP
