@@ -22,6 +22,7 @@
  * POST ?action=set-vip-enabled          { enabled }
  * POST ?action=set-withdrawal-fee       { percent }
  * POST ?action=set-referral-settings    { levels, l1, l2, l3 }
+ * POST ?action=set-contact-links        { telegram_support_url, telegram_community_url, whatsapp_url, customer_service_url }
  * POST ?action=adjust-wallet            { target_user_id, amount, type, reason }
  * POST ?action=process-deposit          { deposit_id, act }
  * POST ?action=process-withdrawal       { withdrawal_id, act, note }
@@ -175,7 +176,8 @@ module.exports = async function(req, res) {
         "welcome_bonus_enabled","welcome_bonus_amount","require_invest_before_withdraw",
         "require_active_referral_to_withdraw",
         "vip_enabled","withdrawal_fee_percent","referral_levels",
-        "referral_l1_percent","referral_l2_percent","referral_l3_percent"];
+        "referral_l1_percent","referral_l2_percent","referral_l3_percent",
+        "telegram_support_url","telegram_community_url","whatsapp_url","customer_service_url"];
       const { data,error } = await supabase.from("site_settings").select("key,value").in("key",keys);
       if(error) return res.status(500).json({ error:error.message });
       const map={}; (data||[]).forEach(function(r){ map[r.key]=r.value; });
@@ -294,6 +296,20 @@ module.exports = async function(req, res) {
       { key:"referral_l2_percent", value:String(p2), updated_at:now },
       { key:"referral_l3_percent", value:String(p3), updated_at:now },
     ]);
+    if(error) return res.status(500).json({ error:error.message });
+    return res.json({ ok:true });
+  }
+
+  if(action==="set-contact-links") {
+    const { telegram_support_url, telegram_community_url, whatsapp_url, customer_service_url } = req.body;
+    const fields = { telegram_support_url, telegram_community_url, whatsapp_url, customer_service_url };
+    for(const [key,val] of Object.entries(fields)){
+      if(!val || !String(val).trim()) return res.status(400).json({ error:key+" is required" });
+    }
+    const now=new Date().toISOString();
+    const { error } = await supabase.from("site_settings").upsert(
+      Object.entries(fields).map(function([key,val]){ return { key, value:String(val).trim(), updated_at:now }; })
+    );
     if(error) return res.status(500).json({ error:error.message });
     return res.json({ ok:true });
   }
