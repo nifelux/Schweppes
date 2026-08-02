@@ -1,14 +1,27 @@
 /**
  * /api/team.js
  * GET ?user_id=UUID
- * GET ?action=vip-status   (public — no user_id required; used by products.html
- *                            and any other page that just needs to know whether
- *                            the admin has VIP turned on, without full team data)
+ * GET ?action=vip-status       (public — no user_id required; used by products.html
+ *                                and any other page that just needs to know whether
+ *                                the admin has VIP turned on, without full team data)
+ * GET ?action=contact-links    (public — no user_id required; Telegram/WhatsApp/
+ *                                customer-service URLs shown on contact.html and
+ *                                the dashboard welcome popup, admin-editable)
  * Server-side (service-role) because RLS blocks users from seeing
  * other users' profile rows directly from the browser.
  */
 const { createClient } = require("@supabase/supabase-js");
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+
+// Fallbacks match what was previously hardcoded on the client, so contact.html
+// and the dashboard popup never end up with a broken/empty link even if the
+// site_settings rows haven't been created yet (e.g. migration not run).
+const CONTACT_LINK_DEFAULTS = {
+  telegram_support_url:   "https://t.me/Aradel32",
+  telegram_community_url: "https://t.me/+ZBPQYNyTdks0NjI8",
+  whatsapp_url:            "https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1",
+  customer_service_url:   "tel:+2340000000000",
+};
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin","*");
@@ -19,6 +32,14 @@ module.exports = async function handler(req, res) {
   if(req.query.action==="vip-status") {
     const { data } = await supabase.from("site_settings").select("value").eq("key","vip_enabled").single();
     return res.json({ ok:true, vip_enabled: (data?.value ?? "true") === "true" });
+  }
+
+  if(req.query.action==="contact-links") {
+    const keys = Object.keys(CONTACT_LINK_DEFAULTS);
+    const { data } = await supabase.from("site_settings").select("key,value").in("key",keys);
+    const map = { ...CONTACT_LINK_DEFAULTS };
+    (data||[]).forEach(function(r){ if(r.value) map[r.key]=r.value; });
+    return res.json({ ok:true, links:map });
   }
 
   const { user_id } = req.query;
@@ -103,3 +124,4 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: e.message });
   }
 };
+  
