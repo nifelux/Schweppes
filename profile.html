@@ -7,23 +7,28 @@
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     :root{
-      --primary-blue:        #2196F3;
-      --primary-blue-dark:   #1977D2;
-      --primary-blue-light:  #E3F2FD;
-      --text-dark:           #212121;
+      --primary-blue:        #9333EA;
+      --primary-blue-dark:   #6B21A8;
+      --primary-blue-light:  #F3E8FF;
+      --accent-pink:         #EC4899;
+      --accent-pink-dark:    #BE185D;
+      --accent-pink-light:   #FDF2F8;
+      --gold:                #D4AF37;
+      --gold-dark:           #B8860B;
+      --text-dark:           #1F1533;
       --white:               #FFFFFF;
-      --background-light:    #F5F5F5;
-      --text-muted:          #757575;
-      --border-light:        #E0E0E0;
-      --success-green:       #4CAF50;
-      --success-green-bg:    #E8F5E9;
-      --danger-red:          #F44336;
-      --danger-red-bg:       #FFEBEE;
+      --background-light:    #FAF7FC;
+      --text-muted:          #8B7D99;
+      --border-light:        #EDE4F5;
+      --success-green:       #10B981;
+      --success-green-bg:    #ECFDF5;
+      --danger-red:          #EF4444;
+      --danger-red-bg:       #FEF2F2;
 
-      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
-      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
-      --shadow-lg:0 20px 60px rgba(0,0,0,0.14);
-      --shadow-blue:0 16px 40px rgba(33,150,243,0.28);
+      --shadow-sm:0 2px 10px rgba(31,21,51,0.06);
+      --shadow-md:0 10px 30px rgba(31,21,51,0.10);
+      --shadow-lg:0 20px 60px rgba(31,21,51,0.18);
+      --shadow-blue:0 16px 40px rgba(147,51,234,0.32);
 
       --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
       --ease:cubic-bezier(.22,1,.36,1);
@@ -32,8 +37,8 @@
     body{
       margin:0;background:var(--background-light);
       background-image:
-        radial-gradient(circle at 100% 0%, rgba(33,150,243,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(25,118,210,0.05) 0%, transparent 40%);
+        radial-gradient(circle at 100% 0%, rgba(147,51,234,0.10) 0%, transparent 45%),
+        radial-gradient(circle at 0% 30%, rgba(236,72,153,0.07) 0%, transparent 40%);
       background-attachment:fixed;
       font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
       color:var(--text-dark); -webkit-font-smoothing:antialiased; overflow-x:hidden;
@@ -51,15 +56,15 @@
     .profile-hero{
       position:relative;overflow:hidden;
       background:
-        radial-gradient(circle at 88% -10%, rgba(255,255,255,0.20) 0%, transparent 50%),
-        radial-gradient(circle at -10% 115%, rgba(33,150,243,0.30) 0%, transparent 50%),
-        linear-gradient(155deg,var(--primary-blue) 0%,var(--primary-blue-dark) 100%);
+        radial-gradient(circle at 88% -10%, rgba(212,175,55,0.20) 0%, transparent 50%),
+        radial-gradient(circle at -10% 115%, rgba(236,72,153,0.40) 0%, transparent 50%),
+        linear-gradient(155deg,var(--primary-blue-dark) 0%,var(--primary-blue) 55%,var(--accent-pink-dark) 100%);
       padding:34px 20px 56px; text-align:center; color:#fff;
       box-shadow:var(--shadow-blue);
     }
     .profile-hero::before,.profile-hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,0.08);}
     .profile-hero::before{width:200px;height:200px;top:-90px;right:-50px;}
-    .profile-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(33,150,243,0.16);}
+    .profile-hero::after{width:140px;height:140px;bottom:-60px;left:-40px;background:rgba(236,72,153,0.20);}
     .profile-hero > *{position:relative;z-index:1;}
 
     .avatar{
@@ -79,8 +84,8 @@
     .profile-hero .vip-badge{
       display:inline-block;margin-top:12px;font-size:11px;font-weight:700;letter-spacing:.03em;
       padding:6px 14px;border-radius:999px;
-      background:linear-gradient(135deg,var(--primary-blue-light),var(--white));
-      color:var(--primary-blue-dark);box-shadow:0 4px 14px rgba(33,150,243,0.35);
+      background:linear-gradient(135deg,#F5D67B,var(--gold) 55%,var(--gold-dark));
+      color:#3D2B00;box-shadow:0 4px 14px rgba(212,175,55,0.45);
     }
 
     .cards-strip{
