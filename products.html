@@ -7,25 +7,30 @@
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     :root{
-      --primary-blue:        #2196F3;
-      --primary-blue-dark:   #1977D2;
-      --primary-blue-light:  #E3F2FD;
-      --text-dark:           #212121;
+      --primary-blue:        #9333EA;
+      --primary-blue-dark:   #6B21A8;
+      --primary-blue-light:  #F3E8FF;
+      --accent-pink:         #EC4899;
+      --accent-pink-dark:    #BE185D;
+      --accent-pink-light:   #FDF2F8;
+      --gold:                #D4AF37;
+      --gold-dark:           #B8860B;
+      --text-dark:           #1F1533;
       --white:               #FFFFFF;
-      --background-light:    #F5F5F5;
-      --text-muted:          #757575;
-      --border-light:        #E0E0E0;
-      --success-green:       #4CAF50;
-      --success-green-bg:    #E8F5E9;
+      --background-light:    #FAF7FC;
+      --text-muted:          #8B7D99;
+      --border-light:        #EDE4F5;
+      --success-green:       #10B981;
+      --success-green-bg:    #ECFDF5;
       --warning-orange:      #FF9800;
       --warning-orange-bg:   #FFF3E0;
-      --danger-red:          #F44336;
-      --danger-red-bg:       #FFEBEE;
+      --danger-red:          #EF4444;
+      --danger-red-bg:       #FEF2F2;
 
-      --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
-      --shadow-md:0 10px 30px rgba(0,0,0,0.08);
-      --shadow-lg:0 20px 60px rgba(0,0,0,0.14);
-      --shadow-blue:0 16px 40px rgba(33,150,243,0.28);
+      --shadow-sm:0 2px 10px rgba(31,21,51,0.06);
+      --shadow-md:0 10px 30px rgba(31,21,51,0.10);
+      --shadow-lg:0 20px 60px rgba(31,21,51,0.18);
+      --shadow-blue:0 16px 40px rgba(147,51,234,0.32);
 
       --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
       --ease:cubic-bezier(.22,1,.36,1);
@@ -34,8 +39,8 @@
     body{
       margin:0;background:var(--background-light);
       background-image:
-        radial-gradient(circle at 100% 0%, rgba(33,150,243,0.10) 0%, transparent 45%),
-        radial-gradient(circle at 0% 30%, rgba(25,118,210,0.05) 0%, transparent 40%);
+        radial-gradient(circle at 100% 0%, rgba(147,51,234,0.10) 0%, transparent 45%),
+        radial-gradient(circle at 0% 30%, rgba(236,72,153,0.07) 0%, transparent 40%);
       background-attachment:fixed;
       font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
       color:var(--text-dark); -webkit-font-smoothing:antialiased; overflow-x:hidden;
@@ -66,8 +71,8 @@
     .topbar-title svg{width:19px;height:19px;stroke:var(--primary-blue);stroke-width:2;fill:none;}
     .vip-badge{
       font-size:11px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:999px;
-      background:linear-gradient(135deg,var(--primary-blue-light),var(--primary-blue));
-      color:var(--primary-blue-dark);box-shadow:0 4px 14px rgba(33,150,243,0.35);
+      background:linear-gradient(135deg,#F5D67B,var(--gold) 55%,var(--gold-dark));
+      color:#3D2B00;box-shadow:0 4px 14px rgba(212,175,55,0.45);
     }
 
     /* ============================================================
@@ -84,8 +89,8 @@
     }
     .tab svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;}
     .tab.on{
-      background:linear-gradient(135deg,var(--primary-blue),var(--primary-blue-dark));
-      border-color:var(--primary-blue);color:#fff;box-shadow:0 8px 22px rgba(33,150,243,0.32);
+      background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink-dark));
+      border-color:var(--primary-blue);color:#fff;box-shadow:0 8px 22px rgba(147,51,234,0.35);
       transform:translateY(-1px);
     }
     .tab:active{transform:scale(.95);}
@@ -95,9 +100,9 @@
        ============================================================ */
     .vip-lock{
       position:relative;overflow:hidden;
-      background:linear-gradient(135deg,var(--primary-blue-light),#F5F9FF);
+      background:linear-gradient(135deg,var(--primary-blue-light),#FBF5FF);
       border-radius:var(--radius-md);margin:6px 16px 18px;padding:18px 18px;
-      border:1.5px solid #D0E7FF;box-shadow:var(--shadow-sm);
+      border:1.5px solid #E4CFFC;box-shadow:var(--shadow-sm);
     }
     .vip-lock-icon{position:absolute;right:2px;bottom:-14px;width:76px;height:76px;opacity:.10;}
     .vip-lock-icon svg{width:100%;height:100%;stroke:var(--primary-blue-dark);stroke-width:1.5;fill:none;}
@@ -127,7 +132,7 @@
     .pc-price{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--primary-blue-dark);}
     .pc-btn{
       padding:12px 24px;border-radius:14px;background:var(--primary-blue);color:#fff;
-      font-weight:700;font-size:14px;box-shadow:0 8px 20px rgba(33,150,243,0.3);
+      font-weight:700;font-size:14px;box-shadow:0 8px 20px rgba(147,51,234,0.32);
       transition:all .2s var(--ease);
     }
     .pc-btn:disabled{background:var(--border-light);color:var(--text-muted);box-shadow:none;cursor:not-allowed;}
