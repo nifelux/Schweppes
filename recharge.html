@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
     :root{
-      --primary-blue:        #2196F3;
-      --primary-blue-dark:   #1977D2;
-      --primary-blue-light:  #E3F2FD;
+      --primary-pink:        #EC4899;
+      --primary-purple:      #9333EA;
+      --pink-light:          #FCE7F3;
       --text-dark:           #212121;
       --white:               #FFFFFF;
       --background-light:    #F5F5F5;
@@ -24,10 +24,10 @@
       --shadow-sm:0 2px 10px rgba(0,0,0,0.05);
     }
     svg{stroke-linecap:round;stroke-linejoin:round;display:block;}
-    .balance-pill { background:var(--primary-blue-light); border-radius:30px; padding:10px 16px; text-align:center; margin:16px; font-size:13px; color:var(--primary-blue-dark); font-weight:600; }
+    .balance-pill { background:var(--pink-light); border-radius:30px; padding:10px 16px; text-align:center; margin:16px; font-size:13px; color:var(--primary-purple); font-weight:600; }
     .amount-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:0 16px; }
     .amt-chip { background:var(--white); border:2px solid var(--border-light); border-radius:12px; padding:14px 6px; text-align:center; cursor:pointer; transition:all .15s; -webkit-tap-highlight-color:transparent; }
-    .amt-chip.on { background:var(--primary-blue); border-color:var(--primary-blue); color:#fff; }
+    .amt-chip.on { background:var(--primary-pink); border-color:var(--primary-pink); color:#fff; }
     .amt-chip .amt-val { font-family:'Fraunces',serif; font-size:14px; font-weight:600; }
     .method-badge { display:flex; align-items:center; gap:8px; padding:10px 16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
     .method-badge svg{width:15px;height:15px;stroke-width:2;fill:none;}
@@ -41,11 +41,11 @@
     .ti-row:last-of-type { border-bottom:none; }
     .ti-label { font-size:12px; color:var(--text-muted); }
     .ti-val { font-family:'Fraunces',serif; font-size:14px; font-weight:600; color:var(--text-dark); }
-    .copy-btn { padding:4px 10px; border-radius:6px; background:var(--primary-blue-light); color:var(--primary-blue-dark); font-size:11px; font-weight:700; border:none; cursor:pointer; margin-left:6px; }
-    .narration-box { background:linear-gradient(155deg,var(--primary-blue-light),#fff); border-radius:12px; padding:14px 16px; margin:0 16px; text-align:center; }
-    .nar-label { display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; font-weight:700; color:var(--primary-blue-dark); text-transform:uppercase; letter-spacing:.06em; }
+    .copy-btn { padding:4px 10px; border-radius:6px; background:var(--pink-light); color:var(--primary-purple); font-size:11px; font-weight:700; border:none; cursor:pointer; margin-left:6px; }
+    .narration-box { background:linear-gradient(155deg,var(--pink-light),#fff); border-radius:12px; padding:14px 16px; margin:0 16px; text-align:center; }
+    .nar-label { display:flex; align-items:center; justify-content:center; gap:6px; font-size:11px; font-weight:700; color:var(--primary-purple); text-transform:uppercase; letter-spacing:.06em; }
     .nar-label svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;}
-    .nar-code { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--primary-blue-dark); letter-spacing:.05em; margin:6px 0; }
+    .nar-code { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--primary-purple); letter-spacing:.05em; margin:6px 0; }
     .nar-hint { font-size:11px; color:var(--text-muted); }
     .status-bar { display:flex; align-items:center; gap:8px; margin:12px 16px 0; padding:12px 14px; border-radius:12px; font-size:13px; font-weight:600; display:none; }
     .status-bar.show { display:flex; }
@@ -60,10 +60,10 @@
     .monnify-perm-note svg{width:18px;height:18px;stroke:var(--success-green);stroke-width:2;fill:none;flex-shrink:0;margin-top:1px;}
     .field-label { padding:0 16px; font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px; margin-top:12px; }
     .sender-hint { padding:0 16px; font-size:11px; color:var(--text-muted); margin-top:5px; }
-    .info-box{margin:0 16px;background:var(--primary-blue-light);border-radius:12px;padding:14px;}
-    .info-box-title{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--primary-blue-dark);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+    .info-box{margin:0 16px;background:var(--pink-light);border-radius:12px;padding:14px;}
+    .info-box-title{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--primary-purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
     .info-box-title svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;}
-    .info-box li{font-size:12px;color:var(--primary-blue-dark);padding-left:12px;position:relative;}
+    .info-box li{font-size:12px;color:var(--primary-purple);padding-left:12px;position:relative;}
     .info-box li span{position:absolute;left:0;}
   </style>
 </head>
@@ -72,7 +72,7 @@
   <div class="topbar">
     <a class="back-btn" href="dashboard.html">‹</a>
     <span class="topbar-title" style="display:flex;align-items:center;gap:8px">
-      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--primary-blue);stroke-width:2;fill:none"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--primary-pink);stroke-width:2;fill:none"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
       Recharge Wallet
     </span>
   </div>
