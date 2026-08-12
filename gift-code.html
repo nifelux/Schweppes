@@ -6,12 +6,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
-    .gift-hero { background:linear-gradient(155deg,var(--red),var(--red-dark)); padding:36px 24px; text-align:center; color:#fff; }
+    :root{
+      --primary-pink:   #EC4899;
+      --primary-purple: #9333EA;
+    }
+    .gift-hero { background:linear-gradient(155deg,var(--primary-pink),var(--primary-purple)); padding:36px 24px; text-align:center; color:#fff; }
     .gift-icon { font-size:56px; margin-bottom:12px; }
     .gift-input { display:flex; gap:10px; margin:20px 16px 0; }
     .gift-input input { flex:1; padding:14px 16px; border:2px solid var(--border); border-radius:10px; font-size:16px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; outline:none; }
-    .gift-input input:focus { border-color:var(--red); }
-    .gift-input button { padding:14px 20px; background:var(--red); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; }
+    .gift-input input:focus { border-color:var(--primary-pink); }
+    .gift-input button { padding:14px 20px; background:var(--primary-pink); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; }
   </style>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
