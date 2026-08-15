@@ -38,16 +38,6 @@ function checkoutUrl(data) {
     data?.data?.url || data?.data?.checkout_url || data?.data?.payment_url || data?.data?.redirect_url;
 }
 
-function checkoutTransactionId(url) {
-  if (!url) return null;
-  try {
-    const parsed = new URL(url);
-    return parsed.searchParams.get("payment_id") || parsed.searchParams.get("transaction_id") || parsed.searchParams.get("trx_id");
-  } catch {
-    return null;
-  }
-}
-
 function providerReference(data) {
   return data?.transaction_ref || data?.transactionReference || data?.trx_id || data?.transaction_id || data?.ref_trx ||
     data?.data?.transaction_ref || data?.data?.transactionReference || data?.data?.trx_id || data?.data?.transaction_id || data?.data?.ref_trx || null;
@@ -65,26 +55,58 @@ function isProviderFailure(status) {
   return ["failed", "failure", "rejected", "reject", "cancelled", "canceled", "declined"].includes(status);
 }
 
+function isPotentialMerchantIdentifier(value) {
+  const id = String(value || "").trim();
+  return id.length > 0 && id.length <= 20 && /^[A-Za-z0-9_-]+$/.test(id);
+}
+
+async function verifyWithCandidates(candidates) {
+  const ids = [...new Set((candidates || []).map(value => String(value || "").trim()).filter(Boolean))];
+  if (!ids.length) throw new Error("No TargetGrowths payment identifier is available");
+
+  let lastError = null;
+  for (const id of ids) {
+    try {
+      const data = await verifyPayment(id);
+      const message = String(data?.message || "").toLowerCase();
+      const status = String(data?.status || data?.data?.payment_status || data?.data?.status || "").toLowerCase();
+      if (data?.error === true || status === "error" || message.includes("no payment transaction") || message.includes("not found")) {
+        lastError = new Error(data?.message || "TargetGrowths payment transaction was not found");
+        continue;
+      }
+      return { id, data };
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("TargetGrowths payment verification failed");
+}
+
 async function reconcileTargetGrowthsDeposit(deposit) {
   if (!deposit || deposit.method !== "targetgrowths" || deposit.status === "completed") return null;
   const lastUpdate = Date.parse(deposit.updated_at || deposit.created_at || "");
   if (Number.isFinite(lastUpdate) && Date.now() - lastUpdate < 15000) return null;
 
-  const transactionId = deposit.provider_reference || deposit.provider_identifier;
-  if (!transactionId) return null;
+  const verificationCandidates = [
+    deposit.provider_identifier,
+    isPotentialMerchantIdentifier(deposit.provider_reference) ? deposit.provider_reference : null,
+  ];
+  if (!verificationCandidates.some(value => String(value || "").trim())) return null;
 
-  let verification;
+  let verificationResult;
   try {
-    verification = await verifyPayment(transactionId);
+    verificationResult = await verifyWithCandidates(verificationCandidates);
   } catch (error) {
     console.warn("[targetgrowths-status] verification unavailable:", error.message);
     return null;
   }
 
+  const verification = verificationResult.data;
   const status = normalizedProviderStatus(verification);
   const data = verification?.data || {};
   const verifiedAmount = Number(data.amount ?? data.payment_amount ?? verification?.amount);
-  const providerRef = providerReference(verification) || deposit.provider_reference || transactionId;
+  const providerRef = providerReference(verification) || deposit.provider_reference || verificationResult.id;
 
   if (isProviderFailure(status)) {
     await supabase.from("deposits").update({
@@ -281,7 +303,7 @@ module.exports = async function handler(req, res) {
       if (!url) throw new Error("TargetGrowths did not return a checkout URL");
       await supabase.from("deposits").update({
         provider_response: provider,
-        provider_reference: checkoutTransactionId(url) || providerReference(provider),
+        provider_reference: providerReference(provider),
         provider_status: "checkout_created",
         updated_at: new Date().toISOString(),
       }).eq("reference", reference);

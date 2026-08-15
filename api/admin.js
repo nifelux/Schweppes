@@ -41,7 +41,7 @@
  */
 const crypto = require("crypto");
 const { createClient } = require("@supabase/supabase-js");
-const { initiateTransfer } = require("../lib/targetgrowths");
+const { initiateTransfer, verifyPayment } = require("../lib/targetgrowths");
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 const SUPPORTED_BANK_CODES = new Set([
@@ -90,7 +90,104 @@ function appUrl(req) {
 }
 
 function providerReference(data, fallback) {
-  return data?.transaction_id || data?.transactionId || data?.reference || data?.trx_id || data?.data?.transaction_id || data?.data?.reference || fallback;
+  const tx = data?.data?.transaction || data?.data?.payment || data?.transaction || {};
+  return data?.transaction_id || data?.transactionId || data?.reference || data?.trx_id ||
+    data?.data?.transaction_id || data?.data?.reference || data?.data?.trx_id ||
+    tx.transaction_id || tx.transactionId || tx.reference || tx.trx_id || fallback;
+}
+
+function providerPaymentStatus(data) {
+  const tx = data?.data?.transaction || data?.data?.payment || data?.transaction || {};
+  return String(data?.payment_status || data?.status || data?.data?.payment_status || data?.data?.status || tx.payment_status || tx.status || "").trim().toLowerCase();
+}
+
+function providerPaymentAmount(data) {
+  const tx = data?.data?.transaction || data?.data?.payment || data?.transaction || {};
+  return Number(data?.amount ?? data?.payment_amount ?? data?.data?.amount ?? data?.data?.payment_amount ?? tx.amount ?? tx.payment_amount);
+}
+
+function isSuccessfulPaymentStatus(status) {
+  return ["success", "successful", "completed", "complete", "paid", "approved"].includes(status);
+}
+
+function isFailedPaymentStatus(status) {
+  return ["failed", "failure", "rejected", "reject", "cancelled", "canceled", "declined"].includes(status);
+}
+
+function isPotentialMerchantIdentifier(value) {
+  const id = String(value || "").trim();
+  return id.length > 0 && id.length <= 20 && /^[A-Za-z0-9_-]+$/.test(id);
+}
+
+async function verifyWithCandidates(candidates) {
+  const ids = [...new Set((candidates || []).map(value => String(value || "").trim()).filter(Boolean))];
+  if (!ids.length) throw new Error("No TargetGrowths payment identifier is available");
+
+  let lastError = null;
+  for (const id of ids) {
+    try {
+      const data = await verifyPayment(id);
+      const message = String(data?.message || "").toLowerCase();
+      const status = String(data?.status || data?.data?.payment_status || data?.data?.status || "").toLowerCase();
+      if (data?.error === true || status === "error" || message.includes("no payment transaction") || message.includes("not found")) {
+        lastError = new Error(data?.message || "TargetGrowths payment transaction was not found");
+        continue;
+      }
+      return { id, data };
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("TargetGrowths payment verification failed");
+}
+
+async function verifyTargetGrowthsDeposit(dep) {
+  const verificationCandidates = [
+    dep?.provider_identifier,
+    isPotentialMerchantIdentifier(dep?.provider_reference) ? dep.provider_reference : null,
+  ];
+  if (!verificationCandidates.some(value => String(value || "").trim())) return { ok:false, status:"missing_reference" };
+
+  let verificationResult;
+  try {
+    verificationResult = await verifyWithCandidates(verificationCandidates);
+  } catch (error) {
+    console.warn("[admin-targetgrowths-verify]", error.message);
+    return { ok:false, status:"verification_unavailable", error:error.message };
+  }
+
+  const verification = verificationResult.data;
+  const status = providerPaymentStatus(verification);
+  const amount = providerPaymentAmount(verification);
+  const providerRef = providerReference(verification, verificationResult.id);
+  const payload = {
+    provider_status: status || "pending",
+    provider_reference: providerRef,
+    provider_response: verification,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (isFailedPaymentStatus(status)) {
+    await supabase.from("deposits").update({ ...payload, status:"rejected" }).eq("id", dep.id).eq("status", "pending");
+    return { ok:false, status, verification };
+  }
+  if (!isSuccessfulPaymentStatus(status)) {
+    await supabase.from("deposits").update(payload).eq("id", dep.id).eq("status", "pending");
+    return { ok:false, status:status || "pending", verification };
+  }
+  if (!Number.isFinite(amount) || Math.abs(amount - Number(dep.amount)) >= 0.01) {
+    await supabase.from("deposits").update({ ...payload, provider_status:"amount_mismatch" }).eq("id", dep.id).eq("status", "pending");
+    return { ok:false, status:"amount_mismatch", verification };
+  }
+
+  await supabase.from("deposits").update({ ...payload, provider_status:"verified_success" }).eq("id", dep.id).eq("status", "pending");
+  return { ok:true, status:"verified_success", verification, provider_reference:providerRef };
+}
+
+async function activeDepositMethod() {
+  const { data } = await supabase.from("site_settings").select("value").eq("key", "deposit_method").single();
+  return data?.value || "targetgrowths";
 }
 
 async function isAdmin(id) {
@@ -114,11 +211,24 @@ module.exports = async function(req, res) {
 
     if(action==="deposits") {
       const status = req.query.status||"pending";
+      const method = await activeDepositMethod();
       let q = supabase.from("deposits").select("*,profiles!user_id(full_name,email,referral_code)").order("created_at",{ascending:false}).limit(100);
       if(status!=="all") q=q.eq("status",status);
+      // The pending queue follows the method currently selected in admin settings.
+      // Historical/all-status views remain available for audit purposes.
+      if(status==="pending" && method) q=q.eq("method",method);
       const { data,error } = await q;
       if(error) return res.status(500).json({ error:error.message });
-      return res.json({ ok:true, deposits:data||[] });
+      const deposits = data || [];
+      if (status === "pending" && method === "targetgrowths") {
+        await Promise.all(deposits.map(async dep => {
+          if (dep.method !== "targetgrowths" || dep.status !== "pending") return;
+          const verification = await verifyTargetGrowthsDeposit(dep);
+          dep.provider_verified = !!verification.ok;
+          dep.provider_status = verification.ok ? "verified_success" : (verification.status || "pending");
+        }));
+      }
+      return res.json({ ok:true, method, deposits });
     }
 
     if(action==="withdrawals") {
@@ -399,7 +509,25 @@ module.exports = async function(req, res) {
       await supabase.from("deposits").update({ status:"rejected", approved_by:admin_id, approved_at:new Date().toISOString(), updated_at:new Date().toISOString() }).eq("id",deposit_id);
       return res.json({ ok:true, action:"rejected" });
     }
-    await supabase.from("deposits").update({ approved_by:admin_id, approved_at:new Date().toISOString(), updated_at:new Date().toISOString() }).eq("id",deposit_id);
+
+    const isTargetGrowthsDeposit = dep.provider === "targetgrowths" || dep.method === "targetgrowths";
+    if (isTargetGrowthsDeposit) {
+      const verification = await verifyTargetGrowthsDeposit(dep);
+      if (!verification.ok) {
+        if (verification.status === "verification_unavailable") {
+          return res.status(502).json({ error:"TargetGrowths status could not be verified. Try again after checking the provider dashboard." });
+        }
+        if (verification.status === "amount_mismatch") {
+          return res.status(409).json({ error:"TargetGrowths confirmed a different amount. The deposit was not approved." });
+        }
+        if (["failed","failure","rejected","reject","cancelled","canceled","declined"].includes(verification.status)) {
+          return res.status(409).json({ error:"TargetGrowths marked this payment as unsuccessful. The deposit was not approved." });
+        }
+        return res.status(409).json({ error:`TargetGrowths payment is not confirmed yet (${verification.status || "pending"}). Only successful payments can be approved.` });
+      }
+    }
+
+    await supabase.from("deposits").update({ approved_by:admin_id, approved_at:new Date().toISOString(), updated_at:new Date().toISOString() }).eq("id",deposit_id).eq("status","pending");
     const { data,error } = await supabase.rpc("process_deposit", { p_reference:dep.reference, p_amount:dep.amount, p_payload:{ source:"admin_approval", admin_id } });
     if(error) return res.status(500).json({ error:error.message });
     return res.json({ ok:true, action:"approved", data });
