@@ -329,6 +329,7 @@ module.exports = async function handler(req, res) {
         customerName: profile?.full_name || email,
         customerEmail: email,
       });
+      console.log("[TG-INITIATE-RAW]", JSON.stringify(provider));
       const url = checkoutUrl(provider);
       if (!url) throw new Error("TargetGrowths did not return a checkout URL");
       await supabase.from("deposits").update({
