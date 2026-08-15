@@ -317,7 +317,7 @@
 <script src="../assets/js/auth.js" defer></script>
 <script>
 (function(){
-  var adminId="",allUsers=[],depFilter="pending",wFilter="pending",withdrawalsLocked=false;
+  var adminId="",allUsers=[],userSearchTimer=null,depFilter="pending",wFilter="pending",withdrawalsLocked=false;
 
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
 
@@ -362,18 +362,19 @@
     var r=await fetch("/api/admin?action=deposits&status="+depFilter+"&admin_id="+adminId);
     var d=await r.json();
     if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>'; return; }
+    var activeMethod=d.method||"";
     var deps=d.deposits||[];
     if(!deps.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:32px;font-size:14px">No deposits found.</div>'; return; }
     el.innerHTML=deps.map(function(dep){
       var name=dep.profiles?.full_name||dep.profiles?.email||"User";
       var sColor={pending:"#FCD34D",completed:"#34D399",rejected:"#f87171"}[dep.status]||"#8A7F78";
       var isTargetGrowths=dep.provider==="targetgrowths"||dep.method==="targetgrowths";
-      var canAct=dep.status==="pending";
+      var canAct=dep.status==="pending"&&(!isTargetGrowths||dep.provider_verified===true||dep.provider_status==="verified_success");
       var methodLabel=dep.method==="monnify"?"⚡ Monnify":(dep.method==="targetgrowths"?"💳 TargetGrowths":"🏦 Manual");
       return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="dep-name">'+name+' <span style="font-size:10px;color:#8A7F78">'+methodLabel+'</span></div><div class="dep-meta">'+dep.profiles?.email+' · '+new Date(dep.created_at).toLocaleString()+'</div>'+(dep.sender_name?'<div class="dep-meta">Sender: <span style="color:#FCD34D;font-weight:700">'+dep.sender_name+'</span></div>':'')+'</div><div style="text-align:right"><div class="dep-amt">₦'+Number(dep.amount).toLocaleString()+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+'">'+dep.status.toUpperCase()+'</div></div></div>'+
         (dep.narration?'<div class="dep-nar"><span class="dep-nar-code">'+dep.narration+'</span><button onclick="copyTxt(\''+dep.narration+'\')" style="background:none;border:none;color:#FCD34D;font-size:11px;cursor:pointer;font-weight:700">COPY</button></div>':'')+
-        (isTargetGrowths&&dep.status==="pending"?'<div class="dep-meta" style="margin-top:8px;color:#FCD34D">Automatic webhook credit pending. Admin approval is available as a fallback.</div>':'')+
-        (canAct?'<div class="dep-actions"><button class="btn-approve" onclick="actDep(\''+dep.id+'\',\'approve\',this)">'+(isTargetGrowths?'✅ Approve Manually':'✅ Approve')+'</button><button class="btn-reject" onclick="actDep(\''+dep.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+'</div>';
+        (isTargetGrowths&&dep.status==="pending"?'<div class="dep-meta" style="margin-top:8px;color:#FCD34D">'+(canAct?'TargetGrowths confirmed successful; ready for approval.':'Waiting for TargetGrowths confirmation; approval is unavailable until successful.')+'</div>':'')+
+        (canAct?'<div class="dep-actions"><button class="btn-approve" onclick="actDep(\''+dep.id+'\',\'approve\',this)">'+(isTargetGrowths?'✅ Approve Confirmed Payment':'✅ Approve')+'</button><button class="btn-reject" onclick="actDep(\''+dep.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+'</div>';
     }).join("");
   };
   window.setDepFilter=function(btn,f){ document.querySelectorAll("#page-deposits .a-ftab").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); depFilter=f; loadDeposits(); };
@@ -471,11 +472,14 @@
     window.AradelAuth.toast("Product deleted"); loadProducts();
   };
 
-  window.loadUsers=async function(){
+  window.loadUsers=async function(query){
     var el=document.getElementById("userList");
     el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
-    var r=await fetch("/api/admin?action=users&admin_id="+adminId);
-    var d=await r.json(); allUsers=d.users||[]; renderUsers(allUsers);
+    var q=String(query||"").trim();
+    var r=await fetch("/api/admin?action=users&admin_id="+encodeURIComponent(adminId)+(q?"&q="+encodeURIComponent(q):""));
+    var d=await r.json();
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load users")+'</div>'; return; }
+    allUsers=d.users||[]; renderUsers(allUsers);
   };
   function renderUsers(users){
     var el=document.getElementById("userList");
@@ -502,9 +506,10 @@
     else { window.AradelAuth.toast(d.error==="cannot_ban_admin"?"Can't ban an admin account":d.error==="cannot_ban_self"?"You can't ban yourself":(d.error||"Error")); }
   };
   window.filterUsers=function(q){
-    if(!q){ renderUsers(allUsers); return; }
-    var f=q.toLowerCase();
-    renderUsers(allUsers.filter(function(u){return (u.full_name||"").toLowerCase().includes(f)||(u.email||"").toLowerCase().includes(f);}));
+    clearTimeout(userSearchTimer);
+    var value=String(q||"").trim();
+    if(!value){ loadUsers(); return; }
+    userSearchTimer=setTimeout(function(){ loadUsers(value); },250);
   };
 
   var walletTargetUserId="",walletTargetType="credit";
