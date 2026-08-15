@@ -17,7 +17,7 @@ const {
   webhookType,
   isSuccessfulStatus,
   isFailedStatus,
-  validWebhookSignature,
+  webhookSignatureCheck,
 } = require("../../lib/targetgrowths");
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -52,7 +52,13 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: "Webhook is not configured" });
   }
 
-  if (!validWebhookSignature(payload)) {
+  const signatureCheck = webhookSignatureCheck(payload);
+  console.log("[TG-SIGNATURE-CHECK]", JSON.stringify({
+    amount_raw: signatureCheck.amountRaw,
+    identifier: signatureCheck.identifier,
+    matched_amount: signatureCheck.matched,
+  }));
+  if (!signatureCheck.valid) {
     console.warn("[targetgrowths-webhook] invalid signature");
     return res.status(401).json({ error: "Invalid signature" });
   }
