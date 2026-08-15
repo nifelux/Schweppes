@@ -220,14 +220,11 @@ module.exports = async function(req, res) {
       const { data,error } = await q;
       if(error) return res.status(500).json({ error:error.message });
       const deposits = data || [];
-      if (status === "pending" && method === "targetgrowths") {
-        await Promise.all(deposits.map(async dep => {
-          if (dep.method !== "targetgrowths" || dep.status !== "pending") return;
-          const verification = await verifyTargetGrowthsDeposit(dep);
-          dep.provider_verified = !!verification.ok;
-          dep.provider_status = verification.ok ? "verified_success" : (verification.status || "pending");
-        }));
-      }
+      // Do not block the queue on a live provider request. Approval performs a
+      // fresh TargetGrowths verification in process-deposit before crediting.
+      deposits.forEach(dep => {
+        dep.provider_verified = dep.method === "targetgrowths" && dep.provider_status === "verified_success";
+      });
       return res.json({ ok:true, method, deposits });
     }
 
@@ -241,9 +238,16 @@ module.exports = async function(req, res) {
     }
 
     if(action==="users") {
-      const { data,error } = await supabase.from("profiles").select("*,wallets(balance)").order("created_at",{ascending:false}).limit(200);
+      const search = String(req.query.q || "").trim();
+      let q = supabase.from("profiles").select("*,wallets(balance)").order("created_at",{ascending:false}).limit(1000);
+      if (search) {
+        // Keep the PostgREST expression safe while allowing normal names/emails.
+        const safeSearch = search.replace(/[^a-zA-Z0-9@._+ -]/g, " ").trim();
+        if (safeSearch) q = q.or(`full_name.ilike.%${safeSearch}%,email.ilike.%${safeSearch}%`);
+      }
+      const { data,error } = await q;
       if(error) return res.status(500).json({ error:error.message });
-      return res.json({ ok:true, users:data||[] });
+      return res.json({ ok:true, users:data||[], search:search||null });
     }
 
     if(action==="user-team") {
