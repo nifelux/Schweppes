@@ -400,8 +400,9 @@
       var name=w.profiles?.full_name||w.profiles?.email||"User";
       var canAct=w.status==="pending";
       var providerState=String(w.provider_status||"").toLowerCase();
-      var providerPending=w.status==="approved" && providerState && !["completed","success","successful","paid","settled"].includes(providerState);
+      var providerPending=w.status==="approved" && providerState && !["completed","success","successful","paid","settled","manual_approved"].includes(providerState);
       var displayStatus=providerPending?"PROVIDER PENDING":w.status.toUpperCase();
+      var providerCompleted=["completed","success","successful","paid","settled","manual_approved"].includes(providerState);
       var sColor=providerPending?"#FCD34D":({pending:"#FCD34D",approved:"#60A5FA",completed:"#34D399",rejected:"#f87171"}[w.status]||"#8A7F78");
       var gross=Number(w.amount||0);
       // fee_amount/net_amount are stamped at request time by request_withdrawal()
@@ -413,7 +414,7 @@
       var fee = hasNet ? Number(w.fee_amount||0) : gross*0.13;
       var netNote = hasNet ? '' : ' <span style="color:#f87171">(est. 13% — not on file)</span>';
       return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="dep-name">'+name+'</div><div class="dep-meta">'+w.bank_name+' · '+w.account_number+'</div><div class="dep-meta">'+w.account_name+' · '+new Date(w.created_at).toLocaleString()+'</div></div><div style="text-align:right"><div class="dep-amt">₦'+net.toLocaleString(undefined,{maximumFractionDigits:2})+'</div><div style="font-size:10.5px;color:#8A7F78;margin-top:2px">Requested ₦'+gross.toLocaleString()+' − fee ₦'+fee.toLocaleString(undefined,{maximumFractionDigits:2})+netNote+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+';margin-top:4px">'+displayStatus+'</div></div></div>'+
-        (w.provider_status?'<div class="dep-meta" style="margin-top:6px">Provider: <span style="color:'+(providerPending?'#FCD34D':(providerState==='completed'?'#34D399':'#F87171'))+'">'+w.provider_status+'</span>'+(w.provider_reference?' · '+w.provider_reference:'')+'</div>':'')+
+        (w.provider_status?'<div class="dep-meta" style="margin-top:6px">Provider: <span style="color:'+(providerPending?'#FCD34D':(providerCompleted?'#34D399':'#F87171'))+'">'+w.provider_status+'</span>'+(w.provider_reference?' · '+w.provider_reference:'')+'</div>':'')+
         (canAct?'<div class="dep-actions" style="margin-top:10px"><button class="btn-approve" onclick="actW(\''+w.id+'\',\'approve\',this)">✅ Approve &amp; Pay</button><button class="btn-reject" onclick="actW(\''+w.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+'</div>';
     }).join("");
   };
@@ -730,7 +731,7 @@
   async function loadMethod(){
     var r=await fetch("/api/deposit?action=method");
     var d=await r.json();
-    applyMethod(d.method||"targetgrowths");
+    applyMethod(d.method||"manual");
   }
   function applyMethod(m){
     ["manual","monnify","targetgrowths"].forEach(function(x){ document.getElementById("m-"+x).className="m-btn"+(m===x?" on-"+m:""); });
