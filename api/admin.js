@@ -86,7 +86,11 @@ function bankCodeFor(bankName, savedBankId) {
 }
 
 function appUrl(req) {
-  return String(process.env.APP_URL || `https://${req.headers.host || "localhost"}`).replace(/\/$/, "");
+  const configured = String(process.env.APP_URL || "").trim();
+  if (configured) return configured.replace(/\/$/, "");
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const forwardedHost = String(req.headers["x-forwarded-host"] || req.headers.host || "localhost").split(",")[0].trim();
+  return `${forwardedProto}://${forwardedHost}`.replace(/\/$/, "");
 }
 
 function providerReference(data, fallback) {
@@ -616,13 +620,15 @@ module.exports = async function(req, res) {
 
     const payoutAmount = Number(w.net_amount ?? w.amount);
     try {
+      const ipnUrl = `${appUrl(req)}/api/webhooks/targetgrowths`;
+      console.log("[TG-TRANSFER-IPN]", JSON.stringify({ identifier, ipn_url: ipnUrl, amount: w.net_amount || w.amount }));
       const provider = await initiateTransfer({
         identifier,
         amount:payoutAmount,
         bankId,
         recipient:w.account_number,
         accountName:w.account_name,
-        ipnUrl:`${appUrl(req)}/api/webhooks/targetgrowths`,
+        ipnUrl,
         customerEmail:profile?.email,
       });
       const providerRef = providerReference(provider, identifier);

@@ -30,7 +30,11 @@ function genRef(prefix, uid) {
 }
 
 function appUrl(req) {
-  return String(process.env.APP_URL || `https://${req.headers.host || "localhost"}`).replace(/\/$/, "");
+  const configured = String(process.env.APP_URL || "").trim();
+  if (configured) return configured.replace(/\/$/, "");
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "https").split(",")[0].trim();
+  const forwardedHost = String(req.headers["x-forwarded-host"] || req.headers.host || "localhost").split(",")[0].trim();
+  return `${forwardedProto}://${forwardedHost}`.replace(/\/$/, "");
 }
 
 function checkoutUrl(data) {
@@ -318,11 +322,13 @@ module.exports = async function handler(req, res) {
     if (insertError) return res.status(500).json({ error: insertError.message });
 
     try {
+      const ipnUrl = `${origin}/api/webhooks/targetgrowths`;
+      console.log("[TG-INITIATE-IPN]", JSON.stringify({ identifier, ipn_url: ipnUrl, amount: num }));
       const provider = await initiatePayment({
         identifier,
         amount: num,
         details: `Wallet deposit for ${profile?.full_name || email}`,
-        ipnUrl: `${origin}/api/webhooks/targetgrowths`,
+        ipnUrl,
         successUrl: `${origin}/targetgrowths-checkout.html?ref=${encodeURIComponent(reference)}&result=success`,
         cancelUrl: `${origin}/targetgrowths-checkout.html?ref=${encodeURIComponent(reference)}&result=cancelled`,
         siteLogo: origin,
