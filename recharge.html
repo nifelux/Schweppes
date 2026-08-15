@@ -298,16 +298,21 @@
     var q=new URLSearchParams(window.location.search), state=q.get("targetgrowths"), ref=q.get("ref");
     var savedRef=null;
     try{ savedRef=localStorage.getItem("schweppes_tg_pending_ref"); }catch(e){}
-    ref=ref||savedRef;
-    if(!state && ref) state="success";
+    // Never treat an old localStorage reference as a fresh provider return.
+    // Only an explicit TargetGrowths redirect may start verification polling.
     if(state!=="success"&&state!=="cancelled") return;
+    if(!ref) return;
+    if(savedRef && ref!==savedRef){
+      try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
+      return;
+    }
     var sb=document.getElementById("statusBar");
     if(state==="cancelled"){
       try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
       sb.className="status-bar sb-failed show"; sb.innerHTML=ICON_FAILED+'<span>Payment was cancelled. You can try again.</span>'; return;
     }
     if(!ref) return;
-    currentRef=ref; sb.className="status-bar sb-pending show"; sb.innerHTML=ICON_PENDING+'<span>Payment received. Waiting for TargetGrowths verification…</span>'; startPoll(ref);
+    currentRef=ref; sb.className="status-bar sb-pending show"; sb.innerHTML=ICON_PENDING+'<span>Return received. Verifying payment with TargetGrowths…</span>'; startPoll(ref);
   }
 
   async function doManual(){
@@ -334,10 +339,12 @@
     clearInterval(pollT);
     var pollOnce=async function(){
       try{
-        var r=await fetch("/api/deposit?action=status&ref="+encodeURIComponent(ref));
+        var r=await fetch("/api/deposit?action=status&ref="+encodeURIComponent(ref)+"&user_id="+encodeURIComponent(userId));
         var d=await r.json();
         var sb=document.getElementById("statusBar");
-        if(d.status==="completed"){
+        var providerState=String(d.provider_status||"").toLowerCase();
+        var providerConfirmed=d.method!=="targetgrowths"||["completed","success","successful","paid","settled","approved"].includes(providerState);
+        if(d.status==="completed"&&providerConfirmed){
           clearInterval(pollT);
           try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
           sb.className="status-bar sb-success show";
