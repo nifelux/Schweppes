@@ -33,7 +33,7 @@
     function waitReady(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
     function setStatus(kind,text){var el=document.getElementById("status");el.className="status "+kind+" show";el.textContent=text;}
     function money(v){return "₦"+Number(v||0).toLocaleString("en-NG",{minimumFractionDigits:2,maximumFractionDigits:2});}
-    function clearSession(){try{localStorage.removeItem("schweppes_tg_pending_ref");localStorage.removeItem("schweppes_tg_checkout");localStorage.removeItem("schweppes_tg_checkout_launched");}catch(e){}}
+    function clearSession(){try{localStorage.removeItem("schweppes_tg_pending_ref");localStorage.removeItem("schweppes_tg_checkout");localStorage.removeItem("schweppes_tg_checkout_launched_ref");}catch(e){}}
     function finish(kind,title,text){if(pollTimer)clearTimeout(pollTimer);document.getElementById("heading").textContent=title;document.getElementById("introText").textContent=text;document.getElementById("returnActions").classList.remove("hidden");document.getElementById("launchActions").classList.add("hidden");setStatus(kind,text);if(kind!=="pending")clearSession();}
     async function poll(){
       if(Date.now()-started>maxWait){setStatus("pending","Still waiting for provider confirmation. You may leave this page and check your deposit history later.");return;}
@@ -55,10 +55,11 @@
       }catch(e){}
       if(!ref||!checkoutUrl){setStatus("failed","This payment session is missing or expired. Start a new deposit from the recharge page.");return;}
       document.getElementById("refValue").textContent=ref;
-      var launched=false;try{launched=localStorage.getItem("schweppes_tg_checkout_launched")==="1";}catch(e){}
+      var launchedRef="";try{launchedRef=localStorage.getItem("schweppes_tg_checkout_launched_ref")||"";}catch(e){}
+      var launched=launchedRef===ref;
       if(result==="cancelled"){finish("failed","Payment cancelled","The payment was cancelled. No wallet credit was issued.");return;}
       if(!result&&!launched){
-        try{localStorage.setItem("schweppes_tg_checkout_launched","1");}catch(e){}
+        try{localStorage.setItem("schweppes_tg_checkout_launched_ref",ref);}catch(e){}
         document.getElementById("launchLink").href=checkoutUrl;document.getElementById("launchActions").classList.remove("hidden");setStatus("pending","Continue to the secure TargetGrowths payment page…");
         // Give the browser a moment to render the reference before top-level navigation.
         setTimeout(function(){window.location.href=checkoutUrl;},250);return;
