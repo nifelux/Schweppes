@@ -43,10 +43,10 @@ module.exports = async function(req, res) {
   }
 
   if(action==="add-bank-card") {
-    const { bank_name, account_number, account_name, is_default } = req.body;
+    const { bank_name, bank_id, account_number, account_name, is_default } = req.body;
     if(!bank_name||!account_number||!account_name) return res.status(400).json({ error:"All fields required" });
     if(is_default) await supabase.from("bank_cards").update({ is_default:false }).eq("user_id",user_id);
-    const { error } = await supabase.from("bank_cards").insert({ user_id, bank_name, account_number, account_name, is_default:!!is_default });
+    const { error } = await supabase.from("bank_cards").insert({ user_id, bank_name, bank_id:bank_id||null, account_number, account_name, is_default:!!is_default });
     if(error) return res.status(500).json({ error:error.message });
     return res.json({ ok:true });
   }
