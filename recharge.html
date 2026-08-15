@@ -288,9 +288,12 @@
       var d=await r.json();
       if(!d.ok||!d.checkout_url) throw new Error(d.error||"Could not start checkout");
       currentRef=d.reference;
-      try{ localStorage.setItem("schweppes_tg_pending_ref",d.reference); }catch(e){}
+      try{
+        localStorage.setItem("schweppes_tg_pending_ref",d.reference);
+        localStorage.setItem("schweppes_tg_checkout",JSON.stringify({ref:d.reference,url:d.checkout_url,amount:selAmt,created_at:Date.now()}));
+      }catch(e){}
       btn.textContent="Opening secure checkout…";
-      window.location.href=d.checkout_url;
+      window.location.href="/targetgrowths-checkout.html?ref="+encodeURIComponent(d.reference);
     }catch(e){ window.AradelAuth.toast(e.message||"Network error"); btn.disabled=false; btn.textContent="Pay Securely"; }
   }
 
