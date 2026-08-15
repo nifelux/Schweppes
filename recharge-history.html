@@ -13,6 +13,12 @@
     .s-pending { background:var(--warn-bg); color:var(--warn); }
     .s-completed { background:var(--success-bg); color:var(--success); }
     .s-rejected { background:var(--danger-bg); color:var(--danger); }
+    .gateway-id { margin-top:7px; padding:8px 9px; border:1px solid var(--border); border-radius:9px; background:var(--paper); }
+    .gateway-id-label { display:block; margin-bottom:3px; color:var(--muted); font-size:9px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+    .gateway-id-row { display:flex; align-items:center; gap:7px; }
+    .gateway-id-value { min-width:0; overflow-wrap:anywhere; color:var(--text-dark); font-family:monospace; font-size:11px; font-weight:700; }
+    .gateway-id-copy { flex:0 0 auto; padding:4px 7px; border:1px solid var(--border); border-radius:7px; background:var(--white); color:var(--red); cursor:pointer; font-size:10px; font-weight:800; }
+    .gateway-id-secondary { margin-top:5px; color:var(--muted); font-family:monospace; font-size:10px; overflow-wrap:anywhere; }
   </style>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
@@ -34,6 +40,23 @@
 (function(){
   var uid="",allDeps=[],activeFilter="all";
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
+  function esc(value){return String(value==null?"":value).replace(/[&<>"']/g,function(ch){return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch];});}
+  function gatewayTransactionId(d){
+    if(d.provider_reference)return String(d.provider_reference);
+    var response=d.provider_response||{};
+    var verification=response.verification||{};
+    var source=verification.data||response.data||response.webhook?.data||response;
+    return source.payment_trx||source.transaction_ref||source.ref_trx||source.trx_id||source.transaction_id||"";
+  }
+  function gatewayId(d){return gatewayTransactionId(d)||d.provider_identifier||"";}
+  window.copyGatewayId=function(value){
+    value=String(value||"");
+    if(!value)return;
+    function done(){if(window.AradelAuth&&window.AradelAuth.toast)window.AradelAuth.toast("Gateway ID copied");}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(value).then(done).catch(function(){fallback();});}
+    else fallback();
+    function fallback(){var input=document.createElement("textarea");input.value=value;input.style.position="fixed";input.style.opacity="0";document.body.appendChild(input);input.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(input);done();}
+  };
   waitSb(async function(){
     var s=await window.AradelAuth.requireAuth(); if(!s)return; uid=s.user.id;
     var {data}=await window.sb.from("deposits").select("*").eq("user_id",uid).order("created_at",{ascending:false});
@@ -47,7 +70,15 @@
     el.innerHTML=list.map(function(d){
       var sc="s-"+(d.status||"pending");
       var methodLabel=d.method==="monnify"?"⚡ Monnify":(d.method==="targetgrowths"?"💳 TargetGrowths":"🏦 Manual");
-      return '<div class="list-item"><div><div class="li-title">'+methodLabel+' <span class="dep-status '+sc+'">'+d.status+'</span></div><div class="li-sub">'+new Date(d.created_at).toLocaleString()+'</div>'+(d.narration?'<div class="li-sub" style="font-family:monospace;color:var(--red)">'+d.narration+'</div>':'')+'</div><div class="li-amount credit">+'+window.AradelAuth.money(d.amount)+'</div></div>';
+      var id=gatewayId(d);
+      var idBlock="";
+      if(id){
+        var transactionId=gatewayTransactionId(d);
+        var idLabel=transactionId?"Gateway transaction ID":"Gateway merchant ID";
+        var secondary=transactionId&&d.provider_identifier?'<div class="gateway-id-secondary">Merchant ID: '+esc(d.provider_identifier)+'</div>':'';
+        idBlock='<div class="gateway-id"><span class="gateway-id-label">'+idLabel+' — search this on the payment gateway</span><div class="gateway-id-row"><span class="gateway-id-value">'+esc(id)+'</span><button class="gateway-id-copy" type="button" onclick="copyGatewayId(\''+esc(id).replace(/'/g,"\\'")+'\')">Copy</button></div>'+secondary+'</div>';
+      }
+      return '<div class="list-item"><div><div class="li-title">'+methodLabel+' <span class="dep-status '+sc+'">'+esc(d.status)+'</span></div><div class="li-sub">'+esc(new Date(d.created_at).toLocaleString())+'</div>'+(d.narration?'<div class="li-sub" style="font-family:monospace;color:var(--red)">'+esc(d.narration)+'</div>':'')+idBlock+'</div><div class="li-amount credit">+'+window.AradelAuth.money(d.amount)+'</div></div>';
     }).join("");
   }
 })();
