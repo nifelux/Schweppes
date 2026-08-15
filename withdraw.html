@@ -87,17 +87,17 @@
     if(!cards.length){ wrap.innerHTML='<div style="font-size:13px;color:var(--muted)">No saved accounts.</div>'; toggleManual(); }
     else {
       wrap.innerHTML=cards.map(function(c){
-        return '<div class="saved-card" id="sc-'+c.id+'" onclick="selectCard(\''+c.id+'\',\''+c.bank_name+'\',\''+c.account_number+'\',\''+c.account_name+'\')"><div class="saved-card-icon">💳</div><div><div class="saved-card-name">'+c.bank_name+'</div><div class="saved-card-num">'+c.account_number+' · '+c.account_name+'</div></div>'+(c.is_default?'<span class="pill pill-red" style="margin-left:auto;font-size:10px">Default</span>':'')+'</div>';
+        return '<div class="saved-card" id="sc-'+c.id+'" onclick="selectCard(\''+c.id+'\',\''+c.bank_name+'\',\''+(c.bank_id||'')+'\',\''+c.account_number+'\',\''+c.account_name+'\')"><div class="saved-card-icon">💳</div><div><div class="saved-card-name">'+c.bank_name+'</div><div class="saved-card-num">'+c.account_number+' · '+c.account_name+'</div></div>'+(c.is_default?'<span class="pill pill-red" style="margin-left:auto;font-size:10px">Default</span>':'')+'</div>';
       }).join("");
       var def=cards.find(function(c){return c.is_default;})||cards[0];
-      if(def) selectCard(def.id,def.bank_name,def.account_number,def.account_name);
+      if(def) selectCard(def.id,def.bank_name,def.bank_id,def.account_number,def.account_name);
     }
   });
 
-  window.selectCard=function(id,bank,num,name){
+  window.selectCard=function(id,bank,bankId,num,name){
     document.querySelectorAll(".saved-card").forEach(function(c){c.classList.remove("selected");});
     var el=document.getElementById("sc-"+id); if(el) el.classList.add("selected");
-    selectedCard={bank_name:bank,account_number:num,account_name:name};
+    selectedCard={bank_name:bank,bank_id:bankId||null,account_number:num,account_name:name};
     showManual=false; document.getElementById("manualFields").style.display="none";
   };
   window.toggleManual=function(){
@@ -117,10 +117,11 @@
     var bank=selectedCard?.bank_name||document.getElementById("bankName")?.value?.trim();
     var num=selectedCard?.account_number||document.getElementById("acctNum")?.value?.trim();
     var name=selectedCard?.account_name||document.getElementById("acctName")?.value?.trim();
+    var bankId=selectedCard?.bank_id||document.getElementById("bankId")?.value?.trim()||null;
     if(!bank||!num||!name){ al.textContent="Please provide bank account details"; al.className="alert alert-error show"; return; }
 
     btn.disabled=true; btn.textContent="Processing…";
-    var r=await fetch("/api/withdraw",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user_id:uid,amount:amt,bank_name:bank,account_number:num,account_name:name})});
+    var r=await fetch("/api/withdraw",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user_id:uid,amount:amt,bank_name:bank,bank_id:bankId,account_number:num,account_name:name})});
     var d=await r.json();
     if(d.ok){
       al.textContent="✅ Withdrawal request submitted! We'll process it within 24 hours.";
