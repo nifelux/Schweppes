@@ -50,7 +50,8 @@ module.exports = async function handler(req, res) {
     console.error("[targetgrowths-webhook] credentials are not configured");
     return res.status(500).json({ error: "Webhook is not configured" });
   }
-
+console.log("[targetgrowths-webhook] RAW PAYLOAD:", JSON.stringify(payload));
+console.log("[targetgrowths-webhook] identifier:", identifier, "amount:", amount, "status:", status);
   if (!validWebhookSignature(payload)) {
     console.warn("[targetgrowths-webhook] invalid signature");
     return res.status(401).json({ error: "Invalid signature" });
