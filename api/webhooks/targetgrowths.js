@@ -117,8 +117,12 @@ module.exports = async function handler(req, res) {
     console.error("[targetgrowths-webhook] deposit processing error:", rpcError.message);
     return res.status(500).json({ error: rpcError.message });
   }
+  if (data && data.success === false) {
+    console.error("[targetgrowths-webhook] deposit settlement rejected:", data.message || data);
+    return res.status(400).json({ error: data.message || "Deposit settlement was rejected" });
+  }
   await supabase.from("deposits").update({
-    provider_status: "completed",
+    provider_status: status,
     provider_reference: providerReference,
     provider_response: payload,
     updated_at: new Date().toISOString(),
