@@ -44,7 +44,14 @@ function providerReference(data) {
 }
 
 function normalizedProviderStatus(data) {
-  return String(data?.payment_status || data?.status || data?.data?.payment_status || data?.data?.status || "").toLowerCase();
+  // TargetGrowths uses top-level status="success" for a successful lookup.
+  // The actual payment state is nested under data.payment_status.
+  return String(data?.data?.payment_status || data?.data?.status || data?.payment_status || "").trim().toLowerCase();
+}
+
+function providerIdentifierMatches(data, expected) {
+  const actual = data?.data?.identifier || data?.identifier;
+  return Boolean(actual) && String(actual).trim() === String(expected || "").trim();
 }
 
 function isProviderSuccess(status) {
@@ -108,6 +115,17 @@ async function reconcileTargetGrowthsDeposit(deposit) {
   const verifiedAmount = Number(data.amount ?? data.payment_amount ?? verification?.amount);
   const providerRef = providerReference(verification) || deposit.provider_reference || verificationResult.id;
 
+  if (!providerIdentifierMatches(verification, deposit.provider_identifier)) {
+    console.warn("[targetgrowths-status] verification identifier mismatch", { deposit: deposit.reference });
+    await supabase.from("deposits").update({
+      provider_status: "identifier_mismatch",
+      provider_reference: providerRef,
+      provider_response: verification,
+      updated_at: new Date().toISOString(),
+    }).eq("id", deposit.id).eq("status", "pending");
+    return { status: "pending" };
+  }
+
   if (isProviderFailure(status)) {
     await supabase.from("deposits").update({
       status: "rejected",
@@ -119,7 +137,15 @@ async function reconcileTargetGrowthsDeposit(deposit) {
     return { status: "rejected" };
   }
 
-  if (!isProviderSuccess(status)) return { status: status || "pending" };
+  if (!isProviderSuccess(status)) {
+    await supabase.from("deposits").update({
+      provider_status: status || "pending",
+      provider_reference: providerRef,
+      provider_response: verification,
+      updated_at: new Date().toISOString(),
+    }).eq("id", deposit.id).eq("status", "pending");
+    return { status: status || "pending" };
+  }
   if (!Number.isFinite(verifiedAmount) || Math.abs(verifiedAmount - Number(deposit.amount)) >= 0.01) {
     console.error("[targetgrowths-status] amount mismatch", { deposit: deposit.amount, verifiedAmount, reference: deposit.reference });
     await supabase.from("deposits").update({
@@ -215,12 +241,16 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method === "GET" && action === "status") {
-    const { ref } = req.query;
+    const { ref, user_id } = req.query;
     if (!ref) return res.status(400).json({ error: "ref required" });
     const { data, error } = await supabase.from("deposits")
-      .select("id,reference,status,amount,paid_at,method,provider_identifier,provider_reference,provider_status,provider_response,updated_at,created_at")
+      .select("id,user_id,reference,status,amount,paid_at,method,provider_identifier,provider_reference,provider_status,provider_response,updated_at,created_at")
       .eq("reference", ref).single();
     if (error || !data) return res.status(404).json({ error: "not found" });
+    if (user_id && String(data.user_id) !== String(user_id)) return res.status(404).json({ error: "not found" });
+    if (data.method === "targetgrowths" && data.status === "completed" && !["completed","success","successful","paid","settled","approved"].includes(String(data.provider_status || "").toLowerCase())) {
+      return res.json({ ok: true, status: "pending", amount: data.amount, method: data.method, provider_status: data.provider_status || "unverified" });
+    }
     if (data.method === "targetgrowths" && data.status === "pending") {
       await reconcileTargetGrowthsDeposit(data);
       const { data: refreshed } = await supabase.from("deposits")
