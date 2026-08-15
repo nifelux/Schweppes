@@ -46,7 +46,7 @@
     if(!list.length){ el.innerHTML='<div class="empty"><div class="empty-icon">📥</div><p>No deposits found.</p></div>'; return; }
     el.innerHTML=list.map(function(d){
       var sc="s-"+(d.status||"pending");
-      var methodLabel=d.method==="monnify"?"⚡ Monnify":"🏦 Manual";
+      var methodLabel=d.method==="monnify"?"⚡ Monnify":(d.method==="targetgrowths"?"💳 TargetGrowths":"🏦 Manual");
       return '<div class="list-item"><div><div class="li-title">'+methodLabel+' <span class="dep-status '+sc+'">'+d.status+'</span></div><div class="li-sub">'+new Date(d.created_at).toLocaleString()+'</div>'+(d.narration?'<div class="li-sub" style="font-family:monospace;color:var(--red)">'+d.narration+'</div>':'')+'</div><div class="li-amount credit">+'+window.AradelAuth.money(d.amount)+'</div></div>';
     }).join("");
   }

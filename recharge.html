@@ -121,6 +121,14 @@
     <p class="nar-hint" style="margin-top:6px">Include this code in your bank transfer description</p>
   </div>
 
+  <!-- ═══ TARGETGROWTHS UI (hosted checkout) ═══ -->
+  <div id="targetgrowthsSection" style="display:none">
+    <div class="method-card">
+      <div class="method-badge mb-monnify"><span style="font-size:18px">💳</span> TargetGrowths Secure Checkout</div>
+      <div style="padding:14px 16px;color:var(--text-muted);font-size:13px;line-height:1.6">After you select an amount, you will be redirected to TargetGrowths to complete your payment. Your wallet is credited automatically after the payment is verified.</div>
+    </div>
+  </div>
+
   <!-- ═══ MONNIFY UI (permanent account, shown instead of amount picker) ═══ -->
   <div id="monnifySection" style="display:none">
     <div class="method-card">
@@ -162,7 +170,7 @@
 <script src="assets/js/auth.js" defer></script>
 <script>
 (function(){
-  var selAmt=0,senderName="",userId="",userEmail="",fullName="",activeMethod="manual",pollT=null,currentRef="";
+  var selAmt=0,senderName="",userId="",userEmail="",fullName="",activeMethod="targetgrowths",pollT=null,currentRef="";
   function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
 
   var ICON_PENDING='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
@@ -182,8 +190,9 @@
     try{
       var r=await fetch("/api/deposit?action=method");
       var d=await r.json();
-      activeMethod=d.method||"manual";
+      activeMethod=d.method||"targetgrowths";
       applyMethod(activeMethod);
+      handleReturnState();
     }catch(e){ applyMethod("manual"); }
 
     document.getElementById("rechBtn").addEventListener("click", handleRecharge);
@@ -194,24 +203,31 @@
     var manualAmt=document.getElementById("manualAmountSection");
     var methodCard=document.getElementById("methodCard");
     var monnifySection=document.getElementById("monnifySection");
+    var targetSection=document.getElementById("targetgrowthsSection");
     var btn=document.getElementById("rechBtn");
     var infoList=document.getElementById("infoList");
+    activeMethod=m;
+    targetSection.style.display="none";
+    monnifySection.style.display="none";
+    methodCard.style.display="none";
 
     if(m==="monnify"){
       manualAmt.style.display="none";
-      methodCard.style.display="none";
       monnifySection.style.display="block";
-      btn.style.display="none"; // no "continue" step needed — account is always ready
-      infoList.innerHTML =
-        '<li><span>•</span>Your account works forever — bookmark this page</li>'+
-        '<li><span>•</span>Any amount is accepted, no minimum enforced by the account itself</li>'+
-        '<li><span>•</span>Funds usually reflect within minutes</li>';
+      btn.style.display="none";
+      infoList.innerHTML='<li><span>•</span>Your account works forever — bookmark this page</li><li><span>•</span>Any amount is accepted, no minimum enforced by the account itself</li><li><span>•</span>Funds usually reflect within minutes</li>';
       loadMonnifyAccount();
+    } else if(m==="targetgrowths"){
+      manualAmt.style.display="block";
+      targetSection.style.display="block";
+      btn.style.display="block";
+      btn.textContent="Pay Securely";
+      infoList.innerHTML='<li><span>•</span>Payments are completed on TargetGrowths secure checkout</li><li><span>•</span>Minimum TargetGrowths deposit: ₦600</li><li><span>•</span>Your wallet is credited after verified confirmation</li>';
     } else {
       manualAmt.style.display="block";
       methodCard.style.display="block";
-      monnifySection.style.display="none";
       btn.style.display="block";
+      btn.textContent="Continue";
       badge.className="method-badge mb-manual";
     }
   }
@@ -247,7 +263,8 @@
     validateForm();
   };
   function validateForm(){
-    document.getElementById("rechBtn").disabled = !(selAmt>=500 && senderName.trim().length>0);
+    var min=activeMethod==="targetgrowths"?600:500;
+    document.getElementById("rechBtn").disabled = !(selAmt>=min && (activeMethod==="targetgrowths" || senderName.trim().length>0));
   }
   function updateAmtDisplay(){
     var el=document.getElementById("ti-amt"),cp=document.getElementById("tiAmtCopy");
@@ -256,11 +273,41 @@
   }
 
   async function handleRecharge(){
-    if(!selAmt||selAmt<500){ window.AradelAuth.toast("Minimum deposit is ₦500"); return; }
-    if(!senderName.trim()){ window.AradelAuth.toast("Please enter the sender's name"); return; }
+    var min=activeMethod==="targetgrowths"?600:500;
+    if(!selAmt||selAmt<min){ window.AradelAuth.toast("Minimum "+(activeMethod==="targetgrowths"?"TargetGrowths ":"")+"deposit is ₦"+min); return; }
+    if(activeMethod!=="targetgrowths" && !senderName.trim()){ window.AradelAuth.toast("Please enter the sender's name"); return; }
     var btn=document.getElementById("rechBtn");
     btn.disabled=true; btn.textContent="Processing…";
-    await doManual();
+    if(activeMethod==="targetgrowths") await doTargetGrowths(); else await doManual();
+  }
+
+  async function doTargetGrowths(){
+    var btn=document.getElementById("rechBtn");
+    try{
+      var r=await fetch("/api/deposit?action=initiate-targetgrowths",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user_id:userId,amount:selAmt})});
+      var d=await r.json();
+      if(!d.ok||!d.checkout_url) throw new Error(d.error||"Could not start checkout");
+      currentRef=d.reference;
+      try{ localStorage.setItem("schweppes_tg_pending_ref",d.reference); }catch(e){}
+      btn.textContent="Opening secure checkout…";
+      window.location.href=d.checkout_url;
+    }catch(e){ window.AradelAuth.toast(e.message||"Network error"); btn.disabled=false; btn.textContent="Pay Securely"; }
+  }
+
+  function handleReturnState(){
+    var q=new URLSearchParams(window.location.search), state=q.get("targetgrowths"), ref=q.get("ref");
+    var savedRef=null;
+    try{ savedRef=localStorage.getItem("schweppes_tg_pending_ref"); }catch(e){}
+    ref=ref||savedRef;
+    if(!state && ref) state="success";
+    if(state!=="success"&&state!=="cancelled") return;
+    var sb=document.getElementById("statusBar");
+    if(state==="cancelled"){
+      try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
+      sb.className="status-bar sb-failed show"; sb.innerHTML=ICON_FAILED+'<span>Payment was cancelled. You can try again.</span>'; return;
+    }
+    if(!ref) return;
+    currentRef=ref; sb.className="status-bar sb-pending show"; sb.innerHTML=ICON_PENDING+'<span>Payment received. Waiting for TargetGrowths verification…</span>'; startPoll(ref);
   }
 
   async function doManual(){
@@ -285,24 +332,28 @@
 
   function startPoll(ref){
     clearInterval(pollT);
-    pollT=setInterval(async function(){
+    var pollOnce=async function(){
       try{
-        var r=await fetch("/api/deposit?action=status&ref="+ref);
+        var r=await fetch("/api/deposit?action=status&ref="+encodeURIComponent(ref));
         var d=await r.json();
         var sb=document.getElementById("statusBar");
         if(d.status==="completed"){
           clearInterval(pollT);
+          try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
           sb.className="status-bar sb-success show";
           sb.innerHTML=ICON_SUCCESS+'<span>Wallet credited successfully! Redirecting…</span>';
           setTimeout(function(){location.href="/dashboard.html";},2000);
         }
         if(d.status==="rejected"){
           clearInterval(pollT);
+          try{ localStorage.removeItem("schweppes_tg_pending_ref"); }catch(e){}
           sb.className="status-bar sb-failed show";
           sb.innerHTML=ICON_FAILED+'<span>Deposit rejected. Please contact support.</span>';
         }
       }catch(e){console.warn(e);}
-    },6000);
+    };
+    pollOnce();
+    pollT=setInterval(pollOnce,6000);
   }
 
   window.cp=function(id){

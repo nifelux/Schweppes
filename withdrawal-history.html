@@ -30,8 +30,11 @@
     var el=document.getElementById("histList");
     if(!ws.length){ el.innerHTML='<div class="empty"><div class="empty-icon">📤</div><p>No withdrawals yet.</p></div>'; return; }
     el.innerHTML=ws.map(function(w){
-      var sc="s-"+(w.status||"pending");
-      return '<div class="list-item"><div><div class="li-title">'+w.bank_name+' <span class="dep-status '+sc+'">'+w.status+'</span></div><div class="li-sub">'+w.account_number+' · '+w.account_name+'</div><div class="li-sub">'+new Date(w.created_at).toLocaleString()+'</div></div><div class="li-amount debit">-'+window.AradelAuth.money(w.amount)+'</div></div>';
+      var status=w.status||"pending", providerState=String(w.provider_status||"").toLowerCase();
+      var providerPending=status==="approved" && providerState && !["completed","success","successful","paid","settled"].includes(providerState);
+      var label=providerPending?"provider pending":(status==="completed"?"completed":status);
+      var sc="s-"+(status==="completed"?"approved":(providerPending?"pending":status));
+      return '<div class="list-item"><div><div class="li-title">'+w.bank_name+' <span class="dep-status '+sc+'">'+label+'</span></div><div class="li-sub">'+w.account_number+' · '+w.account_name+'</div><div class="li-sub">'+new Date(w.created_at).toLocaleString()+'</div></div><div class="li-amount debit">-'+window.AradelAuth.money(w.amount)+'</div></div>';
     }).join("");
   });
 })();
