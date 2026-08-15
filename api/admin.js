@@ -197,7 +197,14 @@ async function verifyTargetGrowthsDeposit(dep) {
 
 async function activeDepositMethod() {
   const { data } = await supabase.from("site_settings").select("value").eq("key", "deposit_method").single();
-  return data?.value || "targetgrowths";
+  return data?.value || "manual";
+}
+
+async function activeWithdrawalMethod() {
+  // The existing admin method selector controls both flows for now. Any
+  // method other than TargetGrowths is deliberately handled manually.
+  const { data } = await supabase.from("site_settings").select("value").eq("key", "deposit_method").maybeSingle();
+  return String(data?.value || "manual").toLowerCase();
 }
 
 async function isAdmin(id) {
@@ -564,6 +571,31 @@ module.exports = async function(req, res) {
       });
       if(error) return res.status(500).json({ error:error.message });
       return res.json({ ok:true, action:"reject", data });
+    }
+
+    const withdrawalMethod = await activeWithdrawalMethod();
+    console.log("[withdrawal-routing]", JSON.stringify({ withdrawal_id, method: withdrawalMethod }));
+
+    // Manual mode must never validate a TargetGrowths bank code or call the
+    // provider. The wallet was already debited by request_withdrawal(); this
+    // approval only records the administrator's manual payment decision.
+    if (withdrawalMethod !== "targetgrowths") {
+      const { data:manualClaimed, error:manualError } = await supabase.from("withdrawals").update({
+        status: "completed",
+        provider: "manual",
+        provider_status: "manual_approved",
+        provider_identifier: null,
+        provider_reference: null,
+        provider_response: { source: "manual_admin_approval", admin_id },
+        processed_by: admin_id,
+        processed_at: new Date().toISOString(),
+        note: note || "Approved for manual bank transfer",
+        updated_at: new Date().toISOString(),
+      }).eq("id", withdrawal_id).eq("status", "pending").select("*").single();
+
+      if (manualError) return res.status(500).json({ error: manualError.message });
+      if (!manualClaimed) return res.json({ ok:true, note:"already_processed" });
+      return res.json({ ok:true, action:"approved", status:"manual_approved" });
     }
 
     const bankId = bankCodeFor(w.bank_name, w.bank_id);

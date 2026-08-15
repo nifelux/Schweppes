@@ -237,7 +237,7 @@ module.exports = async function handler(req, res) {
 
   if (req.method === "GET" && action === "method") {
     const { data } = await supabase.from("site_settings").select("value").eq("key", "deposit_method").single();
-    return res.json({ ok: true, method: data?.value || "targetgrowths" });
+    return res.json({ ok: true, method: data?.value || "manual" });
   }
 
   if (req.method === "GET" && action === "status") {
