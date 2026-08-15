@@ -44,6 +44,7 @@ module.exports = async function handler(req, res) {
   let body;
   try { body = await rawBody(req); } catch (e) { return res.status(400).json({ error: "Could not read webhook body" }); }
   const payload = parseWebhookBody(body);
+  console.log("[TG-WEBHOOK-RAW]", JSON.stringify(payload));
   if (!payload || Object.keys(payload).length === 0) return res.status(400).json({ error: "Empty webhook payload" });
 
   try { getCredentials(); } catch (e) {
