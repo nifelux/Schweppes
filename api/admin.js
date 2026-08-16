@@ -41,7 +41,7 @@
  */
 const crypto = require("crypto");
 const { createClient } = require("@supabase/supabase-js");
-const { initiateTransfer, verifyPayment } = require("../lib/targetgrowths");
+const { initiateTransfer, verifyPayment, getWalletBalance } = require("../lib/targetgrowths");
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 const SUPPORTED_BANK_CODES = new Set([
@@ -368,6 +368,16 @@ module.exports = async function(req, res) {
       if(error) return res.status(500).json({ error:error.message });
       const map={}; (data||[]).forEach(function(r){ map[r.key]=r.value; });
       return res.json({ ok:true, settings:map });
+    }
+
+    if(action==="targetgrowths-balance") {
+      try {
+        const balance = await getWalletBalance("NGN");
+        return res.json({ ok:true, ...balance, fetched_at:new Date().toISOString() });
+      } catch (error) {
+        console.error("[TG-BALANCE]", error.message, error.providerResponse || "");
+        return res.status(502).json({ ok:false, error:error.message || "Unable to load TargetGrowths balance" });
+      }
     }
 
     if(action==="stats") {
