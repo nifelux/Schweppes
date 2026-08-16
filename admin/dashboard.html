@@ -62,6 +62,9 @@
     .msg-user-list { max-height:200px; overflow-y:auto; border:1.5px solid #3A2E29; border-radius:8px; margin-bottom:12px; }
     .msg-user-opt { padding:10px 14px; border-bottom:1px solid #3A2E29; font-size:13px; color:#B8ADA5; cursor:pointer; }
     .msg-user-opt.selected { background:rgba(185,28,60,.1); color:#F87171; }
+    .tg-balance-val { font-family:'Fraunces',serif; font-size:30px; font-weight:600; color:#34D399; }
+    .tg-balance-meta { margin-top:4px; font-size:11px; color:#8A7F78; }
+    .tg-balance-error { color:#F87171; font-size:13px; font-weight:600; }
   </style>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
@@ -90,6 +93,10 @@
       <div class="a-stat"><div class="a-stat-val" id="ov-active">—</div><div class="a-stat-lbl">Active Products</div></div>
       <div class="a-stat"><div class="a-stat-val" id="ov-deps" style="color:#FCD34D">—</div><div class="a-stat-lbl">Pending Deposits</div></div>
       <div class="a-stat"><div class="a-stat-val" id="ov-withs" style="color:#FB923C">—</div><div class="a-stat-lbl">Pending Withdrawals</div></div>
+    </div>
+    <div class="a-card" id="targetgrowthsBalanceCard">
+      <div class="a-card-title">TargetGrowths Balance <button class="refresh-btn" onclick="loadTargetGrowthsBalance()">↻ Refresh</button></div>
+      <div style="padding:16px"><div class="tg-balance-val" id="tgBalanceValue">—</div><div class="tg-balance-meta" id="tgBalanceMeta">Loading merchant wallet balance…</div></div>
     </div>
   </div>
 
@@ -325,6 +332,7 @@
     var s=await window.AradelAuth.requireAdmin(); if(!s)return;
     adminId=s.user.id;
     await loadStats();
+    await loadTargetGrowthsBalance();
     await loadDeposits();
     await loadMethod();
     await loadWithdrawalLock();
@@ -355,6 +363,26 @@
       document.getElementById("ov-withs").textContent=d.pending_withdrawals||0;
     }
   }
+
+  window.loadTargetGrowthsBalance=async function(){
+    var valueEl=document.getElementById("tgBalanceValue");
+    var metaEl=document.getElementById("tgBalanceMeta");
+    valueEl.className="tg-balance-val";
+    valueEl.textContent="—";
+    metaEl.textContent="Loading merchant wallet balance…";
+    try {
+      var r=await fetch("/api/admin?action=targetgrowths-balance&admin_id="+adminId);
+      var d=await r.json();
+      if(!d.ok) throw new Error(d.error||"TargetGrowths balance could not be loaded.");
+      valueEl.className="tg-balance-val";
+      valueEl.textContent="₦"+Number(d.balance||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+      metaEl.textContent="Available NGN merchant balance · Updated "+new Date(d.fetched_at||Date.now()).toLocaleString();
+    } catch(error) {
+      valueEl.className="tg-balance-error";
+      valueEl.textContent="Balance unavailable";
+      metaEl.textContent=error.message||"TargetGrowths balance could not be loaded.";
+    }
+  };
 
   window.loadDeposits=async function(){
     var el=document.getElementById("depList");
