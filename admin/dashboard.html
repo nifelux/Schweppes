@@ -2,832 +2,653 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Greenew Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <title>Schweppes Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/styles.css"/>
   <style>
-    html,body { background:#163027!important; color:#DDE9E1!important; }
-    body::before,body::after { display:none!important; }
-
-    .admin-top { background:#0B2D22; border-bottom:1px solid #355247; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
-    .admin-brand { font-size:18px; font-weight:800; color:#fff; }
-    .admin-brand span { color:var(--sky); }
+    html,body { background:#181210!important; color:#EFE7E3!important; }
+    a { text-decoration:none; color:inherit; }
+    .admin-top { background:#241B18; border-bottom:1px solid #3A2E29; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; }
+    .admin-brand { font-family:'Fraunces',serif; font-size:18px; font-weight:600; color:#fff; }
+    .admin-brand span { color:#F87171; }
     .admin-tag { padding:4px 10px; border-radius:6px; background:rgba(239,68,68,.15); color:#f87171; font-size:11px; font-weight:700; }
-
-    .admin-nav { display:flex; gap:4px; padding:12px 16px; background:#0B2D22; border-bottom:1px solid #355247; overflow-x:auto; scrollbar-width:none; }
+    .admin-nav { display:flex; gap:4px; padding:12px 16px; background:#241B18; border-bottom:1px solid #3A2E29; overflow-x:auto; scrollbar-width:none; }
     .admin-nav::-webkit-scrollbar { display:none; }
-    .anav { flex-shrink:0; padding:8px 16px; border-radius:10px; font-size:13px; font-weight:600; color:#8BA296; cursor:pointer; border:none; background:transparent; transition:all .15s; }
-    .anav.on { background:rgba(14,165,233,.15); color:var(--sky); }
-
+    .anav { flex-shrink:0; padding:8px 16px; border-radius:10px; font-size:13px; font-weight:600; color:#B8ADA5; cursor:pointer; border:none; background:transparent; transition:all .15s; }
+    .anav.on { background:rgba(185,28,60,.25); color:#F87171; }
     .admin-main { padding:16px; max-width:640px; margin:0 auto; }
-
-    /* Stats */
     .a-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:16px; }
-    .a-stat { background:#0B2D22; border-radius:14px; padding:16px; border:1px solid #355247; }
-    .a-stat-val { font-size:28px; font-weight:800; color:#fff; }
-    .a-stat-lbl { font-size:11px; color:#6E8178; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
-
-    /* Cards */
-    .a-card { background:#0B2D22; border-radius:16px; border:1px solid #355247; overflow:hidden; margin-bottom:14px; }
-    .a-card-title { padding:14px 16px; border-bottom:1px solid #355247; font-size:14px; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:space-between; }
-    .a-filter { display:flex; gap:6px; padding:12px 16px; border-bottom:1px solid #355247; overflow-x:auto; scrollbar-width:none; }
-    .a-ftab { flex-shrink:0; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; color:#6E8178; cursor:pointer; border:1.5px solid #355247; background:transparent; transition:all .15s; }
-    .a-ftab.on { background:rgba(14,165,233,.15); border-color:rgba(14,165,233,.4); color:var(--sky); }
-
-    /* Payment items */
-    .dep-row { padding:14px 16px; border-bottom:1px solid #355247; }
+    .a-stat { background:#241B18; border-radius:14px; padding:16px; border:1px solid #3A2E29; }
+    .a-stat-val { font-family:'Fraunces',serif; font-size:28px; font-weight:600; color:#fff; }
+    .a-stat-lbl { font-size:11px; color:#8A7F78; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+    .a-card { background:#241B18; border-radius:16px; border:1px solid #3A2E29; overflow:hidden; margin-bottom:14px; }
+    .a-card-title { padding:14px 16px; border-bottom:1px solid #3A2E29; font-size:14px; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:space-between; }
+    .a-filter { display:flex; gap:6px; padding:12px 16px; border-bottom:1px solid #3A2E29; overflow-x:auto; scrollbar-width:none; }
+    .a-ftab { flex-shrink:0; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; color:#8A7F78; cursor:pointer; border:1.5px solid #3A2E29; background:transparent; }
+    .a-ftab.on { background:rgba(185,28,60,.2); border-color:rgba(185,28,60,.5); color:#F87171; }
+    .dep-row { padding:14px 16px; border-bottom:1px solid #3A2E29; }
     .dep-row:last-child { border-bottom:none; }
     .dep-name { font-size:14px; font-weight:700; color:#fff; }
-    .dep-meta { font-size:12px; color:#6E8178; margin-top:2px; }
-    .dep-amt  { font-size:18px; font-weight:800; color:#3DBB86; }
-    .dep-nar  { display:inline-flex; align-items:center; gap:6px; background:rgba(245,158,11,.1); border-radius:6px; padding:4px 10px; margin-top:8px; }
+    .dep-meta { font-size:12px; color:#8A7F78; margin-top:2px; }
+    .dep-amt { font-family:'Fraunces',serif; font-size:18px; font-weight:600; color:#34D399; }
+    .dep-nar { display:inline-flex; align-items:center; gap:6px; background:rgba(245,158,11,.1); border-radius:6px; padding:4px 10px; margin-top:8px; }
     .dep-nar-code { font-size:12px; font-weight:700; color:#FCD34D; }
     .dep-actions { display:flex; gap:8px; margin-top:10px; }
-    .btn-approve { flex:1; padding:9px; border-radius:8px; border:none; background:rgba(52,211,153,.15); color:#3DBB86; font-size:12px; font-weight:700; cursor:pointer; }
-    .btn-reject  { flex:1; padding:9px; border-radius:8px; border:none; background:rgba(239,68,68,.12); color:#f87171; font-size:12px; font-weight:700; cursor:pointer; }
-    .btn-approve:disabled,.btn-reject:disabled { opacity:.35; cursor:not-allowed; }
-
-    /* Method switcher */
-    .method-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:14px; }
-    .m-btn { padding:14px 8px; border-radius:12px; border:2px solid #355247; background:#163027; text-align:center; cursor:pointer; transition:all .2s; }
-    .m-btn .m-icon { font-size:22px; display:block; margin-bottom:6px; }
-    .m-btn .m-lbl { font-size:12px; font-weight:700; color:#6E8178; }
-    .m-btn.on-manual   { border-color:#F59E0B; background:rgba(245,158,11,.1); }
+    .btn-approve { flex:1; padding:9px; border-radius:8px; border:none; background:rgba(52,211,153,.15); color:#34D399; font-size:12px; font-weight:700; cursor:pointer; }
+    .btn-reject { flex:1; padding:9px; border-radius:8px; border:none; background:rgba(239,68,68,.12); color:#f87171; font-size:12px; font-weight:700; cursor:pointer; }
+    .method-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:14px; }
+    .m-btn { padding:16px 8px; border-radius:12px; border:2px solid #3A2E29; background:#181210; text-align:center; cursor:pointer; transition:all .2s; }
+    .m-btn .m-icon { font-size:24px; display:block; margin-bottom:6px; }
+    .m-btn .m-lbl { font-size:13px; font-weight:700; color:#8A7F78; }
+    .m-btn.on-manual { border-color:#F59E0B; background:rgba(245,158,11,.1); }
     .m-btn.on-manual .m-lbl { color:#F59E0B; }
-    .m-btn.on-paystack { border-color:#3DBB86; background:rgba(52,211,153,.1); }
-    .m-btn.on-paystack .m-lbl { color:#3DBB86; }
-    .m-btn.on-ipayng   { border-color:var(--sky); background:rgba(14,165,233,.1); }
-    .m-btn.on-ipayng .m-lbl { color:var(--sky); }
-    .m-status { margin:0 14px 14px; padding:10px 14px; border-radius:10px; font-size:13px; font-weight:600; text-align:center; background:rgba(14,165,233,.1); color:var(--sky); }
-
-    /* Plan form */
+    .m-btn.on-monnify { border-color:#34D399; background:rgba(52,211,153,.1); }
+    .m-btn.on-monnify .m-lbl { color:#34D399; }
+    .m-status { margin:0 14px 14px; padding:10px 14px; border-radius:10px; font-size:13px; font-weight:600; text-align:center; background:rgba(185,28,60,.12); color:#F87171; }
     .a-field { margin-bottom:12px; }
-    .a-label { font-size:12px; font-weight:600; color:#8BA296; margin-bottom:5px; display:block; }
-    .a-input { width:100%; padding:11px 14px; background:#163027; border:1.5px solid #355247; border-radius:8px; font-size:14px; color:#fff; outline:none; }
-    .a-input:focus { border-color:var(--sky); }
-    .a-select { width:100%; padding:11px 14px; background:#163027; border:1.5px solid #355247; border-radius:8px; font-size:14px; color:#fff; outline:none; appearance:none; }
-
-    /* User row */
-    .user-row { padding:12px 16px; border-bottom:1px solid #355247; display:flex; align-items:center; gap:12px; }
+    .a-label { font-size:12px; font-weight:600; color:#B8ADA5; margin-bottom:5px; display:block; }
+    .a-input, .a-select, textarea.a-input { width:100%; padding:11px 14px; background:#181210; border:1.5px solid #3A2E29; border-radius:8px; font-size:14px; color:#fff; outline:none; font-family:inherit; }
+    .a-input:focus { border-color:#B91C3C; }
+    .user-row { padding:12px 16px; border-bottom:1px solid #3A2E29; display:flex; align-items:center; gap:12px; cursor:pointer; }
     .user-row:last-child { border-bottom:none; }
-    .user-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--sky)); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff; flex-shrink:0; }
+    .user-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(155deg,#B91C3C,#7F1228); display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; color:#fff; flex-shrink:0; }
     .user-name { font-size:14px; font-weight:700; color:#fff; }
-    .user-meta { font-size:11px; color:#6E8178; margin-top:1px; }
-    .user-bal  { font-size:14px; font-weight:700; color:#3DBB86; }
-
-    /* Toast */
-    #toast { background:#0B2D22!important; border:1px solid #355247!important; }
-
-    /* Pages */
+    .user-meta { font-size:11px; color:#8A7F78; margin-top:1px; }
+    .user-bal { font-size:14px; font-weight:700; color:#34D399; }
+    #toast { background:#241B18!important; border:1px solid #3A2E29!important; }
     .apage { display:none; }
     .apage.on { display:block; }
-
-    .refresh-btn { padding:5px 12px; border-radius:8px; background:rgba(255,255,255,.06); border:1px solid #355247; color:#6E8178; font-size:12px; font-weight:600; cursor:pointer; }
-
-    /* Send message */
-    .msg-user-list { max-height:200px; overflow-y:auto; border:1.5px solid #355247; border-radius:8px; margin-bottom:12px; }
-    .msg-user-opt { padding:10px 14px; border-bottom:1px solid #355247; font-size:13px; color:#8BA296; cursor:pointer; }
-    .msg-user-opt:hover { background:rgba(255,255,255,.03); color:#fff; }
-    .msg-user-opt.selected { background:rgba(14,165,233,.1); color:var(--sky); }
-    .msg-user-opt:last-child { border-bottom:none; }
+    .refresh-btn { padding:5px 12px; border-radius:8px; background:rgba(255,255,255,.06); border:1px solid #3A2E29; color:#8A7F78; font-size:12px; font-weight:600; cursor:pointer; }
+    .msg-user-list { max-height:200px; overflow-y:auto; border:1.5px solid #3A2E29; border-radius:8px; margin-bottom:12px; }
+    .msg-user-opt { padding:10px 14px; border-bottom:1px solid #3A2E29; font-size:13px; color:#B8ADA5; cursor:pointer; }
+    .msg-user-opt.selected { background:rgba(185,28,60,.1); color:#F87171; }
+    .tg-balance-val { font-family:'Fraunces',serif; font-size:30px; font-weight:600; color:#34D399; }
+    .tg-balance-meta { margin-top:4px; font-size:11px; color:#8A7F78; }
+    .tg-balance-error { color:#F87171; font-size:13px; font-weight:600; }
   </style>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 
-<!-- Top bar -->
 <div class="admin-top">
-  <div class="admin-brand">Greenew<span>Admin</span></div>
-  <div style="display:flex;gap:8px;align-items:center">
-    <div class="admin-tag">ADMIN</div>
-    <button onclick="window.GreenewAuth.logout()" style="background:none;border:none;color:#6E8178;cursor:pointer;font-size:13px">Sign out</button>
-  </div>
+  <div class="admin-brand">Schweppes<span>Admin</span></div>
+  <div style="display:flex;gap:8px;align-items:center"><div class="admin-tag">ADMIN</div><button onclick="window.AradelAuth.logout()" style="background:none;border:none;color:#8A7F78;cursor:pointer;font-size:13px">Sign out</button></div>
 </div>
 
-<!-- Nav -->
 <div class="admin-nav">
   <button class="anav on" onclick="showPage('overview',this)">📊 Overview</button>
-  <button class="anav" onclick="showPage('payments',this)">💳 Payments</button>
-  <button class="anav" onclick="showPage('refunds',this)">💸 Refund requests</button>
-  <button class="anav" onclick="showPage('products',this)">📦 Plans</button>
+  <button class="anav" onclick="showPage('deposits',this)">💳 Deposits</button>
+  <button class="anav" onclick="showPage('withdrawals',this)">💸 Withdrawals</button>
+  <button class="anav" onclick="showPage('products',this)">📦 Products</button>
   <button class="anav" onclick="showPage('users',this)">👥 Users</button>
-  <button class="anav" onclick="showPage('messages',this)">✉️ Support messages</button>
-  <button class="anav" onclick="showPage('giftcodes',this)">🎁 Offer codes</button>
+  <button class="anav" onclick="showPage('messages',this)">✉️ Messages</button>
+  <button class="anav" onclick="showPage('giftcodes',this)">🎁 Gift Codes</button>
   <button class="anav" onclick="showPage('settings',this)">⚙️ Settings</button>
 </div>
 
 <div class="admin-main">
 
-  <!-- ═══ OVERVIEW ═══ -->
   <div class="apage on" id="page-overview">
     <div class="a-stats">
       <div class="a-stat"><div class="a-stat-val" id="ov-users">—</div><div class="a-stat-lbl">Total Users</div></div>
-      <div class="a-stat"><div class="a-stat-val" id="ov-active">—</div><div class="a-stat-lbl">Active energy plans</div></div>
-      <div class="a-stat"><div class="a-stat-val" id="ov-deps" style="color:#FCD34D">—</div><div class="a-stat-lbl">Pending Payments</div></div>
-      <div class="a-stat"><div class="a-stat-val" id="ov-withs" style="color:#FB923C">—</div><div class="a-stat-lbl">Pending Refund requests</div></div>
+      <div class="a-stat"><div class="a-stat-val" id="ov-active">—</div><div class="a-stat-lbl">Active Products</div></div>
+      <div class="a-stat"><div class="a-stat-val" id="ov-deps" style="color:#FCD34D">—</div><div class="a-stat-lbl">Pending Deposits</div></div>
+      <div class="a-stat"><div class="a-stat-val" id="ov-withs" style="color:#FB923C">—</div><div class="a-stat-lbl">Pending Withdrawals</div></div>
     </div>
-    <div class="a-card">
-      <div class="a-card-title">Quick Links</div>
-      <div style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <button onclick="showPage('payments',document.querySelector('.anav:nth-child(2)'))" style="padding:12px;border-radius:10px;background:rgba(252,211,77,.1);color:#FCD34D;border:none;font-weight:700;font-size:13px;cursor:pointer">💳 Review Payments</button>
-        <button onclick="showPage('refunds',document.querySelector('.anav:nth-child(3)'))" style="padding:12px;border-radius:10px;background:rgba(251,146,60,.1);color:#FB923C;border:none;font-weight:700;font-size:13px;cursor:pointer">💸 Review Refund requests</button>
-        <button onclick="showPage('products',document.querySelector('.anav:nth-child(4)'))" style="padding:12px;border-radius:10px;background:rgba(14,165,233,.1);color:var(--sky);border:none;font-weight:700;font-size:13px;cursor:pointer">📦 Manage Plans</button>
-        <button onclick="showPage('messages',document.querySelector('.anav:nth-child(6)'))" style="padding:12px;border-radius:10px;background:rgba(139,92,246,.1);color:#a78bfa;border:none;font-weight:700;font-size:13px;cursor:pointer">✉️ Send Message</button>
-        <button onclick="showPage('giftcodes',document.querySelector('.anav:nth-child(7)'))" style="padding:12px;border-radius:10px;background:rgba(236,72,153,.1);color:#f472b6;border:none;font-weight:700;font-size:13px;cursor:pointer">🎁 Offer codes</button>
-      </div>
+    <div class="a-card" id="targetgrowthsBalanceCard">
+      <div class="a-card-title">TargetGrowths Balance <button class="refresh-btn" onclick="loadTargetGrowthsBalance()">↻ Refresh</button></div>
+      <div style="padding:16px"><div class="tg-balance-val" id="tgBalanceValue">—</div><div class="tg-balance-meta" id="tgBalanceMeta">Loading merchant wallet balance…</div></div>
     </div>
   </div>
 
-  <!-- ═══ DEPOSITS ═══ -->
-  <div class="apage" id="page-payments">
+  <div class="apage" id="page-deposits">
     <div class="a-card">
-      <div class="a-card-title">
-        Payment Queue
-        <button class="refresh-btn" onclick="loadPayments()">↻ Refresh</button>
-      </div>
+      <div class="a-card-title">Deposit Queue <button class="refresh-btn" onclick="loadDeposits()">↻ Refresh</button></div>
       <div class="a-filter">
         <button class="a-ftab on" onclick="setDepFilter(this,'pending')">Pending</button>
         <button class="a-ftab" onclick="setDepFilter(this,'completed')">Approved</button>
         <button class="a-ftab" onclick="setDepFilter(this,'rejected')">Rejected</button>
         <button class="a-ftab" onclick="setDepFilter(this,'all')">All</button>
       </div>
-      <div id="depList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
-    </div>
-
-    <div class="a-card" style="margin-top:14px">
-      <div class="a-card-title">
-        Unmatched Bank Alerts
-        <button class="refresh-btn" onclick="loadUnmatchedAlerts()">↻ Refresh</button>
-      </div>
-      <div style="padding:10px 14px 0;font-size:11px;color:#6E8178">Money came in but no narration could be matched. Paste the correct payment reference to credit it manually.</div>
-      <div id="unmatchedAlertsList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
+      <div id="depList"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div>
     </div>
   </div>
 
-  <!-- ═══ WITHDRAWALS ═══ -->
-  <div class="apage" id="page-refunds">
+  <div class="apage" id="page-withdrawals">
     <div class="a-card">
-      <div class="a-card-title">
-        Refund Queue
-        <button class="refresh-btn" onclick="loadRefundRequests()">↻ Refresh</button>
-      </div>
+      <div class="a-card-title">Withdrawal Queue <button class="refresh-btn" onclick="loadWithdrawals()">↻ Refresh</button></div>
       <div class="a-filter">
         <button class="a-ftab on" onclick="setWFilter(this,'pending')">Pending</button>
         <button class="a-ftab" onclick="setWFilter(this,'approved')">Approved</button>
         <button class="a-ftab" onclick="setWFilter(this,'rejected')">Rejected</button>
       </div>
-      <div id="wList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
+      <div id="wList"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div>
     </div>
   </div>
 
-  <!-- ═══ PRODUCTS ═══ -->
   <div class="apage" id="page-products">
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">Add / Edit Plan</div>
+      <div class="a-card-title">Add / Edit Product</div>
       <div style="padding:14px">
         <input type="hidden" id="pid"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="a-field"><label class="a-label">Name</label><input class="a-input" id="pname" placeholder="Plan name"/></div>
-          <div class="a-field">
-            <label class="a-label">Type</label>
-            <select class="a-select" id="ptype" onchange="toggleVipField()">
-              <option value="newbie">Newbie</option>
-              <option value="vip">Service tier</option>
-            </select>
-          </div>
-          <div class="a-field" id="vipField" style="display:none">
-            <label class="a-label">Service tier Level (1-4)</label>
-            <input class="a-input" id="pvip" type="number" min="1" max="4" placeholder="1"/>
-          </div>
-          <div class="a-field"><label class="a-label">Price (₦)</label><input class="a-input" id="pprice" type="number" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Plan credit (₦)</label><input class="a-input" id="pdaily" type="number" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Duration (days)</label><input class="a-input" id="pdur" type="number" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Total Return (₦)</label><input class="a-input" id="ptotal" type="number" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Sort Order</label><input class="a-input" id="psort" type="number" placeholder="0"/></div>
+          <div class="a-field"><label class="a-label">Name</label><input class="a-input" id="pname" placeholder="Product name"/></div>
+          <div class="a-field"><label class="a-label">Type</label><select class="a-select" id="ptype" onchange="toggleVipField()"><option value="newbie">Newbie</option><option value="vip">VIP</option></select></div>
+          <div class="a-field" id="vipField" style="display:none"><label class="a-label">VIP Level (1-4)</label><input class="a-input" id="pvip" type="number" min="1" max="4"/></div>
+          <div class="a-field"><label class="a-label">Price (₦)</label><input class="a-input" id="pprice" type="number"/></div>
+          <div class="a-field"><label class="a-label">Daily Income (₦)</label><input class="a-input" id="pdaily" type="number"/></div>
+          <div class="a-field"><label class="a-label">Duration (days)</label><input class="a-input" id="pdur" type="number"/></div>
+          <div class="a-field"><label class="a-label">Total Return (₦)</label><input class="a-input" id="ptotal" type="number"/></div>
+          <div class="a-field"><label class="a-label">Sort Order</label><input class="a-input" id="psort" type="number"/></div>
         </div>
-        <div class="a-field"><label class="a-label">Description</label><input class="a-input" id="pdesc" placeholder="Short description"/></div>
-        <div style="display:flex;gap:8px;margin-top:4px">
-          <button onclick="savePlan()" style="flex:1;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:14px;cursor:pointer">Save Plan</button>
-          <button onclick="clearForm()" style="padding:11px 16px;border-radius:10px;border:1.5px solid #355247;background:transparent;color:#8BA296;font-weight:600;font-size:14px;cursor:pointer">Clear</button>
-        </div>
+        <div class="a-field"><label class="a-label">Description</label><input class="a-input" id="pdesc"/></div>
+        <div style="display:flex;gap:8px"><button onclick="saveProduct()" style="flex:1;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:14px;cursor:pointer">Save Product</button><button onclick="clearForm()" style="padding:11px 16px;border-radius:10px;border:1.5px solid #3A2E29;background:transparent;color:#8A7F78;font-weight:600;font-size:14px;cursor:pointer">Clear</button></div>
         <div id="prodAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
-    <div class="a-card">
-      <div class="a-card-title">All Plans <button class="refresh-btn" onclick="loadPlans()">↻</button></div>
-      <div id="prodList2"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
-    </div>
+    <div class="a-card"><div class="a-card-title">All Products <button class="refresh-btn" onclick="loadProducts()">↻</button></div><div id="prodList2"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div></div>
   </div>
 
-  <!-- ═══ USERS ═══ -->
   <div class="apage" id="page-users">
     <div class="a-card">
       <div class="a-card-title">All Users <button class="refresh-btn" onclick="loadUsers()">↻</button></div>
-      <div style="padding:12px 16px;border-bottom:1px solid #355247">
-        <input class="a-input" id="userSearch" placeholder="Search by name or email…" oninput="filterUsers(this.value)"/>
-      </div>
-      <div id="userList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
+      <div style="padding:12px 16px;border-bottom:1px solid #3A2E29"><input class="a-input" id="userSearch" placeholder="Search by name or email…" oninput="filterUsers(this.value)"/></div>
+      <div id="userList"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div>
     </div>
   </div>
 
-  <!-- ═══ MESSAGES ═══ -->
   <div class="apage" id="page-messages">
     <div class="a-card" style="margin-bottom:14px">
       <div class="a-card-title" id="msgFormTitle">Send Message to Users</div>
       <div style="padding:14px">
         <input type="hidden" id="editMsgId"/>
-        <div class="a-field">
-          <label class="a-label">Recipient</label>
-          <select class="a-select" id="msgTarget" onchange="onTargetChange(this.value)">
-            <option value="all">📢 All Users (Broadcast)</option>
-            <option value="specific">👤 Specific User</option>
-          </select>
-        </div>
-        <div class="a-field" id="userSearchWrap" style="display:none">
-          <label class="a-label">Search User</label>
-          <input class="a-input" id="msgUserSearch" placeholder="Type name or email…" oninput="searchMsgUsers(this.value)"/>
-          <div class="msg-user-list" id="msgUserList" style="display:none"></div>
-          <input type="hidden" id="msgUserId"/>
-        </div>
-        <div class="a-field"><label class="a-label">Title</label><input class="a-input" id="msgTitle" placeholder="Message title"/></div>
-        <div class="a-field"><label class="a-label">Message</label><textarea class="a-input" id="msgContent" rows="4" placeholder="Write your message…" style="resize:vertical"></textarea></div>
+        <div class="a-field"><label class="a-label">Recipient</label><select class="a-select" id="msgTarget" onchange="onTargetChange(this.value)"><option value="all">📢 All Users (Broadcast)</option><option value="specific">👤 Specific User</option></select></div>
+        <div class="a-field" id="userSearchWrap" style="display:none"><label class="a-label">Search User</label><input class="a-input" id="msgUserSearch" placeholder="Type name or email…" oninput="searchMsgUsers(this.value)"/><div class="msg-user-list" id="msgUserList" style="display:none"></div><input type="hidden" id="msgUserId"/></div>
+        <div class="a-field"><label class="a-label">Title</label><input class="a-input" id="msgTitle"/></div>
+        <div class="a-field"><label class="a-label">Message</label><textarea class="a-input" id="msgContent" rows="4" style="resize:vertical"></textarea></div>
         <div style="display:flex;gap:8px">
-          <button onclick="sendMessage()" id="msgSubmitBtn" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:15px;cursor:pointer">Send Message</button>
-          <button onclick="cancelEditMsg()" id="msgCancelBtn" style="display:none;padding:12px 18px;border-radius:10px;border:1.5px solid #355247;background:transparent;color:#8BA296;font-weight:600;font-size:14px;cursor:pointer">Cancel</button>
+          <button onclick="sendMessage()" id="msgSubmitBtn" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:15px;cursor:pointer">Send Message</button>
+          <button onclick="cancelEditMsg()" id="msgCancelBtn" style="display:none;padding:12px 18px;border-radius:10px;border:1.5px solid #3A2E29;background:transparent;color:#8A7F78;font-weight:600;font-size:14px;cursor:pointer">Cancel</button>
         </div>
         <div id="msgAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
-
-    <div class="a-card">
-      <div class="a-card-title">
-        Sent Support messages
-        <button class="refresh-btn" onclick="loadSentSupportMessages()">↻ Refresh</button>
-      </div>
-      <div id="sentMsgList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
-    </div>
+    <div class="a-card"><div class="a-card-title">Sent Messages <button class="refresh-btn" onclick="loadSentMessages()">↻ Refresh</button></div><div id="sentMsgList"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div></div>
   </div>
 
-  <!-- ═══ GIFT CODES ═══ -->
   <div class="apage" id="page-giftcodes">
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">Generate Offer code</div>
+      <div class="a-card-title">Generate Gift Code</div>
       <div style="padding:14px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="a-field">
-            <label class="a-label">Code <button onclick="randomizeCode()" style="background:none;border:none;color:var(--sky);font-size:11px;font-weight:700;cursor:pointer;margin-left:4px">🎲 Random</button></label>
-            <input class="a-input" id="giftCode" placeholder="e.g. GREENEW2026" style="text-transform:uppercase;letter-spacing:.06em" oninput="this.value=this.value.toUpperCase()"/>
-          </div>
-          <div class="a-field">
-            <label class="a-label">Amount (₦)</label>
-            <input class="a-input" id="giftAmount" type="number" placeholder="500"/>
-          </div>
-          <div class="a-field">
-            <label class="a-label">Max Uses</label>
-            <input class="a-input" id="giftMaxUses" type="number" placeholder="1" value="1"/>
-          </div>
-          <div class="a-field">
-            <label class="a-label">Expires <span style="color:#6E8178;font-weight:400">(optional)</span></label>
-            <input class="a-input" id="giftExpiry" type="date"/>
-          </div>
+          <div class="a-field"><label class="a-label">Code <button onclick="randomizeCode()" style="background:none;border:none;color:#34D399;font-size:11px;font-weight:700;cursor:pointer;margin-left:4px">🎲 Random</button></label><input class="a-input" id="giftCode" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"/></div>
+          <div class="a-field"><label class="a-label">Amount (₦)</label><input class="a-input" id="giftAmount" type="number" placeholder="500"/></div>
+          <div class="a-field"><label class="a-label">Max Uses</label><input class="a-input" id="giftMaxUses" type="number" value="1"/></div>
+          <div class="a-field"><label class="a-label">Expires <span style="color:#8A7F78;font-weight:400">(optional)</span></label><input class="a-input" id="giftExpiry" type="date"/></div>
         </div>
-        <button onclick="createGiftCode()" id="giftCreateBtn" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:4px">🎁 Generate Code</button>
+        <button onclick="createGiftCode()" id="giftCreateBtn" style="width:100%;padding:12px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:15px;cursor:pointer">🎁 Generate Code</button>
         <div id="giftAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
-
-    <div class="a-card">
-      <div class="a-card-title">
-        All Offer codes
-        <button class="refresh-btn" onclick="loadGiftCodes()">↻ Refresh</button>
-      </div>
-      <div id="giftCodeList"><div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div></div>
-    </div>
+    <div class="a-card"><div class="a-card-title">All Gift Codes <button class="refresh-btn" onclick="loadGiftCodes()">↻</button></div><div id="giftCodeList"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div></div>
   </div>
 
-  <!-- ═══ SETTINGS ═══ -->
   <div class="apage" id="page-settings">
-
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">Payment Method</div>
+      <div class="a-card-title">Deposit Method</div>
       <div class="method-grid">
         <div class="m-btn" id="m-manual" onclick="setMethod('manual')"><span class="m-icon">🏦</span><span class="m-lbl">Manual</span></div>
-        <div class="m-btn" id="m-paystack" onclick="setMethod('paystack')"><span class="m-icon">💳</span><span class="m-lbl">Paystack</span></div>
-        <div class="m-btn" id="m-ipayng" onclick="setMethod('ipayng')"><span class="m-icon">⚡</span><span class="m-lbl">iPayNG</span></div>
+        <div class="m-btn" id="m-monnify" onclick="setMethod('monnify')"><span class="m-icon">⚡</span><span class="m-lbl">Monnify</span></div>
+        <div class="m-btn" id="m-targetgrowths" onclick="setMethod('targetgrowths')"><span class="m-icon">💳</span><span class="m-lbl">TargetGrowths</span></div>
       </div>
       <div class="m-status" id="mStatus">Loading…</div>
     </div>
 
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">Refund requests</div>
+      <div class="a-card-title">Withdrawals</div>
       <div style="padding:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <div>
-            <div style="font-size:14px;font-weight:700;color:#fff">Accept new refund requests</div>
-            <div style="font-size:12px;color:#6E8178;margin-top:2px" id="wLockDesc">Loading…</div>
-          </div>
-          <button id="wLockToggle" onclick="toggleRefundLock()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#355247;transition:background .2s">
-            <span id="wLockKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)"></span>
-          </button>
+          <div><div style="font-size:14px;font-weight:700;color:#fff">Accept new withdrawal requests</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="wLockDesc">Loading…</div></div>
+          <button id="wLockToggle" onclick="toggleWithdrawalLock()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="wLockKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
         </div>
-        <div style="margin-top:10px;font-size:11px;color:#6E8178;line-height:1.5">
-          When locked, users can't submit new refund requests (they'll see a paused message). Pending requests already submitted are unaffected — you can still approve or reject them as normal.
-        </div>
-
-        <div style="height:1px;background:#355247;margin:16px 0"></div>
-
-        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Refund Limits</div>
+        <div style="height:1px;background:#3A2E29;margin:16px 0"></div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Withdrawal Limits</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#8BA296;margin-bottom:5px;display:block">Minimum (₦)</label>
-            <input id="minRefundInput" type="number" placeholder="1000" style="width:100%;padding:10px 12px;border-radius:8px;border:1.5px solid #355247;background:#163027;color:#fff;font-size:13px"/>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#8BA296;margin-bottom:5px;display:block">Maximum (₦)</label>
-            <input id="maxRefundInput" type="number" placeholder="0 = no limit" style="width:100%;padding:10px 12px;border-radius:8px;border:1.5px solid #355247;background:#163027;color:#fff;font-size:13px"/>
-          </div>
+          <div><label class="a-label">Minimum (₦)</label><input id="minWithdrawInput" class="a-input" type="number"/></div>
+          <div><label class="a-label">Maximum (₦)</label><input id="maxWithdrawInput" class="a-input" type="number" placeholder="0 = no limit"/></div>
         </div>
-        <button onclick="saveRefundLimits()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Limits</button>
+        <button onclick="saveWithdrawalLimits()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Limits</button>
         <div id="limitsAlert" class="alert" style="margin-top:10px"></div>
+        <div style="height:1px;background:#3A2E29;margin:16px 0"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div><div style="font-size:14px;font-weight:700;color:#fff">Require an active investment to withdraw</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="investGateDesc">Loading…</div></div>
+          <button id="investGateToggle" onclick="toggleInvestGate()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="investGateKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
+        </div>
+        <div style="height:1px;background:#3A2E29;margin:16px 0"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div><div style="font-size:14px;font-weight:700;color:#fff">Require an active referral to withdraw</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="referralGateDesc">Loading…</div></div>
+          <button id="referralGateToggle" onclick="toggleReferralGate()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="referralGateKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
+        </div>
+        <div style="height:1px;background:#3A2E29;margin:16px 0"></div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Withdrawal Fee</div>
+        <div class="a-field"><label class="a-label">Fee (% of amount withdrawn)</label><input id="withdrawFeeInput" class="a-input" type="number" min="0" max="100" step="0.1"/></div>
+        <button onclick="saveWithdrawalFee()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Fee</button>
+        <div id="feeAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
-
 
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">Operations & customer settings</div>
+      <div class="a-card-title">Manual Account Details</div>
       <div style="padding:14px">
-        <div style="font-size:12px;color:#8BA296;margin-bottom:10px">Adapted from the Schweppes admin workflow. Values are stored in Greenew site settings and enforced by server endpoints.</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="a-field"><label class="a-label">Bank name</label><input class="a-input" id="settingBankName" placeholder="Bank name"/></div>
-          <div class="a-field"><label class="a-label">Account name</label><input class="a-input" id="settingAccountName" placeholder="Account name"/></div>
-          <div class="a-field"><label class="a-label">Account number</label><input class="a-input" id="settingAccountNumber" placeholder="Account number"/></div>
-          <div class="a-field"><label class="a-label">Welcome bonus (₦)</label><input class="a-input" id="welcomeBonusInput" type="number" min="0" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Withdrawal fee (%)</label><input class="a-input" id="withdrawalFeeInput" type="number" min="0" max="100" step="0.01" placeholder="0"/></div>
-          <div class="a-field"><label class="a-label">Referral depth</label><input class="a-input" id="referralDepthInput" type="number" min="1" max="3" placeholder="3"/></div>
-          <div class="a-field"><label class="a-label">Level 1 referral (%)</label><input class="a-input" id="referralL1Input" type="number" min="0" max="100" step="0.01" placeholder="5"/></div>
-          <div class="a-field"><label class="a-label">Level 2 referral (%)</label><input class="a-input" id="referralL2Input" type="number" min="0" max="100" step="0.01" placeholder="2"/></div>
-          <div class="a-field"><label class="a-label">Level 3 referral (%)</label><input class="a-input" id="referralL3Input" type="number" min="0" max="100" step="0.01" placeholder="1"/></div>
-          <div class="a-field"><label class="a-label">Support email</label><input class="a-input" id="supportEmailInput" type="email" placeholder="support@example.com"/></div>
-          <div class="a-field"><label class="a-label">Service phone</label><input class="a-input" id="servicePhoneInput" placeholder="+234..."/></div>
-          <div class="a-field"><label class="a-label">Community link</label><input class="a-input" id="telegramLinkInput" placeholder="https://t.me/..."/></div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 12px">
-          <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#fff"><input id="investGateToggle" type="checkbox"/> Require active plan before withdrawal</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#fff"><input id="referralGateToggle" type="checkbox"/> Require active referral before withdrawal</label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#fff"><input id="vipEnabledToggle" type="checkbox"/> Enable service tiers</label>
-        </div>
-        <button onclick="saveExtraSettings()" id="extraSettingsBtn" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Operations Settings</button>
-        <div id="extraSettingsAlert" class="alert" style="margin-top:10px"></div>
+        <div class="a-field"><label class="a-label">Bank Name</label><input class="a-input" id="bankNameInput" placeholder="OPay"/></div>
+        <div class="a-field"><label class="a-label">Account Number</label><input class="a-input" id="bankAcctInput" placeholder="6556493720"/></div>
+        <div class="a-field"><label class="a-label">Account Name</label><input class="a-input" id="bankNameOnAcctInput" placeholder="ARADEL LIMITED"/></div>
+        <button onclick="saveBankDetails()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Bank Details</button>
+        <div id="bankAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
 
-    <div class="a-card">
-      <div class="a-card-title">Manual Account Details</div>
-      <div style="padding:14px;font-size:14px;line-height:2;color:#8BA296">
-        <div>Bank: <strong style="color:#fff">OPay</strong></div>
-        <div>Account: <strong style="color:#fff">6556493720</strong></div>
-        <div>Name: <strong style="color:#fff">OLUWANIFEMI ABDULLAHI OLUDE</strong></div>
+    <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">Contact &amp; Community Links</div>
+      <div style="padding:14px">
+        <div style="font-size:12px;color:#8A7F78;margin-bottom:12px">Used on the Contact page and the welcome popup shown on the user dashboard. Updates here apply everywhere immediately — no app update needed.</div>
+        <div class="a-field"><label class="a-label">Telegram Support URL</label><input class="a-input" id="tgSupportInput" placeholder="https://t.me/YourSupportUsername"/></div>
+        <div class="a-field"><label class="a-label">Telegram Community URL</label><input class="a-input" id="tgCommunityInput" placeholder="https://t.me/+xxxxxxxxxxxx"/></div>
+        <div class="a-field"><label class="a-label">WhatsApp URL</label><input class="a-input" id="waLinkInput" placeholder="https://chat.whatsapp.com/xxxxxxxxxxxx"/></div>
+        <div class="a-field"><label class="a-label">Customer Service Link</label><input class="a-input" id="csLinkInput" placeholder="tel:+2340000000000"/></div>
+        <button onclick="saveContactLinks()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Contact Links</button>
+        <div id="contactLinksAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
-    <div class="a-card">
-      <div class="a-card-title">Webhook URLs</div>
-      <div style="padding:14px;font-size:12px;color:#6E8178;line-height:2">
-        <div>Paystack + iPayNG: <span style="color:var(--sky)">https://YOUR_DOMAIN/api/webhooks</span></div>
+
+    <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">Welcome Bonus</div>
+      <div style="padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
+          <div><div style="font-size:14px;font-weight:700;color:#fff">Give new users a signup bonus</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="welcomeBonusDesc">Loading…</div></div>
+          <button id="welcomeBonusToggle" onclick="toggleWelcomeBonus()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="welcomeBonusKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
+        </div>
+        <div class="a-field"><label class="a-label">Bonus Amount (₦)</label><input class="a-input" id="welcomeBonusAmountInput" type="number" min="0"/></div>
+        <button onclick="saveWelcomeBonus()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save</button>
+        <div id="welcomeAlert" class="alert" style="margin-top:10px"></div>
       </div>
     </div>
+
+    <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">VIP Products</div>
+      <div style="padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div><div style="font-size:14px;font-weight:700;color:#fff">VIP products enabled</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="vipEnabledDesc">Loading…</div></div>
+          <button id="vipEnabledToggle" onclick="toggleVipEnabled()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="vipEnabledKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">Referral Program</div>
+      <div style="padding:14px">
+        <div class="a-field"><label class="a-label">Referral Depth</label>
+          <select class="a-select" id="referralLevelsInput">
+            <option value="1">1 Level</option>
+            <option value="3">3 Levels</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div class="a-field"><label class="a-label">L1 %</label><input class="a-input" id="refL1Input" type="number" min="0" max="100" step="0.1"/></div>
+          <div class="a-field"><label class="a-label">L2 %</label><input class="a-input" id="refL2Input" type="number" min="0" max="100" step="0.1"/></div>
+          <div class="a-field"><label class="a-label">L3 %</label><input class="a-input" id="refL3Input" type="number" min="0" max="100" step="0.1"/></div>
+        </div>
+        <button onclick="saveReferralSettings()" style="width:100%;padding:11px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:13px;cursor:pointer">Save Referral Settings</button>
+        <div id="referralAlert" class="alert" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <div class="a-card" style="margin-bottom:14px">
+      <div class="a-card-title">Webhook URL</div>
+      <div style="padding:14px;font-size:12px;color:#8A7F78;line-height:2">Monnify: <span style="color:#34D399">https://YOUR_DOMAIN/api/webhooks</span><br/>TargetGrowths: <span style="color:#34D399">https://YOUR_DOMAIN/api/webhooks/targetgrowths</span></div>
+    </div>
+
     <div class="a-card">
       <div class="a-card-title">Grant Admin Access</div>
       <div style="padding:14px">
-        <div class="a-field"><label class="a-label">User ID or Email</label><input class="a-input" id="adminUserId" placeholder="Enter user ID"/></div>
+        <div class="a-field"><label class="a-label">User ID</label><input class="a-input" id="adminUserId" placeholder="Enter user ID"/></div>
         <button onclick="grantAdmin()" style="width:100%;padding:11px;border-radius:10px;border:none;background:rgba(239,68,68,.15);color:#f87171;font-weight:700;font-size:14px;cursor:pointer">Grant Admin Access</button>
       </div>
     </div>
   </div>
 
-</div><!-- end admin-main -->
-
-<!-- Wallet Edit Modal -->
-<div id="walletModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:flex-end;justify-content:center">
-  <div style="background:#0B2D22;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;border:1px solid #355247;border-bottom:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff">Edit Wallet</div>
-      <button onclick="closeWalletModal()" style="background:rgba(255,255,255,.06);border:none;border-radius:50%;width:30px;height:30px;color:#8BA296;font-size:16px;cursor:pointer">✕</button>
-    </div>
-    <div style="font-size:13px;color:#6E8178;margin-bottom:16px" id="walletModalUser">—</div>
-
-    <div style="background:#163027;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center">
-      <div style="font-size:11px;color:#6E8178;text-transform:uppercase;letter-spacing:.05em">Current Balance</div>
-      <div style="font-size:24px;font-weight:800;color:#3DBB86;margin-top:4px" id="walletModalBalance">₦0</div>
-    </div>
-
-    <div style="display:flex;gap:8px;margin-bottom:14px">
-      <button id="walletTypeCredit" onclick="setWalletType('credit')" style="flex:1;padding:11px;border-radius:10px;border:2px solid #355247;background:transparent;color:#8BA296;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s">➕ Credit</button>
-      <button id="walletTypeDebit" onclick="setWalletType('debit')" style="flex:1;padding:11px;border-radius:10px;border:2px solid #355247;background:transparent;color:#8BA296;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s">➖ Debit</button>
-    </div>
-
-    <div class="a-field">
-      <label class="a-label">Amount (₦)</label>
-      <input class="a-input" id="walletAmountInput" type="number" placeholder="0"/>
-    </div>
-    <div class="a-field">
-      <label class="a-label">Reason <span style="color:#6E8178;font-weight:400">(sent to the user)</span></label>
-      <input class="a-input" id="walletReasonInput" placeholder="e.g. Manual correction for delayed payment"/>
-    </div>
-
-    <button onclick="submitWalletAdjust()" id="walletSubmitBtn" style="width:100%;padding:13px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--purple),var(--sky));color:#fff;font-weight:700;font-size:15px;cursor:pointer">Apply Adjustment</button>
-    <div id="walletModalAlert" class="alert" style="margin-top:10px"></div>
-  </div>
 </div>
-
-
-<div id="teamModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:310;align-items:flex-end;justify-content:center">
-  <div style="background:#0B2D22;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:520px;border:1px solid #355247;border-bottom:none;max-height:82vh;overflow:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff">Referral team</div><button onclick="closeTeamModal()" style="background:rgba(255,255,255,.06);border:none;border-radius:50%;width:30px;height:30px;color:#8BA296;font-size:16px;cursor:pointer">✕</button></div>
-    <div id="teamModalOwner" style="font-size:13px;color:#6E8178;margin-bottom:14px">—</div>
-    <div id="teamSummary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"></div>
-    <div id="teamList"><div class="loader-wrap"><div class="loader"></div></div></div>
-  </div>
-</div>
-
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="../assets/js/greenew.js" defer></script>
 <script src="../assets/js/supabase.js" defer></script>
 <script src="../assets/js/auth.js" defer></script>
 <script>
 (function(){
-  var adminId="", allUsers=[], depFilter="pending", wFilter="pending";
+  var adminId="",allUsers=[],userSearchTimer=null,depFilter="pending",wFilter="pending",withdrawalsLocked=false;
 
-  function waitSb(cb){if(window.sb&&window.GreenewAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.GreenewAuth){clearInterval(t);cb();}},50);}
+  function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
 
   waitSb(async function(){
-    var s=await window.GreenewAuth.requireAdmin(); if(!s)return;
+    var s=await window.AradelAuth.requireAdmin(); if(!s)return;
     adminId=s.user.id;
     await loadStats();
-    await loadPayments();
-    await loadUnmatchedAlerts();
+    await loadTargetGrowthsBalance();
+    await loadDeposits();
     await loadMethod();
-    await loadRefundLock();
-    await loadRefundLimits();
+    await loadWithdrawalLock();
+    await loadWithdrawalLimits();
     await loadExtraSettings();
   });
 
-  /* ── Page nav ── */
   window.showPage=function(id,btn){
     document.querySelectorAll(".apage").forEach(function(p){p.classList.remove("on");});
     document.querySelectorAll(".anav").forEach(function(b){b.classList.remove("on");});
     document.getElementById("page-"+id).classList.add("on");
     if(btn) btn.classList.add("on");
-    if(id==="payments"){ loadPayments(); loadUnmatchedAlerts(); }
-    if(id==="refunds") loadRefundRequests();
-    if(id==="products") loadPlans();
+    if(id==="deposits") loadDeposits();
+    if(id==="withdrawals") loadWithdrawals();
+    if(id==="products") loadProducts();
     if(id==="users") loadUsers();
-    if(id==="messages") loadSentSupportMessages();
+    if(id==="messages") loadSentMessages();
     if(id==="giftcodes") loadGiftCodes();
   };
 
-  /* ── Stats ── */
   async function loadStats(){
     var r=await fetch("/api/admin?action=stats&admin_id="+adminId);
     var d=await r.json();
     if(d.ok){
       document.getElementById("ov-users").textContent=d.total_users||0;
       document.getElementById("ov-active").textContent=d.active_products||0;
-      document.getElementById("ov-deps").textContent=d.pending_payments||0;
-      document.getElementById("ov-withs").textContent=d.pending_refunds||0;
+      document.getElementById("ov-deps").textContent=d.pending_deposits||0;
+      document.getElementById("ov-withs").textContent=d.pending_withdrawals||0;
     }
   }
 
-  /* ── Payments ── */
-  window.loadPayments=async function(){
+  window.loadTargetGrowthsBalance=async function(){
+    var valueEl=document.getElementById("tgBalanceValue");
+    var metaEl=document.getElementById("tgBalanceMeta");
+    valueEl.className="tg-balance-val";
+    valueEl.textContent="—";
+    metaEl.textContent="Loading merchant wallet balance…";
+    try {
+      var r=await fetch("/api/admin?action=targetgrowths-balance&admin_id="+adminId);
+      var d=await r.json();
+      if(!d.ok) throw new Error(d.error||"TargetGrowths balance could not be loaded.");
+      valueEl.className="tg-balance-val";
+      valueEl.textContent="₦"+Number(d.balance||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+      metaEl.textContent="Available NGN merchant balance · Updated "+new Date(d.fetched_at||Date.now()).toLocaleString();
+    } catch(error) {
+      valueEl.className="tg-balance-error";
+      valueEl.textContent="Balance unavailable";
+      metaEl.textContent=error.message||"TargetGrowths balance could not be loaded.";
+    }
+  };
+
+  window.loadDeposits=async function(){
     var el=document.getElementById("depList");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
     var r=await fetch("/api/admin?action=deposits&status="+depFilter+"&admin_id="+adminId);
     var d=await r.json();
-    if(!d.ok){
-      el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px 16px;font-size:13px">⚠️ Failed to load: '+(d.error||"Unknown error")+'</div>';
-      return;
-    }
-    var deps=d.payments||[];
-    if(!deps.length){ el.innerHTML='<div style="text-align:center;color:#6E8178;padding:32px;font-size:14px">No payments found.</div>'; return; }
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>'; return; }
+    var activeMethod=d.method||"";
+    var deps=d.deposits||[];
+    if(!deps.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:32px;font-size:14px">No deposits found.</div>'; return; }
     el.innerHTML=deps.map(function(dep){
       var name=dep.profiles?.full_name||dep.profiles?.email||"User";
-      var sColor={pending:"#FCD34D",completed:"#3DBB86",rejected:"#f87171"}[dep.status]||"#8BA296";
-      var canAct=dep.status==="pending";
-      return '<div class="dep-row">'+
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
-          '<div><div class="dep-name">'+name+'</div><div class="dep-meta">'+dep.profiles?.email+' · '+new Date(dep.created_at).toLocaleString()+'</div></div>'+
-          '<div style="text-align:right"><div class="dep-amt">₦'+Number(dep.amount).toLocaleString()+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+'">'+dep.status.toUpperCase()+'</div></div>'+
-        '</div>'+
+      var sColor={pending:"#FCD34D",completed:"#34D399",rejected:"#f87171"}[dep.status]||"#8A7F78";
+      var isTargetGrowths=dep.provider==="targetgrowths"||dep.method==="targetgrowths";
+      var canAct=dep.status==="pending"&&(!isTargetGrowths||dep.provider_verified===true||dep.provider_status==="verified_success");
+      var methodLabel=dep.method==="monnify"?"⚡ Monnify":(dep.method==="targetgrowths"?"💳 TargetGrowths":"🏦 Manual");
+      return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="dep-name">'+name+' <span style="font-size:10px;color:#8A7F78">'+methodLabel+'</span></div><div class="dep-meta">'+dep.profiles?.email+' · '+new Date(dep.created_at).toLocaleString()+'</div>'+(dep.sender_name?'<div class="dep-meta">Sender: <span style="color:#FCD34D;font-weight:700">'+dep.sender_name+'</span></div>':'')+'</div><div style="text-align:right"><div class="dep-amt">₦'+Number(dep.amount).toLocaleString()+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+'">'+dep.status.toUpperCase()+'</div></div></div>'+
         (dep.narration?'<div class="dep-nar"><span class="dep-nar-code">'+dep.narration+'</span><button onclick="copyTxt(\''+dep.narration+'\')" style="background:none;border:none;color:#FCD34D;font-size:11px;cursor:pointer;font-weight:700">COPY</button></div>':'')+
-        (canAct?'<div class="dep-actions"><button class="btn-approve" onclick="actDep(\''+dep.id+'\',\'approve\',this)">✅ Approve</button><button class="btn-reject" onclick="actDep(\''+dep.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+
-      '</div>';
+        (isTargetGrowths&&dep.status==="pending"?'<div class="dep-meta" style="margin-top:8px;color:#FCD34D">'+(canAct?'TargetGrowths confirmed successful; ready for approval.':'Waiting for TargetGrowths confirmation; approval is unavailable until successful.')+'</div>':'')+
+        (canAct?'<div class="dep-actions"><button class="btn-approve" onclick="actDep(\''+dep.id+'\',\'approve\',this)">'+(isTargetGrowths?'✅ Approve Confirmed Payment':'✅ Approve')+'</button><button class="btn-reject" onclick="actDep(\''+dep.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+'</div>';
     }).join("");
   };
-
-  window.setDepFilter=function(btn,f){
-    document.querySelectorAll("#page-payments .a-ftab").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); depFilter=f; loadPayments();
-  };
-
+  window.setDepFilter=function(btn,f){ document.querySelectorAll("#page-deposits .a-ftab").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); depFilter=f; loadDeposits(); };
   window.actDep=async function(id,act,btn){
     var row=btn.closest(".dep-actions"),btns=row.querySelectorAll("button");
     btns.forEach(function(b){b.disabled=true;});
     btn.textContent=act==="approve"?"Approving…":"Rejecting…";
-    var r=await fetch("/api/admin?action=process-payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({payment_id:id,act,admin_id:adminId})});
+    var r=await fetch("/api/admin?action=process-deposit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({deposit_id:id,act,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?(act==="approve"?"✅ Approved!":"🚫 Rejected"):("❌ "+d.error));
-    setTimeout(loadPayments,600);
-    loadStats();
+    window.AradelAuth.toast(d.ok?(act==="approve"?"✅ Approved!":"🚫 Rejected"):("❌ "+d.error));
+    setTimeout(loadDeposits,600); loadStats();
   };
 
-  /* ── Unmatched bank alerts (Gmail parsing misses) ── */
-  window.loadUnmatchedAlerts=async function(){
-    var el=document.getElementById("unmatchedAlertsList");
-    if(!el) return;
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
-    var r=await fetch("/api/admin?action=unmatched-alerts&admin_id="+adminId);
-    var d=await r.json();
-    if(!d.ok){
-      el.innerHTML='<div style="text-align:center;color:#f87171;padding:16px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>';
-      return;
-    }
-    var alerts=d.alerts||[];
-    if(!alerts.length){
-      el.innerHTML='<div style="text-align:center;color:#6E8178;padding:20px;font-size:13px">No unmatched alerts. 🎉</div>';
-      return;
-    }
-    el.innerHTML=alerts.map(function(a){
-      return '<div class="dep-row">'+
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
-          '<div style="flex:1">'+
-            '<div class="dep-meta">'+new Date(a.received_at).toLocaleString()+' · '+(a.sender_email||"unknown sender")+'</div>'+
-            '<div class="dep-meta" style="margin-top:4px;color:#8BA296;font-family:monospace;font-size:11px;line-height:1.5">'+((a.raw_snippet||"").slice(0,140))+'…</div>'+
-          '</div>'+
-          '<div class="dep-amt">₦'+Number(a.amount).toLocaleString()+'</div>'+
-        '</div>'+
-        '<div style="display:flex;gap:8px;margin-top:10px">'+
-          '<input id="ref-'+a.id+'" placeholder="Paste payment reference…" style="flex:1;padding:8px 10px;border-radius:8px;border:1.5px solid #355247;background:#163027;color:#fff;font-size:12px"/>'+
-          '<button class="btn-approve" onclick="matchAlert(\''+a.id+'\')">Match & Credit</button>'+
-        '</div>'+
-      '</div>';
-    }).join("");
-  };
-
-  window.matchAlert=async function(alertId){
-    var input=document.getElementById("ref-"+alertId);
-    var ref=input.value.trim();
-    if(!ref){ window.GreenewAuth.toast("Enter the payment reference first"); return; }
-    var r=await fetch("/api/admin?action=manual-match-alert",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({alert_id:alertId,payment_reference:ref,admin_id:adminId})});
-    var d=await r.json();
-    window.GreenewAuth.toast(d.ok?"✅ Matched and credited!":"❌ "+d.error);
-    loadUnmatchedAlerts();
-    loadPayments();
-  };
-
-  /* ── Refund requests ── */
-  window.loadRefundRequests=async function(){
+  window.loadWithdrawals=async function(){
     var el=document.getElementById("wList");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
     var r=await fetch("/api/admin?action=withdrawals&status="+wFilter+"&admin_id="+adminId);
     var d=await r.json();
-    if(!d.ok){
-      el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px 16px;font-size:13px">⚠️ Failed to load: '+(d.error||"Unknown error")+'</div>';
-      return;
-    }
-    var ws=d.refunds||[];
-    if(!ws.length){ el.innerHTML='<div style="text-align:center;color:#6E8178;padding:32px;font-size:14px">No refunds found.</div>'; return; }
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>'; return; }
+    var ws=d.withdrawals||[];
+    if(!ws.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:32px;font-size:14px">No withdrawals found.</div>'; return; }
     el.innerHTML=ws.map(function(w){
       var name=w.profiles?.full_name||w.profiles?.email||"User";
       var canAct=w.status==="pending";
-      var sColor={pending:"#FCD34D",approved:"#3DBB86",rejected:"#f87171"}[w.status]||"#8BA296";
-      return '<div class="dep-row">'+
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
-          '<div><div class="dep-name">'+name+'</div><div class="dep-meta">'+w.bank_name+' · '+w.account_number+'</div><div class="dep-meta">'+w.account_name+' · '+new Date(w.created_at).toLocaleString()+'</div></div>'+
-          '<div style="text-align:right"><div class="dep-amt">₦'+Number(w.amount).toLocaleString()+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+'">'+w.status.toUpperCase()+'</div></div>'+
-        '</div>'+
-        (canAct?'<div class="dep-actions" style="margin-top:10px"><button class="btn-approve" onclick="actW(\''+w.id+'\',\'approve\',this)">✅ Approve</button><button class="btn-reject" onclick="actW(\''+w.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+
-      '</div>';
+      var providerState=String(w.provider_status||"").toLowerCase();
+      var providerPending=w.status==="approved" && providerState && !["completed","success","successful","paid","settled","manual_approved"].includes(providerState);
+      var displayStatus=providerPending?"PROVIDER PENDING":w.status.toUpperCase();
+      var providerCompleted=["completed","success","successful","paid","settled","manual_approved"].includes(providerState);
+      var sColor=providerPending?"#FCD34D":({pending:"#FCD34D",approved:"#60A5FA",completed:"#34D399",rejected:"#f87171"}[w.status]||"#8A7F78");
+      var gross=Number(w.amount||0);
+      // fee_amount/net_amount are stamped at request time by request_withdrawal()
+      // using whatever withdrawal_fee_percent was active then. Older rows created
+      // before that column existed won't have it — fall back to a 13% estimate
+      // for those only, clearly flagged so it's never mistaken for the real figure.
+      var hasNet = w.net_amount!=null;
+      var net = hasNet ? Number(w.net_amount) : gross*0.87;
+      var fee = hasNet ? Number(w.fee_amount||0) : gross*0.13;
+      var netNote = hasNet ? '' : ' <span style="color:#f87171">(est. 13% — not on file)</span>';
+      return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="dep-name">'+name+'</div><div class="dep-meta">'+w.bank_name+' · '+w.account_number+'</div><div class="dep-meta">'+w.account_name+' · '+new Date(w.created_at).toLocaleString()+'</div></div><div style="text-align:right"><div class="dep-amt">₦'+net.toLocaleString(undefined,{maximumFractionDigits:2})+'</div><div style="font-size:10.5px;color:#8A7F78;margin-top:2px">Requested ₦'+gross.toLocaleString()+' − fee ₦'+fee.toLocaleString(undefined,{maximumFractionDigits:2})+netNote+'</div><div style="font-size:11px;font-weight:700;color:'+sColor+';margin-top:4px">'+displayStatus+'</div></div></div>'+
+        (w.provider_status?'<div class="dep-meta" style="margin-top:6px">Provider: <span style="color:'+(providerPending?'#FCD34D':(providerCompleted?'#34D399':'#F87171'))+'">'+w.provider_status+'</span>'+(w.provider_reference?' · '+w.provider_reference:'')+'</div>':'')+
+        (canAct?'<div class="dep-actions" style="margin-top:10px"><button class="btn-approve" onclick="actW(\''+w.id+'\',\'approve\',this)">✅ Approve &amp; Pay</button><button class="btn-reject" onclick="actW(\''+w.id+'\',\'reject\',this)">❌ Reject</button></div>':'')+'</div>';
     }).join("");
   };
-
-  window.setWFilter=function(btn,f){
-    document.querySelectorAll("#page-refunds .a-ftab").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); wFilter=f; loadRefundRequests();
-  };
-
+  window.setWFilter=function(btn,f){ document.querySelectorAll("#page-withdrawals .a-ftab").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); wFilter=f; loadWithdrawals(); };
   window.actW=async function(id,act,btn){
     var row=btn.closest(".dep-actions"),btns=row.querySelectorAll("button");
     btns.forEach(function(b){b.disabled=true;});
-    var r=await fetch("/api/admin?action=process-refund",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({refund_id:id,act,admin_id:adminId})});
+    var r=await fetch("/api/admin?action=process-withdrawal",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({withdrawal_id:id,act,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?(act==="approve"?"✅ Approved!":"🚫 Rejected"):("❌ "+d.error));
-    setTimeout(loadRefundRequests,600);
+    window.AradelAuth.toast(d.ok?(act==="approve"?"✅ Approved!":"🚫 Rejected"):("❌ "+d.error));
+    setTimeout(loadWithdrawals,600);
   };
 
-  /* ── Plans ── */
   window.toggleVipField=function(){ document.getElementById("vipField").style.display=document.getElementById("ptype").value==="vip"?"block":"none"; };
-
-  window.loadPlans=async function(){
+  window.loadProducts=async function(){
     var el=document.getElementById("prodList2");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
     var r=await fetch("/api/admin?action=products&admin_id="+adminId);
     var d=await r.json();
     var prods=d.products||[];
-    if(!prods.length){ el.innerHTML='<div style="text-align:center;color:#6E8178;padding:24px;font-size:14px">No products yet.</div>'; return; }
+    if(!prods.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:24px;font-size:14px">No products yet.</div>'; return; }
     el.innerHTML=prods.map(function(p){
       var locked=p.status==="locked";
-      return '<div style="padding:12px 16px;border-bottom:1px solid #355247;display:flex;align-items:center;justify-content:space-between">'+
-        '<div>'+
-          '<div style="font-size:13px;font-weight:700;color:'+(locked?"#6E8178":"#fff")+'">'+p.name+' '+(locked?'🔒':'')+' <span style="font-size:10px;color:var(--sky)">'+p.type.toUpperCase()+(p.vip_level>0?" L"+p.vip_level:"")+'</span></div>'+
-          '<div style="font-size:11px;color:#6E8178;margin-top:2px">₦'+Number(p.price).toLocaleString()+' → ₦'+Number(p.daily_income).toLocaleString()+'/day × '+p.duration_days+'d</div>'+
-        '</div>'+
-        '<div style="display:flex;gap:6px">'+
-          '<button onclick="editProd('+JSON.stringify(p).replace(/"/g,"'")+',\''+p.id+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(14,165,233,.15);color:var(--sky);font-size:11px;font-weight:700;cursor:pointer">Edit</button>'+
-          '<button onclick="toggleProd(\''+p.id+'\',\''+p.status+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(245,158,11,.1);color:#FCD34D;font-size:11px;font-weight:700;cursor:pointer">'+(locked?"Unlock":"Lock")+'</button>'+
-          '<button onclick="delProd(\''+p.id+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(239,68,68,.12);color:#f87171;font-size:11px;font-weight:700;cursor:pointer">Del</button>'+
-        '</div>'+
-      '</div>';
+      return '<div style="padding:12px 16px;border-bottom:1px solid #3A2E29;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:700;color:'+(locked?"#8A7F78":"#fff")+'">'+p.name+' '+(locked?"🔒":"")+' <span style="font-size:10px;color:#34D399">'+p.type.toUpperCase()+(p.vip_level>0?" L"+p.vip_level:"")+'</span></div><div style="font-size:11px;color:#8A7F78;margin-top:2px">₦'+Number(p.price).toLocaleString()+' → ₦'+Number(p.daily_income).toLocaleString()+'/day × '+p.duration_days+'d</div></div><div style="display:flex;gap:6px"><button onclick="editProd('+JSON.stringify(p).replace(/"/g,"'")+',\''+p.id+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(52,211,153,.15);color:#34D399;font-size:11px;font-weight:700;cursor:pointer">Edit</button><button onclick="toggleProd(\''+p.id+'\',\''+p.status+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(245,158,11,.1);color:#FCD34D;font-size:11px;font-weight:700;cursor:pointer">'+(locked?"Unlock":"Lock")+'</button><button onclick="delProd(\''+p.id+'\')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(239,68,68,.12);color:#f87171;font-size:11px;font-weight:700;cursor:pointer">Del</button></div></div>';
     }).join("");
   };
-
   window.editProd=function(p,id){
-    document.getElementById("pid").value=id;
-    document.getElementById("pname").value=p.name||"";
-    document.getElementById("ptype").value=p.type||"newbie";
-    document.getElementById("pvip").value=p.vip_level||"";
-    document.getElementById("pprice").value=p.price||"";
-    document.getElementById("pdaily").value=p.daily_income||"";
-    document.getElementById("pdur").value=p.duration_days||"";
-    document.getElementById("ptotal").value=p.total_return||"";
-    document.getElementById("psort").value=p.sort_order||"";
-    document.getElementById("pdesc").value=p.description||"";
-    toggleVipField();
-    window.scrollTo({top:0,behavior:"smooth"});
+    document.getElementById("pid").value=id; document.getElementById("pname").value=p.name||"";
+    document.getElementById("ptype").value=p.type||"newbie"; document.getElementById("pvip").value=p.vip_level||"";
+    document.getElementById("pprice").value=p.price||""; document.getElementById("pdaily").value=p.daily_income||"";
+    document.getElementById("pdur").value=p.duration_days||""; document.getElementById("ptotal").value=p.total_return||"";
+    document.getElementById("psort").value=p.sort_order||""; document.getElementById("pdesc").value=p.description||"";
+    toggleVipField(); window.scrollTo({top:0,behavior:"smooth"});
   };
-
   window.clearForm=function(){
     ["pid","pname","pprice","pdaily","pdur","ptotal","psort","pdesc","pvip"].forEach(function(id){document.getElementById(id).value="";});
-    document.getElementById("ptype").value="newbie"; toggleVipField();
-    document.getElementById("prodAlert").className="alert";
+    document.getElementById("ptype").value="newbie"; toggleVipField(); document.getElementById("prodAlert").className="alert";
   };
-
-  window.savePlan=async function(){
+  window.saveProduct=async function(){
     var al=document.getElementById("prodAlert");
-    var payload={
-      id:document.getElementById("pid").value||undefined,
-      name:document.getElementById("pname").value,
-      description:document.getElementById("pdesc").value,
-      type:document.getElementById("ptype").value,
-      vip_level:document.getElementById("pvip").value||0,
-      price:document.getElementById("pprice").value,
-      daily_income:document.getElementById("pdaily").value,
-      duration_days:document.getElementById("pdur").value,
-      total_return:document.getElementById("ptotal").value,
-      sort_order:document.getElementById("psort").value||0,
-      admin_id:adminId,
-    };
+    var payload={ id:document.getElementById("pid").value||undefined, name:document.getElementById("pname").value, description:document.getElementById("pdesc").value, type:document.getElementById("ptype").value, vip_level:document.getElementById("pvip").value||0, price:document.getElementById("pprice").value, daily_income:document.getElementById("pdaily").value, duration_days:document.getElementById("pdur").value, total_return:document.getElementById("ptotal").value, sort_order:document.getElementById("psort").value||0, admin_id:adminId };
     if(!payload.name||!payload.price){ al.textContent="Name and price are required"; al.className="alert alert-error show"; return; }
     var r=await fetch("/api/admin?action=save-product",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
     var d=await r.json();
-    if(d.ok){ window.GreenewAuth.toast("✅ Plan saved!"); clearForm(); loadPlans(); al.className="alert"; }
+    if(d.ok){ window.AradelAuth.toast("✅ Product saved!"); clearForm(); loadProducts(); al.className="alert"; }
     else { al.textContent=d.error||"Error saving"; al.className="alert alert-error show"; }
   };
-
   window.toggleProd=async function(id,current){
     var newStatus=current==="locked"?"active":"locked";
     await fetch("/api/admin?action=toggle-product",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_id:id,status:newStatus,admin_id:adminId})});
-    window.GreenewAuth.toast(newStatus==="locked"?"🔒 Plan locked":"🔓 Plan unlocked");
-    loadPlans();
+    window.AradelAuth.toast(newStatus==="locked"?"🔒 Product locked":"🔓 Product unlocked"); loadProducts();
   };
-
   window.delProd=async function(id){
     if(!confirm("Delete this product? This cannot be undone.")) return;
     await fetch("/api/admin?action=delete-product",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_id:id,admin_id:adminId})});
-    window.GreenewAuth.toast("Plan deleted"); loadPlans();
+    window.AradelAuth.toast("Product deleted"); loadProducts();
   };
 
-  /* ── Users ── */
-  window.loadUsers=async function(){
+  window.loadUsers=async function(query){
     var el=document.getElementById("userList");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
-    var r=await fetch("/api/admin?action=users&admin_id="+adminId);
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
+    var q=String(query||"").trim();
+    var r=await fetch("/api/admin?action=users&admin_id="+encodeURIComponent(adminId)+(q?"&q="+encodeURIComponent(q):""));
     var d=await r.json();
-    allUsers=d.users||[];
-    renderUsers(allUsers);
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load users")+'</div>'; return; }
+    allUsers=d.users||[]; renderUsers(allUsers);
   };
-
   function renderUsers(users){
     var el=document.getElementById("userList");
-    if(!users.length){ el.innerHTML='<div style="text-align:center;color:#6E8178;padding:24px;font-size:14px">No users found.</div>'; return; }
+    if(!users.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:24px;font-size:14px">No users found.</div>'; return; }
     el.innerHTML=users.map(function(u){
-      var active=u.is_active!==false;
-      return '<div class="user-row" style="cursor:pointer" onclick="openWalletModal(\''+u.id+'\')">'+
-        '<div class="user-avatar">'+(u.full_name||u.email||"?")[0].toUpperCase()+'</div>'+
-        '<div style="flex:1">'+
-          '<div class="user-name">'+(u.full_name||"—")+(u.is_admin?' <span style="font-size:10px;background:rgba(239,68,68,.15);color:#f87171;padding:2px 6px;border-radius:4px">Admin</span>':'')+' <span style="font-size:10px;color:var(--sky)">Service tier '+u.vip_level+'</span></div>'+
-          '<div class="user-meta">'+u.email+' · '+new Date(u.created_at).toLocaleDateString()+' · '+(active?'Active':'Suspended')+'</div>'+
-        '</div>'+
-        '<div style="text-align:right">'+
-          '<div class="user-bal">₦'+Number(u.wallets?.balance||0).toLocaleString()+'</div>'+
-          '<div style="display:flex;gap:4px;justify-content:flex-end;margin-top:5px">'+
-            '<button onclick="event.stopPropagation();openTeamModal(\''+u.id+'\')" style="padding:4px 7px;border-radius:6px;border:1px solid #355247;background:#163027;color:var(--sky);font-size:10px;font-weight:700;cursor:pointer">Team</button>'+
-            '<button onclick="event.stopPropagation();toggleUserActive(\''+u.id+'\','+(active?'false':'true')+',this)" style="padding:4px 7px;border-radius:6px;border:none;background:'+(active?'rgba(239,68,68,.12)':'rgba(61,187,134,.12)')+';color:'+(active?'#f87171':'#3DBB86')+';font-size:10px;font-weight:700;cursor:pointer">'+(active?'Ban':'Unban')+'</button>'+
-          '</div>'+
-        '</div>'+
-      '</div>';
+      var banned=u.is_active===false;
+      var banBtn = u.is_admin
+        ? '<span style="margin-top:6px;display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.06);color:#8A7F78;font-size:10px;font-weight:700">Admin</span>'
+        : '<button onclick="event.stopPropagation();toggleUserBan(\''+u.id+'\','+(!banned)+')" style="margin-top:6px;padding:4px 10px;border-radius:6px;border:none;background:'+(banned?'rgba(52,211,153,.12)':'rgba(239,68,68,.12)')+';color:'+(banned?'#34D399':'#f87171')+';font-size:10px;font-weight:700;cursor:pointer">'+(banned?'✅ Unban':'🚫 Ban')+'</button>';
+      var teamBtn = '<button onclick="event.stopPropagation();openTeamModal(\''+u.id+'\')" style="margin-top:6px;margin-left:6px;padding:4px 10px;border-radius:6px;border:none;background:rgba(59,130,246,.14);color:#60A5FA;font-size:10px;font-weight:700;cursor:pointer">👥 Team</button>';
+      return '<div class="user-row" onclick="openWalletModal(\''+u.id+'\')" style="'+(banned?'opacity:.55':'')+'"><div class="user-avatar">'+(u.full_name||u.email||"?")[0].toUpperCase()+'</div><div style="flex:1"><div class="user-name">'+(u.full_name||"—")+(u.is_admin?' <span style="font-size:10px;background:rgba(239,68,68,.15);color:#f87171;padding:2px 6px;border-radius:4px">Admin</span>':'')+(banned?' <span style="font-size:10px;background:rgba(239,68,68,.3);color:#fff;padding:2px 6px;border-radius:4px">🚫 Banned</span>':'')+' <span style="font-size:10px;color:#34D399">VIP '+u.vip_level+'</span></div><div class="user-meta">'+u.email+' · '+new Date(u.created_at).toLocaleDateString()+'</div></div><div style="text-align:right"><div class="user-bal">₦'+Number(u.wallets?.balance||0).toLocaleString()+'</div><div>'+banBtn+teamBtn+'</div></div></div>';
     }).join("");
   }
-
+  window.toggleUserBan=async function(userId,willBan){
+    var u=allUsers.find(function(x){return x.id===userId;});
+    var name=u?(u.full_name||u.email||"this user"):"this user";
+    var msg=willBan
+      ? "Ban "+name+"? They'll be signed out and blocked from logging in until unbanned."
+      : "Unban "+name+"? They'll regain access immediately.";
+    if(!confirm(msg)) return;
+    var r=await fetch("/api/admin?action="+(willBan?"ban-user":"unban-user"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({target_user_id:userId,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast(willBan?"🚫 User banned":"✅ User unbanned"); loadUsers(); }
+    else { window.AradelAuth.toast(d.error==="cannot_ban_admin"?"Can't ban an admin account":d.error==="cannot_ban_self"?"You can't ban yourself":(d.error||"Error")); }
+  };
   window.filterUsers=function(q){
-    if(!q){ renderUsers(allUsers); return; }
-    var f=q.toLowerCase();
-    renderUsers(allUsers.filter(function(u){return (u.full_name||"").toLowerCase().includes(f)||(u.email||"").toLowerCase().includes(f);}));
+    clearTimeout(userSearchTimer);
+    var value=String(q||"").trim();
+    if(!value){ loadUsers(); return; }
+    userSearchTimer=setTimeout(function(){ loadUsers(value); },250);
   };
 
-  /* ── Edit Wallet modal ── */
-  var walletTargetUserId="", walletTargetType="credit";
-
+  var walletTargetUserId="",walletTargetType="credit";
   window.openWalletModal=function(userId){
-    var u = allUsers.find(function(x){ return x.id===userId; });
-    if(!u){ window.GreenewAuth.toast("User not found — try refreshing the list"); return; }
-
-    walletTargetUserId = userId;
-    document.getElementById("walletModalUser").textContent = (u.full_name||u.email||"User") + " · " + u.email;
-    document.getElementById("walletModalBalance").textContent = "₦"+Number(u.wallets?.balance||0).toLocaleString();
-    document.getElementById("walletAmountInput").value = "";
-    document.getElementById("walletReasonInput").value = "";
-    document.getElementById("walletModalAlert").className = "alert";
-    document.getElementById("walletSubmitBtn").disabled = false;
-    document.getElementById("walletSubmitBtn").textContent = "Apply Adjustment";
-    setWalletType("credit");
-    document.getElementById("walletModal").style.display = "flex";
+    var u=allUsers.find(function(x){return x.id===userId;});
+    if(!u){ window.AradelAuth.toast("User not found — try refreshing"); return; }
+    walletTargetUserId=userId;
+    var modal=document.createElement("div");
+    modal.id="walletModal";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:flex-end;justify-content:center";
+    modal.innerHTML='<div style="background:#241B18;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;border:1px solid #3A2E29">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div style="font-family:\'Fraunces\',serif;font-size:16px;font-weight:600;color:#fff">Edit Wallet</div><button onclick="document.getElementById(\'walletModal\').remove()" style="background:rgba(255,255,255,.06);border:none;border-radius:50%;width:30px;height:30px;color:#8A7F78;font-size:16px;cursor:pointer">✕</button></div>'+
+      '<div style="font-size:13px;color:#8A7F78;margin-bottom:16px">'+(u.full_name||u.email||"User")+' · '+u.email+'</div>'+
+      '<div style="background:#181210;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center"><div style="font-size:11px;color:#8A7F78;text-transform:uppercase">Current Balance</div><div style="font-size:24px;font-weight:800;color:#34D399;margin-top:4px">₦'+Number(u.wallets?.balance||0).toLocaleString()+'</div></div>'+
+      '<div style="display:flex;gap:8px;margin-bottom:14px"><button id="walletTypeCredit" onclick="setWalletType(\'credit\')" style="flex:1;padding:11px;border-radius:10px;border:2px solid #00c853;background:rgba(0,200,83,.1);color:#34D399;font-weight:700;font-size:13px;cursor:pointer">➕ Credit</button><button id="walletTypeDebit" onclick="setWalletType(\'debit\')" style="flex:1;padding:11px;border-radius:10px;border:2px solid #3A2E29;background:transparent;color:#8A7F78;font-weight:700;font-size:13px;cursor:pointer">➖ Debit</button></div>'+
+      '<div class="a-field"><label class="a-label">Amount (₦)</label><input class="a-input" id="walletAmountInput" type="number"/></div>'+
+      '<div class="a-field"><label class="a-label">Reason <span style="color:#8A7F78;font-weight:400">(sent to user)</span></label><input class="a-input" id="walletReasonInput"/></div>'+
+      '<button onclick="submitWalletAdjust()" id="walletSubmitBtn" style="width:100%;padding:13px;border-radius:10px;border:none;background:linear-gradient(155deg,#B91C3C,#7F1228);color:#fff;font-weight:700;font-size:15px;cursor:pointer">Apply Adjustment</button>'+
+      '<div id="walletModalAlert" class="alert" style="margin-top:10px"></div></div>';
+    document.body.appendChild(modal);
+    walletTargetType="credit";
   };
-
-  window.closeWalletModal=function(){
-    document.getElementById("walletModal").style.display = "none";
-  };
-
   window.setWalletType=function(type){
-    walletTargetType = type;
-    var creditBtn = document.getElementById("walletTypeCredit");
-    var debitBtn  = document.getElementById("walletTypeDebit");
-    if(type==="credit"){
-      creditBtn.style.borderColor="#00c853"; creditBtn.style.color="#3DBB86"; creditBtn.style.background="rgba(0,200,83,.1)";
-      debitBtn.style.borderColor="#355247";  debitBtn.style.color="#8BA296";  debitBtn.style.background="transparent";
-    } else {
-      debitBtn.style.borderColor="#ef4444";  debitBtn.style.color="#f87171";  debitBtn.style.background="rgba(239,68,68,.1)";
-      creditBtn.style.borderColor="#355247"; creditBtn.style.color="#8BA296"; creditBtn.style.background="transparent";
-    }
+    walletTargetType=type;
+    var c=document.getElementById("walletTypeCredit"),d=document.getElementById("walletTypeDebit");
+    if(type==="credit"){ c.style.borderColor="#00c853"; c.style.color="#34D399"; c.style.background="rgba(0,200,83,.1)"; d.style.borderColor="#3A2E29"; d.style.color="#8A7F78"; d.style.background="transparent"; }
+    else { d.style.borderColor="#ef4444"; d.style.color="#f87171"; d.style.background="rgba(239,68,68,.1)"; c.style.borderColor="#3A2E29"; c.style.color="#8A7F78"; c.style.background="transparent"; }
   };
-
   window.submitWalletAdjust=async function(){
-    var amount = document.getElementById("walletAmountInput").value;
-    var reason = document.getElementById("walletReasonInput").value.trim();
-    var al  = document.getElementById("walletModalAlert");
-    var btn = document.getElementById("walletSubmitBtn");
-    al.className = "alert";
+    var amount=document.getElementById("walletAmountInput").value;
+    var reason=document.getElementById("walletReasonInput").value.trim();
+    var al=document.getElementById("walletModalAlert"); al.className="alert";
+    if(!amount||Number(amount)<=0){ al.textContent="Enter a valid amount"; al.className="alert alert-error show"; return; }
+    var btn=document.getElementById("walletSubmitBtn"); btn.disabled=true; btn.textContent="Processing…";
+    var r=await fetch("/api/admin?action=adjust-wallet",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({target_user_id:walletTargetUserId,amount,type:walletTargetType,reason,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Wallet "+(walletTargetType==="credit"?"credited":"debited")+" — new balance ₦"+Number(d.new_balance).toLocaleString()); document.getElementById("walletModal").remove(); loadUsers(); }
+    else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; btn.disabled=false; btn.textContent="Apply Adjustment"; }
+  };
 
-    if(!amount || Number(amount)<=0){
-      al.textContent="Enter a valid amount"; al.className="alert alert-error show"; return;
-    }
+  var teamModalData=null;
+  window.openTeamModal=async function(userId){
+    var u=allUsers.find(function(x){return x.id===userId;});
+    if(!u){ window.AradelAuth.toast("User not found — try refreshing"); return; }
+    var modal=document.createElement("div");
+    modal.id="teamModal";
+    modal.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:flex-end;justify-content:center";
+    modal.innerHTML='<div style="background:#241B18;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;border:1px solid #3A2E29;max-height:85vh;overflow-y:auto">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div style="font-family:\'Fraunces\',serif;font-size:16px;font-weight:600;color:#fff">Team &amp; Deposits</div><button onclick="document.getElementById(\'teamModal\').remove()" style="background:rgba(255,255,255,.06);border:none;border-radius:50%;width:30px;height:30px;color:#8A7F78;font-size:16px;cursor:pointer">✕</button></div>'+
+      '<div style="font-size:13px;color:#8A7F78;margin-bottom:16px">'+(u.full_name||u.email||"User")+' · '+u.email+'</div>'+
+      '<div id="teamModalBody"><div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div></div>'+
+      '</div>';
+    document.body.appendChild(modal);
 
-    btn.disabled=true; btn.textContent="Processing…";
-
-    var r = await fetch("/api/admin?action=adjust-wallet",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({target_user_id:walletTargetUserId,amount,type:walletTargetType,reason,admin_id:adminId})});
-    var d = await r.json();
-
-    if(d.ok){
-      window.GreenewAuth.toast("✅ Wallet "+(walletTargetType==="credit"?"credited":"debited")+" — new balance ₦"+Number(d.new_balance).toLocaleString());
-      closeWalletModal();
-      loadUsers();
-    } else {
-      al.textContent = d.error||"Error"; al.className="alert alert-error show";
-      btn.disabled=false; btn.textContent="Apply Adjustment";
+    try {
+      var r=await fetch("/api/admin?action=user-team&target_user_id="+userId+"&admin_id="+adminId);
+      var d=await r.json();
+      if(!d.ok) throw new Error(d.error||"Failed to load team");
+      teamModalData=d;
+      renderTeamModalBody(1);
+    } catch(e){
+      var body=document.getElementById("teamModalBody");
+      if(body) body.innerHTML='<div style="text-align:center;color:#f87171;padding:20px;font-size:13px">Failed to load team data.</div>';
     }
   };
 
-  /* ── Support messages ── */
-  window.onTargetChange=function(v){ document.getElementById("userSearchWrap").style.display=v==="specific"?"block":"none"; };
+  window.renderTeamModalBody=function(level){
+    var d=teamModalData;
+    var body=document.getElementById("teamModalBody");
+    if(!body||!d) return;
+    var members = level===1?d.l1:level===2?d.l2:d.l3;
+    var tabBtn=function(n,label){
+      return '<button onclick="renderTeamModalBody('+n+')" style="flex:1;padding:9px 4px;border-radius:8px;font-size:11.5px;font-weight:700;border:1.5px solid '+(level===n?'#B91C3C':'#3A2E29')+';background:'+(level===n?'linear-gradient(155deg,#B91C3C,#7F1228)':'#181210')+';color:'+(level===n?'#fff':'#8A7F78')+';cursor:pointer">'+label+'</button>';
+    };
+    var rows=(members||[]).length
+      ? members.map(function(m){
+          var active=m.isActive!==false;
+          var name=m.full_name||m.email||"User";
+          var statusChip = level===1
+            ? '<span style="font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:20px;background:'+(active?'rgba(52,211,153,.12)':'rgba(255,255,255,.06)')+';color:'+(active?'#34D399':'#8A7F78')+'">'+(active?'Active':'Inactive')+'</span>'
+            : '';
+          return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #3A2E29"><div style="width:34px;height:34px;border-radius:50%;background:#181210;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#B91C3C;flex-shrink:0">'+name[0].toUpperCase()+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;color:#fff">'+name+'</div><div style="font-size:10.5px;color:#8A7F78;margin-top:1px">Joined '+new Date(m.created_at).toLocaleDateString()+'</div></div>'+statusChip+'</div>';
+        }).join("")
+      : '<div style="text-align:center;color:#8A7F78;padding:20px;font-size:12.5px">No Level '+level+' members.</div>';
 
-  window.searchMsgUsers=async function(q){
+    body.innerHTML=
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'+
+        '<div style="background:#181210;border-radius:10px;padding:12px;text-align:center"><div style="font-size:10px;color:#8A7F78;text-transform:uppercase">Own Deposits</div><div style="font-size:16px;font-weight:800;color:#34D399;margin-top:3px">₦'+Number(d.own_deposits||0).toLocaleString()+'</div></div>'+
+        '<div style="background:#181210;border-radius:10px;padding:12px;text-align:center"><div style="font-size:10px;color:#8A7F78;text-transform:uppercase">Grand Total</div><div style="font-size:16px;font-weight:800;color:#34D399;margin-top:3px">₦'+Number(d.grand_total_deposits||0).toLocaleString()+'</div></div>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">'+
+        '<div style="background:#181210;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9.5px;color:#8A7F78;text-transform:uppercase">L1 Deposits</div><div style="font-size:13px;font-weight:700;color:#fff;margin-top:2px">₦'+Number(d.l1_deposits||0).toLocaleString()+'</div></div>'+
+        '<div style="background:#181210;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9.5px;color:#8A7F78;text-transform:uppercase">L2 Deposits</div><div style="font-size:13px;font-weight:700;color:#fff;margin-top:2px">₦'+Number(d.l2_deposits||0).toLocaleString()+'</div></div>'+
+        '<div style="background:#181210;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9.5px;color:#8A7F78;text-transform:uppercase">L3 Deposits</div><div style="font-size:13px;font-weight:700;color:#fff;margin-top:2px">₦'+Number(d.l3_deposits||0).toLocaleString()+'</div></div>'+
+      '</div>'+
+      '<div style="font-size:11.5px;color:#8A7F78;margin-bottom:10px">'+d.total_team+' total team members · '+d.active_count+' active investors</div>'+
+      '<div style="display:flex;gap:6px;margin-bottom:10px">'+tabBtn(1,"Level 1")+tabBtn(2,"Level 2")+tabBtn(3,"Level 3")+'</div>'+
+      '<div>'+rows+'</div>';
+  };
+
+  window.onTargetChange=function(v){ document.getElementById("userSearchWrap").style.display=v==="specific"?"block":"none"; };
+  window.searchMsgUsers=function(q){
     var list=document.getElementById("msgUserList");
     if(q.length<2){ list.style.display="none"; return; }
     var filtered=allUsers.filter(function(u){return (u.full_name||"").toLowerCase().includes(q.toLowerCase())||(u.email||"").toLowerCase().includes(q.toLowerCase());}).slice(0,5);
     if(!filtered.length){ list.style.display="none"; return; }
     list.style.display="block";
-    list.innerHTML=filtered.map(function(u){
-      return '<div class="msg-user-opt" onclick="selectMsgUser(\''+u.id+'\',\''+((u.full_name||u.email)||"User")+'\')">'+
-        (u.full_name||"—")+" — "+u.email+'</div>';
-    }).join("");
+    list.innerHTML=filtered.map(function(u){ return '<div class="msg-user-opt" onclick="selectMsgUser(\''+u.id+'\',\''+((u.full_name||u.email)||"User")+'\')">'+(u.full_name||"—")+" — "+u.email+'</div>'; }).join("");
   };
-
-  window.selectMsgUser=function(id,name){
-    document.getElementById("msgUserId").value=id;
-    document.getElementById("msgUserSearch").value=name;
-    document.getElementById("msgUserList").style.display="none";
-  };
-
+  window.selectMsgUser=function(id,name){ document.getElementById("msgUserId").value=id; document.getElementById("msgUserSearch").value=name; document.getElementById("msgUserList").style.display="none"; };
   window.sendMessage=async function(){
     var al=document.getElementById("msgAlert");
     var target=document.getElementById("msgTarget").value;
@@ -835,348 +656,308 @@
     var content=document.getElementById("msgContent").value.trim();
     var userId=target==="all"?null:document.getElementById("msgUserId").value;
     var editId=document.getElementById("editMsgId").value;
-
-    if(!editId && target==="specific" && !userId){ al.textContent="Select a user"; al.className="alert alert-error show"; return; }
+    if(!editId&&target==="specific"&&!userId){ al.textContent="Select a user"; al.className="alert alert-error show"; return; }
     if(!title||!content){ al.textContent="Title and message are required"; al.className="alert alert-error show"; return; }
     al.className="alert";
-
-    var btn=document.getElementById("msgSubmitBtn");
-    btn.disabled=true; btn.textContent=editId?"Saving…":"Sending…";
-
-    var action = editId ? "update-message" : "send-message";
-    var body   = editId
-      ? { message_id:editId, title, content, admin_id:adminId }
-      : { user_id:userId, title, content, admin_id:adminId };
-
+    var btn=document.getElementById("msgSubmitBtn"); btn.disabled=true; btn.textContent=editId?"Saving…":"Sending…";
+    var action=editId?"update-message":"send-message";
+    var body=editId?{message_id:editId,title,content,admin_id:adminId}:{user_id:userId,title,content,admin_id:adminId};
     var r=await fetch("/api/admin?action="+action,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
     var d=await r.json();
-
-    if(d.ok){
-      window.GreenewAuth.toast(editId ? "✅ Message updated!" : "✅ Message sent!");
-      cancelEditMsg();
-      loadSentSupportMessages();
-    } else {
-      al.textContent=d.error||"Error"; al.className="alert alert-error show";
-    }
+    if(d.ok){ window.AradelAuth.toast(editId?"✅ Message updated!":"✅ Message sent!"); cancelEditMsg(); loadSentMessages(); }
+    else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
     btn.disabled=false; btn.textContent=editId?"Update Message":"Send Message";
   };
-
   window.cancelEditMsg=function(){
-    document.getElementById("editMsgId").value="";
-    document.getElementById("msgTitle").value="";
-    document.getElementById("msgContent").value="";
-    document.getElementById("msgUserId").value="";
-    document.getElementById("msgUserSearch").value="";
-    document.getElementById("msgTarget").value="all";
-    document.getElementById("userSearchWrap").style.display="none";
-    document.getElementById("msgFormTitle").textContent="Send Message to Users";
-    document.getElementById("msgSubmitBtn").textContent="Send Message";
-    document.getElementById("msgCancelBtn").style.display="none";
-    document.getElementById("msgTarget").disabled=false;
-    document.getElementById("msgAlert").className="alert";
+    document.getElementById("editMsgId").value=""; document.getElementById("msgTitle").value=""; document.getElementById("msgContent").value="";
+    document.getElementById("msgUserId").value=""; document.getElementById("msgUserSearch").value=""; document.getElementById("msgTarget").value="all";
+    document.getElementById("userSearchWrap").style.display="none"; document.getElementById("msgFormTitle").textContent="Send Message to Users";
+    document.getElementById("msgSubmitBtn").textContent="Send Message"; document.getElementById("msgCancelBtn").style.display="none";
+    document.getElementById("msgTarget").disabled=false; document.getElementById("msgAlert").className="alert";
   };
-
-  /* ── Sent messages list ── */
-  window.loadSentSupportMessages=async function(){
+  window.loadSentMessages=async function(){
     var el=document.getElementById("sentMsgList");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
     var r=await fetch("/api/admin?action=messages&admin_id="+adminId);
     var d=await r.json();
-    if(!d.ok){
-      el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px 16px;font-size:13px">⚠️ Failed to load: '+(d.error||"Unknown error")+'</div>';
-      return;
-    }
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>'; return; }
     var msgs=d.messages||[];
-    if(!msgs.length){
-      el.innerHTML='<div style="text-align:center;color:#6E8178;padding:24px;font-size:14px">No messages sent yet.</div>';
-      return;
-    }
+    if(!msgs.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:24px;font-size:14px">No messages sent yet.</div>'; return; }
     el.innerHTML=msgs.map(function(m){
-      var recipient = m.user_id ? (m.recipient?.full_name||m.recipient?.email||"User") : "📢 Broadcast (All Users)";
-      var preview = m.content.length>90 ? m.content.slice(0,90)+"…" : m.content;
-      var safeTitle = m.title.replace(/'/g,"\\'");
-      var safeContent = m.content.replace(/'/g,"\\'").replace(/\n/g,"\\n");
-      return '<div class="dep-row">'+
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
-          '<div style="flex:1">'+
-            '<div class="dep-name">'+m.title+'</div>'+
-            '<div class="dep-meta">To: '+recipient+' · '+new Date(m.created_at).toLocaleString()+'</div>'+
-            '<div class="dep-meta" style="margin-top:6px;color:#8BA296">'+preview+'</div>'+
-          '</div>'+
-          (m.is_read?'<span style="font-size:10px;color:#3DBB86;font-weight:700;flex-shrink:0;margin-left:8px">READ</span>':'<span style="font-size:10px;color:#FCD34D;font-weight:700;flex-shrink:0;margin-left:8px">UNREAD</span>')+
-        '</div>'+
-        '<div class="dep-actions">'+
-          '<button class="btn-approve" onclick="editMsg(\''+m.id+'\',\''+safeTitle+'\',\''+safeContent+'\',\''+(m.user_id||"")+'\',\''+(recipient.replace(/'/g,"\\'"))+'\')">✏️ Edit</button>'+
-          '<button class="btn-reject" onclick="deleteMsg(\''+m.id+'\',this)">🗑️ Delete</button>'+
-        '</div>'+
-      '</div>';
+      var recipient=m.user_id?(m.recipient?.full_name||m.recipient?.email||"User"):"📢 Broadcast";
+      var preview=m.content.length>90?m.content.slice(0,90)+"…":m.content;
+      var safeTitle=m.title.replace(/'/g,"\\'"), safeContent=m.content.replace(/'/g,"\\'").replace(/\n/g,"\\n");
+      return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div class="dep-name">'+m.title+'</div><div class="dep-meta">To: '+recipient+' · '+new Date(m.created_at).toLocaleString()+'</div><div class="dep-meta" style="margin-top:6px;color:#8A7F78">'+preview+'</div></div>'+(m.is_read?'<span style="font-size:10px;color:#34D399;font-weight:700;margin-left:8px">READ</span>':'<span style="font-size:10px;color:#FCD34D;font-weight:700;margin-left:8px">UNREAD</span>')+'</div><div class="dep-actions"><button class="btn-approve" onclick="editMsg(\''+m.id+'\',\''+safeTitle+'\',\''+safeContent+'\',\''+(m.user_id||"")+'\',\''+(recipient.replace(/'/g,"\\'"))+'\')">✏️ Edit</button><button class="btn-reject" onclick="deleteMsg(\''+m.id+'\',this)">🗑️ Delete</button></div></div>';
     }).join("");
   };
-
   window.editMsg=function(id,title,content,userId,recipientName){
-    document.getElementById("editMsgId").value=id;
-    document.getElementById("msgTitle").value=title;
+    document.getElementById("editMsgId").value=id; document.getElementById("msgTitle").value=title;
     document.getElementById("msgContent").value=content.replace(/\\n/g,"\n");
-    document.getElementById("msgFormTitle").textContent="Edit Message";
-    document.getElementById("msgSubmitBtn").textContent="Update Message";
-    document.getElementById("msgCancelBtn").style.display="inline-block";
-    document.getElementById("msgTarget").disabled=true; // recipient can't change on edit
-
-    if(userId){
-      document.getElementById("msgTarget").value="specific";
-      document.getElementById("userSearchWrap").style.display="block";
-      document.getElementById("msgUserId").value=userId;
-      document.getElementById("msgUserSearch").value=recipientName;
-    } else {
-      document.getElementById("msgTarget").value="all";
-      document.getElementById("userSearchWrap").style.display="none";
-    }
+    document.getElementById("msgFormTitle").textContent="Edit Message"; document.getElementById("msgSubmitBtn").textContent="Update Message";
+    document.getElementById("msgCancelBtn").style.display="inline-block"; document.getElementById("msgTarget").disabled=true;
+    if(userId){ document.getElementById("msgTarget").value="specific"; document.getElementById("userSearchWrap").style.display="block"; document.getElementById("msgUserId").value=userId; document.getElementById("msgUserSearch").value=recipientName; }
+    else { document.getElementById("msgTarget").value="all"; document.getElementById("userSearchWrap").style.display="none"; }
     window.scrollTo({top:0,behavior:"smooth"});
   };
-
   window.deleteMsg=async function(id,btn){
     if(!confirm("Delete this message permanently?")) return;
     btn.disabled=true; btn.textContent="Deleting…";
     var r=await fetch("/api/admin?action=delete-message",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message_id:id,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?"🗑️ Message deleted":"❌ "+d.error);
-    loadSentSupportMessages();
+    window.AradelAuth.toast(d.ok?"🗑️ Message deleted":"❌ "+d.error); loadSentMessages();
   };
 
-  /* ── Offer codes ── */
   window.randomizeCode=function(){
-    var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    var code="VTL-";
+    var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",code="ARD-";
     for(var i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
     document.getElementById("giftCode").value=code;
   };
-
   window.createGiftCode=async function(){
     var al=document.getElementById("giftAlert");
     var code=document.getElementById("giftCode").value.trim().toUpperCase();
     var amount=document.getElementById("giftAmount").value;
     var maxUses=document.getElementById("giftMaxUses").value||1;
     var expiry=document.getElementById("giftExpiry").value;
-
     if(!code){ al.textContent="Enter a gift code"; al.className="alert alert-error show"; return; }
     if(!amount||Number(amount)<=0){ al.textContent="Enter a valid amount"; al.className="alert alert-error show"; return; }
-
-    var btn=document.getElementById("giftCreateBtn");
-    btn.disabled=true; btn.textContent="Generating…";
-    al.className="alert";
-
-    var r=await fetch("/api/admin?action=create-gift-code",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({code,amount,max_uses:maxUses,expires_at:expiry?new Date(expiry).toISOString():null,admin_id:adminId})
-    });
+    var btn=document.getElementById("giftCreateBtn"); btn.disabled=true; btn.textContent="Generating…"; al.className="alert";
+    var r=await fetch("/api/admin?action=create-gift-code",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,amount,max_uses:maxUses,expires_at:expiry?new Date(expiry).toISOString():null,admin_id:adminId})});
     var d=await r.json();
-
-    if(d.ok){
-      window.GreenewAuth.toast("🎁 Offer code "+d.code+" created!");
-      document.getElementById("giftCode").value="";
-      document.getElementById("giftAmount").value="";
-      document.getElementById("giftMaxUses").value="1";
-      document.getElementById("giftExpiry").value="";
-      al.className="alert";
-      loadGiftCodes();
-    } else {
-      al.textContent=d.error||"Error creating code"; al.className="alert alert-error show";
-    }
+    if(d.ok){ window.AradelAuth.toast("🎁 Gift code "+d.code+" created!"); document.getElementById("giftCode").value=""; document.getElementById("giftAmount").value=""; document.getElementById("giftMaxUses").value="1"; document.getElementById("giftExpiry").value=""; al.className="alert"; loadGiftCodes(); }
+    else { al.textContent=d.error||"Error creating code"; al.className="alert alert-error show"; }
     btn.disabled=false; btn.textContent="🎁 Generate Code";
   };
-
   window.loadGiftCodes=async function(){
     var el=document.getElementById("giftCodeList");
-    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#355247;border-top-color:var(--sky)"></div></div>';
+    el.innerHTML='<div class="loader-wrap"><div class="loader" style="border-color:#3A2E29;border-top-color:#B91C3C"></div></div>';
     var r=await fetch("/api/admin?action=gift-codes&admin_id="+adminId);
     var d=await r.json();
-    if(!d.ok){
-      el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px 16px;font-size:13px">⚠️ Failed to load: '+(d.error||"Unknown error")+'</div>';
-      return;
-    }
+    if(!d.ok){ el.innerHTML='<div style="text-align:center;color:#f87171;padding:24px;font-size:13px">⚠️ '+(d.error||"Failed to load")+'</div>'; return; }
     var codes=d.codes||[];
-    if(!codes.length){
-      el.innerHTML='<div style="text-align:center;color:#6E8178;padding:24px;font-size:14px">No gift codes yet. Generate one above.</div>';
-      return;
-    }
+    if(!codes.length){ el.innerHTML='<div style="text-align:center;color:#8A7F78;padding:24px;font-size:14px">No gift codes yet.</div>'; return; }
     el.innerHTML=codes.map(function(c){
-      var used=c.uses>=c.max_uses;
-      var expired=c.expires_at && new Date(c.expires_at)<new Date();
-      var statusLabel = c.status==="active" && !used && !expired ? "ACTIVE" : used ? "FULLY USED" : expired ? "EXPIRED" : "INACTIVE";
-      var statusColor = statusLabel==="ACTIVE" ? "#3DBB86" : statusLabel==="FULLY USED" ? "#8BA296" : "#f87171";
-      return '<div class="dep-row">'+
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
-          '<div>'+
-            '<div class="dep-name" style="font-family:monospace;letter-spacing:.05em">'+c.code+'</div>'+
-            '<div class="dep-meta">Created '+new Date(c.created_at).toLocaleDateString()+(c.expires_at?' · Expires '+new Date(c.expires_at).toLocaleDateString():'')+'</div>'+
-          '</div>'+
-          '<div style="text-align:right">'+
-            '<div class="dep-amt">₦'+Number(c.amount).toLocaleString()+'</div>'+
-            '<div style="font-size:11px;font-weight:700;color:'+statusColor+'">'+statusLabel+'</div>'+
-          '</div>'+
-        '</div>'+
-        '<div class="dep-meta" style="margin-top:6px">Used '+c.uses+' / '+c.max_uses+' times</div>'+
-        '<div class="dep-actions">'+
-          (c.status==="active"
-            ? '<button class="btn-reject" onclick="toggleGiftCode(\''+c.id+'\',\'inactive\',this)">⏸ Deactivate</button>'
-            : '<button class="btn-approve" onclick="toggleGiftCode(\''+c.id+'\',\'active\',this)">▶ Activate</button>')+
-          '<button class="btn-reject" onclick="deleteGiftCode(\''+c.id+'\',this)">🗑️ Delete</button>'+
-        '</div>'+
-      '</div>';
+      var used=c.uses>=c.max_uses, expired=c.expires_at&&new Date(c.expires_at)<new Date();
+      var statusLabel=c.status==="active"&&!used&&!expired?"ACTIVE":used?"FULLY USED":expired?"EXPIRED":"INACTIVE";
+      var statusColor=statusLabel==="ACTIVE"?"#34D399":statusLabel==="FULLY USED"?"#8A7F78":"#f87171";
+      return '<div class="dep-row"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div class="dep-name" style="font-family:monospace">'+c.code+'</div><div class="dep-meta">Created '+new Date(c.created_at).toLocaleDateString()+(c.expires_at?' · Expires '+new Date(c.expires_at).toLocaleDateString():'')+'</div></div><div style="text-align:right"><div class="dep-amt">₦'+Number(c.amount).toLocaleString()+'</div><div style="font-size:11px;font-weight:700;color:'+statusColor+'">'+statusLabel+'</div></div></div><div class="dep-meta" style="margin-top:6px">Used '+c.uses+' / '+c.max_uses+' times</div><div class="dep-actions">'+(c.status==="active"?'<button class="btn-reject" onclick="toggleGiftCode(\''+c.id+'\',\'inactive\',this)">⏸ Deactivate</button>':'<button class="btn-approve" onclick="toggleGiftCode(\''+c.id+'\',\'active\',this)">▶ Activate</button>')+'<button class="btn-reject" onclick="deleteGiftCode(\''+c.id+'\',this)">🗑️ Delete</button></div></div>';
     }).join("");
   };
-
   window.toggleGiftCode=async function(id,newStatus,btn){
     btn.disabled=true;
     var r=await fetch("/api/admin?action=toggle-gift-code",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code_id:id,status:newStatus,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?"✅ Updated":"❌ "+d.error);
-    loadGiftCodes();
+    window.AradelAuth.toast(d.ok?"✅ Updated":"❌ "+d.error); loadGiftCodes();
   };
-
   window.deleteGiftCode=async function(id,btn){
     if(!confirm("Delete this gift code permanently?")) return;
     btn.disabled=true;
     var r=await fetch("/api/admin?action=delete-gift-code",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code_id:id,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?"🗑️ Deleted":"❌ "+d.error);
-    loadGiftCodes();
+    window.AradelAuth.toast(d.ok?"🗑️ Deleted":"❌ "+d.error); loadGiftCodes();
   };
 
-  /* ── Method ── */
   async function loadMethod(){
     var r=await fetch("/api/deposit?action=method");
     var d=await r.json();
     applyMethod(d.method||"manual");
   }
-
   function applyMethod(m){
-    ["manual","paystack","ipayng"].forEach(function(x){document.getElementById("m-"+x).className="m-btn"+(m===x?" on-"+m:"");});
-    var msgs={manual:"🏦 Users are paying via manual bank transfer",paystack:"✅ Users are paying via Paystack",ipayng:"⚡ Users are paying via iPayNG"};
+    ["manual","monnify","targetgrowths"].forEach(function(x){ document.getElementById("m-"+x).className="m-btn"+(m===x?" on-"+m:""); });
+    var msgs={manual:"🏦 Users are transferring manually to your OPay account",monnify:"⚡ Users deposit to their own permanent Monnify account",targetgrowths:"💳 Users pay through TargetGrowths hosted checkout"};
     document.getElementById("mStatus").textContent=msgs[m]||"";
   }
-
   window.setMethod=async function(m){
     document.getElementById("mStatus").textContent="Switching…";
     var r=await fetch("/api/admin?action=set-method",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({method:m,admin_id:adminId})});
     var d=await r.json();
-    if(d.ok){ applyMethod(m); window.GreenewAuth.toast("✅ Switched to "+m); }
-    else { window.GreenewAuth.toast("❌ "+d.error); }
+    if(d.ok){ applyMethod(m); window.AradelAuth.toast("✅ Switched to "+m); } else { window.AradelAuth.toast("❌ "+d.error); }
   };
 
-  /* ── Refund lock ── */
-  var refundsLocked = false;
-
-  async function loadRefundLock(){
+  async function loadWithdrawalLock(){
     var r=await fetch("/api/admin?action=withdrawal-lock-status&admin_id="+adminId);
     var d=await r.json();
-    refundsLocked = !!d.locked;
-    applyRefundLockUI();
+    withdrawalsLocked=!!d.locked; applyWithdrawalLockUI();
   }
-
-  function applyRefundLockUI(){
-    var toggle = document.getElementById("wLockToggle");
-    var knob   = document.getElementById("wLockKnob");
-    var desc   = document.getElementById("wLockDesc");
-    if(refundsLocked){
-      toggle.style.background = "#355247";
-      knob.style.transform = "translateX(0)";
-      desc.textContent = "🔒 Locked — users cannot submit new refunds";
-      desc.style.color = "#f87171";
-    } else {
-      toggle.style.background = "#00c853";
-      knob.style.transform = "translateX(22px)";
-      desc.textContent = "✅ Open — users can submit refunds normally";
-      desc.style.color = "#3DBB86";
-    }
+  function applyWithdrawalLockUI(){
+    var toggle=document.getElementById("wLockToggle"),knob=document.getElementById("wLockKnob"),desc=document.getElementById("wLockDesc");
+    if(withdrawalsLocked){ toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="🔒 Locked — users cannot submit new withdrawals"; desc.style.color="#f87171"; }
+    else { toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ Open — users can submit withdrawals normally"; desc.style.color="#34D399"; }
   }
-
-  window.toggleRefundLock=async function(){
-    var newState = !refundsLocked;
-    document.getElementById("wLockDesc").textContent = "Updating…";
+  window.toggleWithdrawalLock=async function(){
+    var newState=!withdrawalsLocked;
+    document.getElementById("wLockDesc").textContent="Updating…";
     var r=await fetch("/api/admin?action=set-withdrawal-lock",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({locked:newState,admin_id:adminId})});
     var d=await r.json();
-    if(d.ok){
-      refundsLocked = d.locked;
-      applyRefundLockUI();
-      window.GreenewAuth.toast(refundsLocked ? "🔒 Refund requests locked" : "✅ Refund requests unlocked");
-    } else {
-      window.GreenewAuth.toast("❌ "+d.error);
-      applyRefundLockUI();
-    }
+    if(d.ok){ withdrawalsLocked=d.locked; applyWithdrawalLockUI(); window.AradelAuth.toast(withdrawalsLocked?"🔒 Withdrawals locked":"✅ Withdrawals unlocked"); }
+    else { window.AradelAuth.toast("❌ "+d.error); applyWithdrawalLockUI(); }
   };
 
-  /* ── Refund limits ── */
-  async function loadRefundLimits(){
-    var r = await fetch("/api/admin?action=withdrawal-limits&admin_id="+adminId);
-    var d = await r.json();
-    if(d.ok){
-      document.getElementById("minRefundInput").value = d.min;
-      document.getElementById("maxRefundInput").value = d.max;
-    }
+  async function loadWithdrawalLimits(){
+    var r=await fetch("/api/admin?action=withdrawal-limits&admin_id="+adminId);
+    var d=await r.json();
+    if(d.ok){ document.getElementById("minWithdrawInput").value=d.min; document.getElementById("maxWithdrawInput").value=d.max; }
+  }
+  window.saveWithdrawalLimits=async function(){
+    var min=document.getElementById("minWithdrawInput").value, max=document.getElementById("maxWithdrawInput").value;
+    var al=document.getElementById("limitsAlert"); al.className="alert";
+    var r=await fetch("/api/admin?action=set-withdrawal-limits",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({min,max,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Withdrawal limits updated!"); al.className="alert"; }
+    else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
+
+  var extraSettings={};
+  async function loadExtraSettings(){
+    var r=await fetch("/api/admin?action=extra-settings&admin_id="+adminId);
+    var d=await r.json();
+    if(!d.ok) return;
+    extraSettings=d.settings||{};
+
+    document.getElementById("bankNameInput").value=extraSettings.deposit_bank_name||"";
+    document.getElementById("bankAcctInput").value=extraSettings.deposit_account_number||"";
+    document.getElementById("bankNameOnAcctInput").value=extraSettings.deposit_account_name||"";
+
+    document.getElementById("tgSupportInput").value=extraSettings.telegram_support_url||"https://t.me/Aradel32";
+    document.getElementById("tgCommunityInput").value=extraSettings.telegram_community_url||"https://t.me/+ZBPQYNyTdks0NjI8";
+    document.getElementById("waLinkInput").value=extraSettings.whatsapp_url||"https://chat.whatsapp.com/Fr9g6gu6NFrLdz92RPrF0f?s=cl&p=a&ilr=1";
+    document.getElementById("csLinkInput").value=extraSettings.customer_service_url||"tel:+2340000000000";
+
+    welcomeBonusOn = extraSettings.welcome_bonus_enabled==="true";
+    document.getElementById("welcomeBonusAmountInput").value=extraSettings.welcome_bonus_amount||"0";
+    applyWelcomeBonusUI();
+
+    investGateOn = extraSettings.require_invest_before_withdraw==="true";
+    applyInvestGateUI();
+
+    referralGateOn = extraSettings.require_active_referral_to_withdraw==="true";
+    applyReferralGateUI();
+
+    vipEnabledOn = extraSettings.vip_enabled!=="false";
+    applyVipEnabledUI();
+
+    document.getElementById("withdrawFeeInput").value=extraSettings.withdrawal_fee_percent||"0";
+
+    document.getElementById("referralLevelsInput").value=extraSettings.referral_levels||"3";
+    document.getElementById("refL1Input").value=extraSettings.referral_l1_percent||"20";
+    document.getElementById("refL2Input").value=extraSettings.referral_l2_percent||"3";
+    document.getElementById("refL3Input").value=extraSettings.referral_l3_percent||"2";
   }
 
-  window.saveRefundLimits=async function(){
-    var min = document.getElementById("minRefundInput").value;
-    var max = document.getElementById("maxRefundInput").value;
-    var al  = document.getElementById("limitsAlert");
-    al.className = "alert";
+  window.saveBankDetails=async function(){
+    var bank_name=document.getElementById("bankNameInput").value.trim();
+    var account_number=document.getElementById("bankAcctInput").value.trim();
+    var account_name=document.getElementById("bankNameOnAcctInput").value.trim();
+    var al=document.getElementById("bankAlert"); al.className="alert";
+    if(!bank_name||!account_number||!account_name){ al.textContent="Fill in all three fields"; al.className="alert alert-error show"; return; }
+    var r=await fetch("/api/admin?action=set-bank-details",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({bank_name,account_number,account_name,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Bank details updated"); } else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
 
-    var r = await fetch("/api/admin?action=set-withdrawal-limits",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({min,max,admin_id:adminId})});
-    var d = await r.json();
-    if(d.ok){
-      window.GreenewAuth.toast("✅ Refund limits updated!");
-      al.className = "alert";
-    } else {
-      al.textContent = d.error||"Error"; al.className = "alert alert-error show";
+  window.saveContactLinks=async function(){
+    var telegram_support_url=document.getElementById("tgSupportInput").value.trim();
+    var telegram_community_url=document.getElementById("tgCommunityInput").value.trim();
+    var whatsapp_url=document.getElementById("waLinkInput").value.trim();
+    var customer_service_url=document.getElementById("csLinkInput").value.trim();
+    var al=document.getElementById("contactLinksAlert"); al.className="alert";
+    if(!telegram_support_url||!telegram_community_url||!whatsapp_url||!customer_service_url){
+      al.textContent="Fill in all four fields"; al.className="alert alert-error show"; return;
     }
+    var r=await fetch("/api/admin?action=set-contact-links",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegram_support_url,telegram_community_url,whatsapp_url,customer_service_url,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Contact links updated — live on Contact page & dashboard popup"); }
+    else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
+
+  var welcomeBonusOn=false;
+  function applyWelcomeBonusUI(){
+    var toggle=document.getElementById("welcomeBonusToggle"),knob=document.getElementById("welcomeBonusKnob"),desc=document.getElementById("welcomeBonusDesc");
+    if(welcomeBonusOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — new users get a bonus automatically"; desc.style.color="#34D399"; }
+    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — no signup bonus"; desc.style.color="#8A7F78"; }
+  }
+  window.toggleWelcomeBonus=function(){ welcomeBonusOn=!welcomeBonusOn; applyWelcomeBonusUI(); };
+  window.saveWelcomeBonus=async function(){
+    var amount=document.getElementById("welcomeBonusAmountInput").value;
+    var al=document.getElementById("welcomeAlert"); al.className="alert";
+    var r=await fetch("/api/admin?action=set-welcome-bonus",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({enabled:welcomeBonusOn,amount,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Welcome bonus updated"); } else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
+
+  var investGateOn=false;
+  function applyInvestGateUI(){
+    var toggle=document.getElementById("investGateToggle"),knob=document.getElementById("investGateKnob"),desc=document.getElementById("investGateDesc");
+    if(investGateOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — users must own an active product to withdraw"; desc.style.color="#34D399"; }
+    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — anyone with balance can withdraw"; desc.style.color="#8A7F78"; }
+  }
+  window.toggleInvestGate=async function(){
+    var newState=!investGateOn;
+    document.getElementById("investGateDesc").textContent="Updating…";
+    var r=await fetch("/api/admin?action=set-invest-gate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({required:newState,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ investGateOn=newState; applyInvestGateUI(); window.AradelAuth.toast(investGateOn?"🔒 Investment now required to withdraw":"✅ Requirement removed"); }
+    else { window.AradelAuth.toast("❌ "+d.error); applyInvestGateUI(); }
+  };
+
+  var referralGateOn=false;
+  function applyReferralGateUI(){
+    var toggle=document.getElementById("referralGateToggle"),knob=document.getElementById("referralGateKnob"),desc=document.getElementById("referralGateDesc");
+    if(referralGateOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — users need a referral who has made a purchase to withdraw"; desc.style.color="#34D399"; }
+    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — referrals not required to withdraw"; desc.style.color="#8A7F78"; }
+  }
+  window.toggleReferralGate=async function(){
+    var newState=!referralGateOn;
+    document.getElementById("referralGateDesc").textContent="Updating…";
+    var r=await fetch("/api/admin?action=set-referral-gate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({required:newState,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ referralGateOn=newState; applyReferralGateUI(); window.AradelAuth.toast(referralGateOn?"🔒 Active referral now required to withdraw":"✅ Requirement removed"); }
+    else { window.AradelAuth.toast("❌ "+d.error); applyReferralGateUI(); }
+  };
+
+  var vipEnabledOn=true;
+  function applyVipEnabledUI(){
+    var toggle=document.getElementById("vipEnabledToggle"),knob=document.getElementById("vipEnabledKnob"),desc=document.getElementById("vipEnabledDesc");
+    if(vipEnabledOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — users can purchase VIP products"; desc.style.color="#34D399"; }
+    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — VIP purchases are blocked"; desc.style.color="#8A7F78"; }
+  }
+  window.toggleVipEnabled=async function(){
+    var newState=!vipEnabledOn;
+    document.getElementById("vipEnabledDesc").textContent="Updating…";
+    var r=await fetch("/api/admin?action=set-vip-enabled",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({enabled:newState,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ vipEnabledOn=newState; applyVipEnabledUI(); window.AradelAuth.toast(vipEnabledOn?"✅ VIP products enabled":"🚫 VIP products disabled"); }
+    else { window.AradelAuth.toast("❌ "+d.error); applyVipEnabledUI(); }
+  };
+
+  window.saveWithdrawalFee=async function(){
+    var percent=document.getElementById("withdrawFeeInput").value;
+    var al=document.getElementById("feeAlert"); al.className="alert";
+    var r=await fetch("/api/admin?action=set-withdrawal-fee",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({percent,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Withdrawal fee updated"); } else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
+  };
+
+  window.saveReferralSettings=async function(){
+    var levels=document.getElementById("referralLevelsInput").value;
+    var l1=document.getElementById("refL1Input").value;
+    var l2=document.getElementById("refL2Input").value;
+    var l3=document.getElementById("refL3Input").value;
+    var al=document.getElementById("referralAlert"); al.className="alert";
+    var r=await fetch("/api/admin?action=set-referral-settings",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({levels,l1,l2,l3,admin_id:adminId})});
+    var d=await r.json();
+    if(d.ok){ window.AradelAuth.toast("✅ Referral settings updated"); } else { al.textContent=d.error||"Error"; al.className="alert alert-error show"; }
   };
 
   window.grantAdmin=async function(){
     var val=document.getElementById("adminUserId").value.trim();
-    if(!val){ window.GreenewAuth.toast("Enter a user ID"); return; }
+    if(!val){ window.AradelAuth.toast("Enter a user ID"); return; }
     if(!confirm("Grant admin access to this user?")) return;
     var r=await fetch("/api/admin?action=set-admin",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({target_user_id:val,is_admin:true,admin_id:adminId})});
     var d=await r.json();
-    window.GreenewAuth.toast(d.ok?"✅ Admin access granted":"❌ "+d.error);
+    window.AradelAuth.toast(d.ok?"✅ Admin access granted":"❌ "+d.error);
   };
 
-
-  /* ── Extra settings, moderation and team summaries ── */
-  function setExtraValue(id, value){ var el=document.getElementById(id); if(el) el.value=value===undefined||value===null?"":value; }
-  window.loadExtraSettings=async function(){
-    var r=await fetch("/api/admin?action=extra-settings&admin_id="+adminId); var d=await r.json(); if(!d.ok) return;
-    var s=d.settings||{};
-    setExtraValue("settingBankName",s.bank_name); setExtraValue("settingAccountName",s.account_name); setExtraValue("settingAccountNumber",s.account_number);
-    setExtraValue("welcomeBonusInput",s.welcome_bonus||0); setExtraValue("withdrawalFeeInput",s.withdrawal_fee_percent||0); setExtraValue("referralDepthInput",s.referral_depth||3);
-    setExtraValue("referralL1Input",s.referral_percent_l1||5); setExtraValue("referralL2Input",s.referral_percent_l2||2); setExtraValue("referralL3Input",s.referral_percent_l3||1);
-    setExtraValue("supportEmailInput",s.support_email); setExtraValue("servicePhoneInput",s.service_phone); setExtraValue("telegramLinkInput",s.telegram_link);
-    document.getElementById("investGateToggle").checked=s.require_invest_before_withdraw==="true";
-    document.getElementById("referralGateToggle").checked=s.require_active_referral_to_withdraw==="true";
-    document.getElementById("vipEnabledToggle").checked=s.vip_enabled!=="false";
-  };
-  window.saveExtraSettings=async function(){
-    var btn=document.getElementById("extraSettingsBtn"), al=document.getElementById("extraSettingsAlert"); btn.disabled=true; btn.textContent="Saving…"; al.className="alert";
-    var settings={bank_name:document.getElementById("settingBankName").value.trim(),account_name:document.getElementById("settingAccountName").value.trim(),account_number:document.getElementById("settingAccountNumber").value.trim(),welcome_bonus:document.getElementById("welcomeBonusInput").value||0,withdrawal_fee_percent:document.getElementById("withdrawalFeeInput").value||0,referral_depth:document.getElementById("referralDepthInput").value||3,referral_percent_l1:document.getElementById("referralL1Input").value||0,referral_percent_l2:document.getElementById("referralL2Input").value||0,referral_percent_l3:document.getElementById("referralL3Input").value||0,support_email:document.getElementById("supportEmailInput").value.trim(),service_phone:document.getElementById("servicePhoneInput").value.trim(),telegram_link:document.getElementById("telegramLinkInput").value.trim(),require_invest_before_withdraw:document.getElementById("investGateToggle").checked,require_active_referral_to_withdraw:document.getElementById("referralGateToggle").checked,vip_enabled:document.getElementById("vipEnabledToggle").checked};
-    var r=await fetch("/api/admin?action=set-extra-settings",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({settings,admin_id:adminId})}); var d=await r.json();
-    if(d.ok){ window.GreenewAuth.toast("✅ Operations settings saved"); } else { al.textContent=d.error||"Could not save settings"; al.className="alert alert-error show"; }
-    btn.disabled=false; btn.textContent="Save Operations Settings";
-  };
-  window.toggleUserActive=async function(id,isActive,btn){
-    if(!isActive && !confirm("Suspend this account? The user will be signed out on their next request.")) return;
-    btn.disabled=true; var r=await fetch("/api/admin?action=set-user-active",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({target_user_id:id,is_active:isActive,admin_id:adminId})}); var d=await r.json();
-    window.GreenewAuth.toast(d.ok?(isActive?"✅ Account restored":"⛔ Account suspended"):"❌ "+(d.error||"Update failed")); loadUsers();
-  };
-  window.openTeamModal=async function(id){
-    var u=allUsers.find(function(x){return x.id===id;}); document.getElementById("teamModal").style.display="flex"; document.getElementById("teamModalOwner").textContent=(u?.full_name||u?.email||"User")+" · referral team";
-    document.getElementById("teamList").innerHTML='<div class="loader-wrap"><div class="loader"></div></div>';
-    var r=await fetch("/api/admin?action=user-team&user_id="+encodeURIComponent(id)+"&admin_id="+adminId); var d=await r.json(); if(!d.ok){document.getElementById("teamList").innerHTML='<div class="alert alert-error show">'+(d.error||"Unable to load team")+'</div>';return;}
-    document.getElementById("teamSummary").innerHTML='<div style="background:#163027;border-radius:10px;padding:10px;color:#fff"><strong>'+d.members.length+'</strong><small style="display:block;color:#8BA296">Direct referrals</small></div><div style="background:#163027;border-radius:10px;padding:10px;color:#fff"><strong>'+d.active_investors+'</strong><small style="display:block;color:#8BA296">Active investors</small></div><div style="background:#163027;border-radius:10px;padding:10px;color:#fff"><strong>₦'+Number(d.team_deposits||0).toLocaleString()+'</strong><small style="display:block;color:#8BA296">Team deposits</small></div>';
-    document.getElementById("teamList").innerHTML=d.members.length?d.members.map(function(m){return '<div class="dep-row"><div class="dep-name">'+(m.full_name||m.email||"User")+'</div><div class="dep-meta">'+m.email+' · '+(m.is_active===false?'Suspended':'Active')+' · joined '+new Date(m.created_at).toLocaleDateString()+'</div></div>';}).join(""):'<div style="text-align:center;color:#8BA296;padding:20px">No direct referrals yet.</div>';
-  };
-  window.closeTeamModal=function(){document.getElementById("teamModal").style.display="none";};
-
-  window.copyTxt=function(t){ navigator.clipboard.writeText(t).then(function(){window.GreenewAuth.toast("Copied!");}); };
+  window.copyTxt=function(t){ navigator.clipboard.writeText(t).then(function(){window.AradelAuth.toast("Copied!");}); };
 })();
 </script>
 </body>
