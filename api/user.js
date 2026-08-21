@@ -1,11 +1,10 @@
 /**
  * /api/user.js
- * POST ?action=update-profile   → update profile
- * POST ?action=add-bank-card    → add bank card
- * POST ?action=delete-bank-card → remove bank card
- * POST ?action=collect-income   → collect daily income from products
- * GET  ?action=bank-cards&user_id= → list bank cards
- * GET  ?action=my-products&user_id= → list user products
+ * POST ?action=update-profile
+ * POST ?action=add-bank-card
+ * POST ?action=delete-bank-card
+ * GET  ?action=bank-cards&user_id=
+ * GET  ?action=my-products&user_id=  (read-only — cron owns all crediting)
  */
 const { createClient } = require("@supabase/supabase-js");
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -16,8 +15,8 @@ module.exports = async function(req, res) {
   res.setHeader("Access-Control-Allow-Headers","Content-Type");
   if(req.method==="OPTIONS") return res.status(200).end();
 
-  const action   = req.query.action;
-  const user_id  = req.method==="GET" ? req.query.user_id : req.body?.user_id;
+  const action = req.query.action;
+  const user_id = req.method==="GET" ? req.query.user_id : req.body?.user_id;
   if(!user_id) return res.status(400).json({ error:"user_id required" });
 
   if(req.method==="GET") {
@@ -44,12 +43,10 @@ module.exports = async function(req, res) {
   }
 
   if(action==="add-bank-card") {
-    const { bank_name, account_number, account_name, is_default } = req.body;
+    const { bank_name, bank_id, account_number, account_name, is_default } = req.body;
     if(!bank_name||!account_number||!account_name) return res.status(400).json({ error:"All fields required" });
-    if(is_default) {
-      await supabase.from("bank_cards").update({ is_default:false }).eq("user_id",user_id);
-    }
-    const { error } = await supabase.from("bank_cards").insert({ user_id, bank_name, account_number, account_name, is_default:!!is_default });
+    if(is_default) await supabase.from("bank_cards").update({ is_default:false }).eq("user_id",user_id);
+    const { error } = await supabase.from("bank_cards").insert({ user_id, bank_name, bank_id:bank_id||null, account_number, account_name, is_default:!!is_default });
     if(error) return res.status(500).json({ error:error.message });
     return res.json({ ok:true });
   }
@@ -59,12 +56,6 @@ module.exports = async function(req, res) {
     const { error } = await supabase.from("bank_cards").delete().eq("id",card_id).eq("user_id",user_id);
     if(error) return res.status(500).json({ error:error.message });
     return res.json({ ok:true });
-  }
-
-  if(action==="collect-income") {
-    const { data, error } = await supabase.rpc("collect_daily_income", { p_user_id:user_id });
-    if(error) return res.status(500).json({ error:error.message });
-    return res.json(data || { ok:false, error:"Nothing to collect today" });
   }
 
   return res.status(400).json({ error:"Unknown action" });
