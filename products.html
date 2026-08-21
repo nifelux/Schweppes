@@ -1,235 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Greenew — Plans</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schweppes — Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
-    .tabs { display:flex; gap:8px; padding:16px; overflow-x:auto; scrollbar-width:none; }
-    .tabs::-webkit-scrollbar{display:none}
-    .tab {
-      flex-shrink:0; padding:8px 20px; border-radius:30px;
-      font-size:13px; font-weight:700; cursor:pointer;
-      border:2px solid var(--border); background:var(--card); color:var(--muted);
-      transition:all .15s;
-    }
-    .tab.on { background:var(--purple); border-color:var(--purple); color:#fff; }
+    :root{
+      --primary-blue:        #9333EA;
+      --primary-blue-dark:   #6B21A8;
+      --primary-blue-light:  #F3E8FF;
+      --accent-pink:         #EC4899;
+      --accent-pink-dark:    #BE185D;
+      --accent-pink-light:   #FDF2F8;
+      --gold:                #D4AF37;
+      --gold-dark:           #B8860B;
+      --text-dark:           #1F1533;
+      --white:               #FFFFFF;
+      --background-light:    #FAF7FC;
+      --text-muted:          #8B7D99;
+      --border-light:        #EDE4F5;
+      --success-green:       #10B981;
+      --success-green-bg:    #ECFDF5;
+      --warning-orange:      #FF9800;
+      --warning-orange-bg:   #FFF3E0;
+      --danger-red:          #EF4444;
+      --danger-red-bg:       #FEF2F2;
 
-    .vip-lock {
-      background:linear-gradient(135deg,var(--purple-light),var(--sky-light));
-      border-radius:var(--radius); margin:0 16px 16px; padding:14px 16px;
-      border:1.5px solid var(--purple-light);
-    }
-    .vip-lock h3 { font-size:14px; color:var(--purple); margin-bottom:4px; }
-    .vip-lock p  { font-size:12px; color:var(--muted); }
+      --shadow-sm:0 2px 10px rgba(31,21,51,0.06);
+      --shadow-md:0 10px 30px rgba(31,21,51,0.10);
+      --shadow-lg:0 20px 60px rgba(31,21,51,0.18);
+      --shadow-blue:0 16px 40px rgba(147,51,234,0.32);
 
-    .product-card { margin:0 16px 14px; }
-    .product-header { padding:18px 16px; position:relative; }
-    .product-type-badge {
-      position:absolute; top:12px; right:12px;
-      padding:3px 10px; border-radius:20px;
-      font-size:10px; font-weight:800;
-      background:rgba(255,255,255,.2); color:#fff;
+      --radius-sm:14px; --radius-md:20px; --radius-lg:28px; --radius-xl:32px;
+      --ease:cubic-bezier(.22,1,.36,1);
     }
-    .product-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
-    .pstat { background:var(--card); padding:12px; text-align:center; }
-    .pstat-val { font-size:15px; font-weight:800; color:var(--purple); }
-    .pstat-lbl { font-size:10px; color:var(--muted); margin-top:2px; text-transform:uppercase; }
-    .product-footer { padding:14px 16px; border-top:1px solid var(--border); }
-    .bought-chip {
-      display:flex; align-items:center; justify-content:center; gap:6px;
-      padding:12px; border-radius:30px; background:var(--bg);
-      font-size:14px; font-weight:700; color:var(--muted);
+    *{box-sizing:border-box;}
+    body{
+      margin:0;background:var(--background-light);
+      background-image:
+        radial-gradient(circle at 100% 0%, rgba(147,51,234,0.10) 0%, transparent 45%),
+        radial-gradient(circle at 0% 30%, rgba(236,72,153,0.07) 0%, transparent 40%);
+      background-attachment:fixed;
+      font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+      color:var(--text-dark); -webkit-font-smoothing:antialiased; overflow-x:hidden;
     }
+    .page-wrap{max-width:520px;margin:0 auto;padding-bottom:110px;}
+    a{text-decoration:none;color:inherit;}
+    button{font-family:inherit;}
+    svg{stroke-linecap:round;stroke-linejoin:round;display:block;}
+
+    .anim{opacity:0;transform:translateY(16px);}
+    .anim.in{animation:riseIn .6s var(--ease) forwards;}
+    @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
+    @media (prefers-reduced-motion: reduce){ .anim{opacity:1;transform:none;animation:none;} }
+
+    /* ============================================================
+       TOPBAR (glass, matches app-header on other pages)
+       ============================================================ */
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      display:flex;align-items:center;gap:10px;
+      padding:18px 20px;
+      background:rgba(255,255,255,0.72);
+      backdrop-filter:blur(20px) saturate(160%);
+      -webkit-backdrop-filter:blur(20px) saturate(160%);
+      border-bottom:1px solid var(--border-light);
+    }
+    .topbar-title{display:flex;align-items:center;gap:8px;font-family:'Fraunces',serif;font-size:18px;font-weight:700;letter-spacing:-.01em;}
+    .topbar-title svg{width:19px;height:19px;stroke:var(--primary-blue);stroke-width:2;fill:none;}
+    .vip-badge{
+      font-size:11px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:999px;
+      background:linear-gradient(135deg,#F5D67B,var(--gold) 55%,var(--gold-dark));
+      color:#3D2B00;box-shadow:0 4px 14px rgba(212,175,55,0.45);
+    }
+
+    /* ============================================================
+       TABS
+       ============================================================ */
+    .tabs{display:flex;gap:9px;padding:18px 16px 6px;overflow-x:auto;scrollbar-width:none;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{
+      display:flex;align-items:center;gap:6px;
+      flex-shrink:0;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;cursor:pointer;
+      border:1.5px solid var(--border-light);background:var(--white);color:var(--text-muted);
+      box-shadow:var(--shadow-sm);
+      transition:all .2s var(--ease);
+    }
+    .tab svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;flex-shrink:0;}
+    .tab.on{
+      background:linear-gradient(135deg,var(--primary-blue),var(--accent-pink-dark));
+      border-color:var(--primary-blue);color:#fff;box-shadow:0 8px 22px rgba(147,51,234,0.35);
+      transform:translateY(-1px);
+    }
+    .tab:active{transform:scale(.95);}
+
+    /* ============================================================
+       VIP LOCK BANNER
+       ============================================================ */
+    .vip-lock{
+      position:relative;overflow:hidden;
+      background:linear-gradient(135deg,var(--primary-blue-light),#FBF5FF);
+      border-radius:var(--radius-md);margin:6px 16px 18px;padding:18px 18px;
+      border:1.5px solid #E4CFFC;box-shadow:var(--shadow-sm);
+    }
+    .vip-lock-icon{position:absolute;right:2px;bottom:-14px;width:76px;height:76px;opacity:.10;}
+    .vip-lock-icon svg{width:100%;height:100%;stroke:var(--primary-blue-dark);stroke-width:1.5;fill:none;}
+    .vip-lock h3{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--primary-blue-dark);margin:0 0 5px;position:relative;z-index:1;}
+    .vip-lock p{font-size:12.5px;color:var(--text-dark);line-height:1.5;margin:0;position:relative;z-index:1;}
+    .vip-lock a{color:var(--primary-blue);font-weight:700;font-size:13px;display:inline-block;margin-top:8px;position:relative;z-index:1;}
+
+    /* ============================================================
+       PRODUCT CARDS (markup produced by original JS — classes unchanged)
+       ============================================================ */
+    .product-card{
+      margin:0 16px 16px;background:var(--white);border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-md);border:1px solid var(--border-light);overflow:hidden;
+      transition:transform .2s var(--ease);
+    }
+    .product-card:active{transform:scale(.985);}
+    .pc-img-wrap{height:160px;background:var(--primary-blue-light);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+    .pc-img-wrap svg{width:60px;height:60px;stroke:var(--primary-blue);stroke-width:1.5;fill:none;opacity:.35;}
+    .pc-body{padding:20px;}
+    .pc-name{font-family:'Fraunces',serif;font-size:19px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+    .pc-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5;margin-bottom:18px;}
+    .pc-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+    .pc-stat-label{font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+    .pc-stat-val{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--text-dark);}
+    .pc-stat-val.profit{color:var(--success-green);}
+    .pc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border-light);}
+    .pc-price{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--primary-blue-dark);}
+    .pc-btn{
+      padding:12px 24px;border-radius:14px;background:var(--primary-blue);color:#fff;
+      font-weight:700;font-size:14px;box-shadow:0 8px 20px rgba(147,51,234,0.32);
+      transition:all .2s var(--ease);
+    }
+    .pc-btn:disabled{background:var(--border-light);color:var(--text-muted);box-shadow:none;cursor:not-allowed;}
+    .pc-note{font-size:11px;color:var(--text-muted);margin-top:6px;text-align:right;}
+    .pc-chip{
+      display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:14px;
+      font-weight:700;font-size:13px;
+    }
+    .pc-chip svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.2;fill:none;}
+    .pc-chip.locked{background:var(--background-light);color:var(--text-muted);}
+    .pc-chip.done{background:var(--success-green-bg);color:var(--success-green);}
+
+    /* ============================================================
+       BOTTOM NAVIGATION
+       Positioning, centering, and item styling all come from the
+       shared assets/css/styles.css .bottom-nav rule (left:50% +
+       transform:translateX(-50%) + max-width:480px — the correct,
+       mobile-centered version used across the site). Redeclaring
+       .bottom-nav here only overrides the properties actually listed
+       (e.g. left:0) and leaves transform/max-width from the shared
+       file still applied — which shoves the bar half its own width
+       off-screen. .nav-icon is the one addition needed: the shared
+       rule was written for emoji icons (font-size), not SVGs.
+       ============================================================ */
+    .nav-icon{width:21px;height:21px;stroke:currentColor;stroke-width:2;fill:none;}
+
+    #toast{
+      position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+      background:var(--text-dark);color:var(--white);padding:11px 20px;border-radius:30px;
+      font-size:13px;font-weight:600;z-index:200;opacity:0;pointer-events:none;
+      transition:opacity .25s;white-space:nowrap;box-shadow:var(--shadow-md);
+    }
+    #toast.show{opacity:1;}
   </style>
 </head>
-<body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
-
+<body>
 <div class="page-wrap">
   <div class="topbar">
-    <span class="topbar-title">📦 Plans</span>
-    <span class="vip-badge vip-0" data-vip style="font-size:11px">Customer</span>
-  </div>
-
-  <div class="tabs" id="tabs">
-    <button class="tab on" data-tab="newbie" onclick="switchTab(this,'newbie')">🌱 Newbie</button>
-    <button class="tab" data-tab="vip1"    onclick="switchTab(this,'vip1')">👑 Service tier 1</button>
-    <button class="tab" data-tab="vip2"    onclick="switchTab(this,'vip2')">💎 Service tier 2</button>
-    <button class="tab" data-tab="vip3"    onclick="switchTab(this,'vip3')">🔷 Service tier 3</button>
-    <button class="tab" data-tab="vip4"    onclick="switchTab(this,'vip4')">⚡ Service tier 4</button>
-  </div>
-
-  <!-- Service tier requirements info -->
-  <div class="vip-lock" id="vipInfo" style="display:none">
-    <h3 id="vipInfoTitle">Service tier 1 Required</h3>
-    <p id="vipInfoDesc">Refer 3 active users to unlock Service tier 1 products.</p>
-    <a href="team.html" style="color:var(--purple);font-weight:700;font-size:13px;display:inline-block;margin-top:6px">View my team →</a>
-  </div>
-
-  <div id="productsList">
-    <div class="loader-wrap"><div class="loader"></div></div>
-  </div>
-</div>
-
-<!-- Confirm purchase modal -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center">
-  <div style="background:var(--white);border-radius:24px 24px 0 0;padding:24px;width:100%;max-width:480px">
-    <h3 style="font-size:18px;font-weight:800;margin-bottom:4px" id="modalTitle">Confirm Purchase</h3>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:20px" id="modalSub">Are you sure?</p>
-    <div style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;margin-bottom:20px" id="modalDetails"></div>
-    <div id="modalAlert" class="alert"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="confirmBtn" onclick="confirmPurchase()">Confirm</button>
+    <div class="topbar-title">
+      <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      Products
     </div>
+    <div style="flex:1"></div>
+    <div class="vip-badge" id="vipBadge">Member</div>
+  </div>
+
+  <div class="tabs anim anim-1" id="tabsRow">
+    <div class="tab on" data-tier="0">
+      <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      Newbie
+    </div>
+    <div class="tab" data-tier="1" data-vip-tab>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      VIP 1
+    </div>
+    <div class="tab" data-tier="2" data-vip-tab>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      VIP 2
+    </div>
+    <div class="tab" data-tier="3" data-vip-tab>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      VIP 3
+    </div>
+    <div class="tab" data-tier="4" data-vip-tab>
+      <svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>
+      VIP 4
+    </div>
+  </div>
+
+  <div id="vipLockBanner" class="vip-lock anim anim-2" style="display:none">
+    <div class="vip-lock-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+    <h3 id="lockTitle">VIP 1 Required</h3>
+    <p id="lockDesc">Refer active users to unlock this tier.</p>
+    <a href="team.html">View my team →</a>
+  </div>
+
+  <div id="productsList" class="anim anim-3">
+    <div style="display:flex;justify-content:center;padding:40px"><div class="loader"></div></div>
   </div>
 </div>
 
 <nav class="bottom-nav">
-  <button class="nav-item" onclick="location.href='dashboard.html'"><span class="nav-icon">🏠</span>Home</button>
-  <button class="nav-item active" onclick="location.href='products.html'"><span class="nav-icon">📦</span>Plans</button>
-  <button class="nav-item" onclick="location.href='team.html'"><span class="nav-icon">👥</span>Household</button>
-  <button class="nav-item" onclick="location.href='profile.html'"><span class="nav-icon">👤</span>Profile</button>
+  <button class="nav-item" onclick="location.href='dashboard.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+  <button class="nav-item active" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products</button>
+  <button class="nav-item" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team</button>
+  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
 </nav>
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-<script src="assets/js/greenew.js" defer></script>
 <script src="assets/js/supabase.js" defer></script>
 <script src="assets/js/auth.js" defer></script>
 <script>
 (function(){
-  "use strict";
-  var userId="", userVip=0, walletBal=0, userPlans=[], activeTab="newbie", pendingPlanId="";
-
-  function waitSb(cb){if(window.sb&&window.GreenewAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.GreenewAuth){clearInterval(t);cb();}},50);}
-
+  function waitSb(cb){if(window.sb&&window.AradelAuth){cb();return;}var t=setInterval(function(){if(window.sb&&window.AradelAuth){clearInterval(t);cb();}},50);}
   waitSb(async function(){
-    var s = await window.GreenewAuth.requireAuth(); if(!s)return;
-    userId=s.user.id;
+    var s=await window.AradelAuth.requireAuth(); if(!s)return;
+    var uid=s.user.id;
+    var profile=await window.AradelAuth.loadProfile(uid);
+    var userVip=profile?.vip_level||0;
+    document.getElementById("vipBadge").textContent=userVip>0?"VIP "+userVip:"Member";
 
-    var {data:p} = await window.sb.from("profiles").select("vip_level").eq("id",userId).single();
-    userVip = p?.vip_level||0;
-    await window.GreenewAuth.loadProfile(userId);
+    // ── Admin VIP kill switch — hide VIP tabs entirely when off ──
+    var vipEnabled=true;
+    try{
+      var vr=await fetch("/api/team?action=vip-status");
+      var vd=await vr.json();
+      vipEnabled = vd?.ok ? !!vd.vip_enabled : true;
+    }catch(e){ console.error("vip-status check failed:",e); }
+    if(!vipEnabled){
+      document.querySelectorAll("[data-vip-tab]").forEach(t=>t.style.display="none");
+      document.getElementById("vipBadge").style.display="none";
+    }
 
-    var {data:w} = await window.sb.from("wallets").select("balance").eq("user_id",userId).single();
-    walletBal = w?.balance||0;
+    var {data:prods}=await window.sb.from("products").select("*").order("price",{ascending:true});
+    var {data:owned}=await window.sb.from("user_products").select("product_id").eq("user_id",uid);
+    var ownedIds=(owned||[]).map(o=>o.product_id); // one entry per purchase — duplicates mean bought twice
+    var currentTier=0;
 
-    var {data:up} = await window.sb.from("user_products").select("product_id").eq("user_id",userId);
-    userPlans = (up||[]).map(function(x){return x.product_id;});
+    function purchaseCount(pid){ return ownedIds.filter(id=>id===pid).length; }
 
-    await loadPlans(activeTab);
+    var boxIconSvg='<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>';
+    var lockIconSvg='<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+    var checkIconSvg='<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+
+    function render(){
+      var filtered=prods.filter(p=>p.vip_level==currentTier);
+      var list=document.getElementById("productsList");
+      var lock=document.getElementById("vipLockBanner");
+
+      if(currentTier > userVip){
+        lock.style.display="block";
+        document.getElementById("lockTitle").textContent="VIP "+currentTier+" Required";
+        list.innerHTML="";
+        return;
+      }
+      lock.style.display="none";
+
+      list.innerHTML=filtered.map(p=>{
+        var adminLocked = p.status==="locked";
+        var count = purchaseCount(p.id);
+        var atLimit = count>=2;
+        var footerAction;
+        if(adminLocked){
+          footerAction = '<span class="pc-chip locked">'+lockIconSvg+' Locked by Admin</span>';
+        } else if(atLimit){
+          footerAction = '<span class="pc-chip done">'+checkIconSvg+' Purchased (2/2)</span>';
+        } else {
+          footerAction = '<button class="pc-btn" onclick="buy(this,\''+p.id+'\','+p.price+')">'+(count===1?"Buy Again":"Invest Now")+'</button>';
+        }
+        return `
+          <div class="product-card">
+            <div class="pc-img-wrap">${boxIconSvg}</div>
+            <div class="pc-body">
+              <div class="pc-name">${p.name}</div>
+              <div class="pc-desc">${p.description||""}</div>
+              <div class="pc-stats">
+                <div>
+                  <div class="pc-stat-label">Daily Income</div>
+                  <div class="pc-stat-val profit">₦${p.daily_income.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div class="pc-stat-label">Total Return</div>
+                  <div class="pc-stat-val">₦${(p.daily_income * p.duration_days).toLocaleString()}</div>
+                </div>
+                <div>
+                  <div class="pc-stat-label">Duration</div>
+                  <div class="pc-stat-val">${p.duration_days} Days</div>
+                </div>
+              </div>
+              <div class="pc-footer">
+                <div class="pc-price">₦${p.price.toLocaleString()}</div>
+                ${footerAction}
+              </div>
+              ${count===1 && !adminLocked ? '<div class="pc-note">Purchased once — 1 more allowed</div>' : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.buy=async function(btn,pid,price){
+      if(!confirm("Invest ₦"+price.toLocaleString()+" in this product?")) return;
+      btn.disabled=true; btn.textContent="Processing…";
+      try{
+        var {data,error}=await window.sb.rpc("purchase_product",{p_user_id:uid,p_product_id:pid});
+        if(error) throw error;
+        if(!data?.ok){
+          var friendly = data?.error==="purchase_limit_reached"
+            ? "You've already purchased this product twice — that's the limit."
+            : data?.error==="vip_disabled" ? "VIP products are currently unavailable."
+            : data?.error==="insufficient_balance" ? "Insufficient wallet balance."
+            : (data?.error||"Purchase failed");
+          throw new Error(friendly);
+        }
+        ownedIds.push(pid); // reflect immediately so re-render shows correct state without a refetch
+        window.AradelAuth.toast("Investment successful!");
+        setTimeout(()=>location.href="my-investments.html",1000);
+      }catch(e){
+        window.AradelAuth.toast(e.message||"Purchase failed");
+        render(); // restore button state
+      }
+    };
+
+    document.querySelectorAll(".tab").forEach(t=>{
+      t.onclick=function(){
+        if(t.style.display==="none") return; // VIP tab hidden by kill switch
+        document.querySelector(".tab.on").classList.remove("on");
+        t.classList.add("on");
+        currentTier=parseInt(t.dataset.tier);
+        render();
+      };
+    });
+    render();
+    document.querySelectorAll(".anim").forEach((el,i)=>setTimeout(()=>el.classList.add("in"),80*i));
   });
-
-  window.switchTab = async function(btn, tab){
-    document.querySelectorAll(".tab").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on");
-    activeTab = tab;
-    await loadPlans(tab);
-  };
-
-  async function loadPlans(tab){
-    var el = document.getElementById("productsList");
-    var vi = document.getElementById("vipInfo");
-    el.innerHTML = '<div class="loader-wrap"><div class="loader"></div></div>';
-    vi.style.display="none";
-
-    var type="newbie", vipLevel=0;
-    if(tab!=="newbie"){ type="vip"; vipLevel=parseInt(tab.replace("vip","")); }
-
-    // Service tier lock check
-    if(type==="vip" && userVip < vipLevel){
-      var reqs={1:3,2:5,3:10,4:25};
-      document.getElementById("vipInfoTitle").textContent = "Service tier "+vipLevel+" Required";
-      document.getElementById("vipInfoDesc").textContent = "Refer "+reqs[vipLevel]+" active users to unlock Service tier "+vipLevel+" products. You're currently Service tier "+userVip+".";
-      vi.style.display="block";
-    }
-
-    var query = window.sb.from("products").select("*").eq("type",type).order("sort_order");
-    if(type==="vip") query = query.eq("vip_level",vipLevel);
-    var {data:prods} = await query;
-
-    if(!prods||!prods.length){
-      el.innerHTML='<div class="empty"><div class="empty-icon">📭</div><p>No products available.</p></div>';
-      return;
-    }
-
-    el.innerHTML = prods.map(function(p){
-      var locked = p.status==="locked" || (type==="vip" && userVip<vipLevel);
-      var bought = userPlans.includes(p.id);
-      var hdr = locked
-        ? 'background:linear-gradient(135deg,#8BA296,#CBD5E1)'
-        : 'background:linear-gradient(135deg,var(--purple),var(--sky))';
-
-      return '<div class="product-card card">'+
-        '<div class="product-header" style="'+hdr+'">'+
-          '<div class="product-type-badge">'+(type==="vip"?"Service tier "+vipLevel:"Newbie")+'</div>'+
-          '<div style="color:#fff;font-size:11px;opacity:.8;text-transform:uppercase;letter-spacing:.06em">'+p.name+'</div>'+
-          '<div style="color:#fff;font-size:28px;font-weight:800;margin-top:4px">'+window.GreenewAuth.money(p.price)+'</div>'+
-        '</div>'+
-        '<div class="product-stats">'+
-          '<div class="pstat"><div class="pstat-val">'+window.GreenewAuth.money(p.daily_income)+'</div><div class="pstat-lbl">Daily</div></div>'+
-          '<div class="pstat"><div class="pstat-val">'+p.duration_days+'d</div><div class="pstat-lbl">Duration</div></div>'+
-          '<div class="pstat"><div class="pstat-val">'+window.GreenewAuth.money(p.total_return)+'</div><div class="pstat-lbl">Total</div></div>'+
-        '</div>'+
-        '<div class="product-footer">'+
-          (bought
-            ? '<div class="bought-chip">✅ Already Purchased</div>'
-            : locked
-              ? '<div class="bought-chip">🔒 '+(p.status==="locked"?"Locked by Admin":"Service tier "+vipLevel+" Required")+'</div>'
-              : '<button class="btn btn-primary" onclick="openModal(\''+p.id+'\',\''+p.name+'\','+p.price+')">Buy Now</button>'
-          )+
-        '</div>'+
-      '</div>';
-    }).join("");
-  }
-
-  window.openModal = function(id, name, price){
-    pendingPlanId = id;
-    document.getElementById("modalTitle").textContent = "Buy " + name;
-    document.getElementById("modalSub").textContent = "This product can only be purchased once.";
-    document.getElementById("modalDetails").innerHTML =
-      '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--muted)">Price</span><strong>'+window.GreenewAuth.money(price)+'</strong></div>'+
-      '<div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">Available account balance</span><strong style="color:'+(walletBal>=price?'var(--success)':'var(--danger)')+'">'+window.GreenewAuth.money(walletBal)+'</strong></div>'+
-      (walletBal < price ? '<div style="margin-top:10px;font-size:12px;color:var(--danger)">⚠️ Insufficient account balance. Please add funds first.</div>' : '');
-    document.getElementById("modalAlert").className="alert";
-    var modal=document.getElementById("modal");
-    modal.style.display="flex";
-    document.getElementById("confirmBtn").disabled = walletBal < price;
-  };
-
-  window.closeModal = function(){
-    document.getElementById("modal").style.display="none";
-    pendingPlanId="";
-  };
-
-  window.confirmPurchase = async function(){
-    var btn=document.getElementById("confirmBtn");
-    var alertEl=document.getElementById("modalAlert");
-    btn.disabled=true; btn.textContent="Purchasing…";
-    alertEl.className="alert";
-
-    var {data,error} = await window.sb.rpc("purchase_product",{p_product_id:pendingPlanId});
-
-    if(error||!data?.ok){
-      alertEl.textContent = data?.error||error?.message||"Purchase failed.";
-      alertEl.className="alert alert-error show";
-      btn.disabled=false; btn.textContent="Confirm"; return;
-    }
-
-    window.GreenewAuth.toast("✅ Plan purchased successfully!");
-    closeModal();
-    // Refresh
-    var {data:w}=await window.sb.from("wallets").select("balance").eq("user_id",userId).single();
-    walletBal=w?.balance||0;
-    var {data:up}=await window.sb.from("user_products").select("product_id").eq("user_id",userId);
-    userPlans=(up||[]).map(function(x){return x.product_id;});
-    await loadPlans(activeTab);
-  };
 })();
 </script>
 </body>
-  </html>
-  
+</html>
