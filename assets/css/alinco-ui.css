@@ -1,85 +1,84 @@
-/* ALINCO OIL UI — Industrial energy wayfinding. Presentation only; no data or route behavior is modified. */
+/* ALINCO OIL — Dark mobile commerce system. Presentation only; existing routes, data calls, product records, and transaction behavior are unchanged. */
 :root{
-  --alinco-navy:#062B4D;
-  --alinco-blue:#0B4D82;
-  --alinco-blue-bright:#1469A8;
-  --alinco-yellow:#FFC928;
-  --alinco-sand:#F4F0E6;
-  --alinco-line:#C9D3D5;
-  --alinco-ink:#132B3A;
-  --pink:var(--alinco-blue)!important;
-  --pink-dark:var(--alinco-navy)!important;
-  --pink-tint:#E6F1F7!important;
-  --purple:var(--alinco-blue-bright)!important;
-  --purple-dark:var(--alinco-navy)!important;
-  --purple-tint:#E6F1F7!important;
-  --red:var(--alinco-blue)!important;
-  --red-dark:var(--alinco-navy)!important;
-  --red-tint:#E6F1F7!important;
-  --blue:var(--alinco-blue)!important;
-  --blue-dark:var(--alinco-navy)!important;
-  --blue-tint:#E6F1F7!important;
-  --primary:var(--alinco-blue)!important;
-  --primary-dark:var(--alinco-navy)!important;
-  --primary-light:#E6F1F7!important;
-  --primary-blue:var(--alinco-blue)!important;
-  --primary-blue-dark:var(--alinco-navy)!important;
-  --primary-blue-light:#E6F1F7!important;
-  --primary-pink:var(--alinco-blue)!important;
-  --primary-purple:var(--alinco-navy)!important;
-  --accent-pink:var(--alinco-yellow)!important;
-  --accent-pink-dark:#D79900!important;
-  --accent-pink-light:#FFF7D6!important;
-  --pink-light:#E6F1F7!important;
-  --gold:var(--alinco-yellow)!important;
-  --gold-dark:#D79900!important;
-  --gold-light:#FFF1A6!important;
-  --background-light:var(--alinco-sand)!important;
-  --text-dark:var(--alinco-ink)!important;
-  --text-muted:#5D6E78!important;
-  --border-light:var(--alinco-line)!important;
-  --ink:var(--alinco-ink)!important;
-  --paper:#FFFFFF!important;
-  --bg:var(--alinco-sand)!important;
-  --muted:#5D6E78!important;
-  --border:var(--alinco-line)!important;
-  --radius:4px!important;
-  --radius-sm:3px!important;
+  --alinco-bg:#070F1D;
+  --alinco-shell:#0A1425;
+  --alinco-surface:#121D33;
+  --alinco-surface-2:#18243B;
+  --alinco-line:rgba(150,176,213,.16);
+  --alinco-text:#F4F8FF;
+  --alinco-muted:#7C8AA3;
+  --alinco-blue:#2E7CFF;
+  --alinco-cyan:#0ED5E8;
+  --alinco-aqua:#0AD8AD;
+  --alinco-gradient:linear-gradient(110deg,#337FFF 0%,#159CF7 45%,#09D5DA 100%);
+  --alinco-glow:0 10px 28px rgba(8,110,255,.18);
+  --pink:var(--alinco-blue)!important; --pink-dark:#1755BB!important; --pink-tint:#16294B!important;
+  --purple:var(--alinco-cyan)!important; --purple-dark:#078A9A!important; --purple-tint:#132A43!important;
+  --red:var(--alinco-blue)!important; --red-dark:#1755BB!important; --red-tint:#16294B!important;
+  --blue:var(--alinco-blue)!important; --blue-dark:#1755BB!important; --blue-tint:#16294B!important;
+  --primary:var(--alinco-blue)!important; --primary-dark:#1755BB!important; --primary-light:#16294B!important;
+  --primary-blue:var(--alinco-blue)!important; --primary-blue-dark:#1755BB!important; --primary-blue-light:#16294B!important;
+  --primary-pink:var(--alinco-blue)!important; --primary-purple:var(--alinco-cyan)!important;
+  --accent-pink:var(--alinco-cyan)!important; --accent-pink-dark:#078A9A!important; --accent-pink-light:#132A43!important;
+  --gold:var(--alinco-aqua)!important; --gold-dark:#08A986!important; --gold-light:#113A3C!important;
+  --background-light:var(--alinco-bg)!important; --text-dark:var(--alinco-text)!important; --text-muted:var(--alinco-muted)!important;
+  --ink:var(--alinco-text)!important; --paper:var(--alinco-surface)!important; --bg:var(--alinco-bg)!important;
+  --muted:var(--alinco-muted)!important; --border:var(--alinco-line)!important; --border-light:var(--alinco-line)!important;
+  --success:var(--alinco-aqua)!important; --success-bg:#103536!important; --warn:#F3C84B!important; --warn-bg:#312B19!important;
+  --danger:#FB6686!important; --danger-bg:#331927!important;
+  --radius:20px!important; --radius-sm:15px!important;
 }
 
-html,body{background:var(--alinco-sand)!important;color:var(--alinco-ink)!important;}
-body{background-image:linear-gradient(rgba(11,77,130,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(11,77,130,.045) 1px,transparent 1px)!important;background-size:24px 24px!important;}
-.page-wrap{background:rgba(244,240,230,.93)!important;max-width:520px!important;}
-.topbar,.header{background:var(--alinco-navy)!important;border-bottom:3px solid var(--alinco-yellow)!important;box-shadow:0 8px 20px rgba(6,43,77,.18)!important;}
-.topbar-title,.topbar-sub,.header .logo-text,.header .nav-links a{color:#fff!important;}
-.header .nav-links a:hover{color:var(--alinco-yellow)!important;}
-.back-btn{border-radius:3px!important;background:var(--alinco-yellow)!important;color:var(--alinco-navy)!important;}
-.hero-card,.auto-hero,.promo-banner,.ab-hero,.welcome-hero{border-radius:4px!important;background:linear-gradient(135deg,var(--alinco-navy) 0%,var(--alinco-blue) 74%,#0F6D9A 100%)!important;box-shadow:9px 9px 0 rgba(255,201,40,.6)!important;}
-.hero-card::after,.auto-hero::after,.promo-banner::after{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--alinco-yellow);}
-.hero-card,.auto-hero,.promo-banner{position:relative!important;overflow:hidden!important;}
-.hero-btn.fill,.btn-primary,.promo-btn{background:var(--alinco-yellow)!important;color:var(--alinco-navy)!important;border-radius:3px!important;box-shadow:none!important;}
-.hero-btn.ghost,.btn-outline{background:transparent!important;border:1px solid rgba(255,255,255,.7)!important;color:#fff!important;border-radius:3px!important;}
-.btn,.field-input,.field-select,.form-input,.form-select,input,select,textarea{border-radius:3px!important;}
-.card,.menu-group,.stat-box,.package-card,.product-card,.up-card,.ab-card,.ab-feature,.welcome-card{border-radius:4px!important;border:1px solid var(--alinco-line)!important;box-shadow:4px 4px 0 rgba(11,77,130,.10)!important;}
-.stat-box{background:#fff!important;}.stat-val,.mp-earn,.pc-price,.up-name{color:var(--alinco-blue)!important;}
-.menu-item:active,.quick-item:active{background:#E6F1F7!important;}
-.menu-icon,.quick-item-icon,.stat-ic,.ab-feature-ic{border-radius:3px!important;background:#E6F1F7!important;color:var(--alinco-blue)!important;}
-.bottom-nav{background:var(--alinco-navy)!important;border-top:3px solid var(--alinco-yellow)!important;box-shadow:0 -8px 20px rgba(6,43,77,.18)!important;}
-.nav-item{color:#B8C8D1!important;}.nav-item.active{color:var(--alinco-yellow)!important;}
-.topbar + .section,.topbar + .auto-hero{margin-top:18px;}
-.tab,.vip-badge,.pill{border-radius:3px!important;}.tab.on,.vip-badge{background:var(--alinco-blue)!important;color:#fff!important;box-shadow:none!important;}
-.vip-badge{border-left:4px solid var(--alinco-yellow)!important;}
-.pc-btn,.mi-buy,.buy-btn{border-radius:3px!important;background:var(--alinco-blue)!important;box-shadow:none!important;}
-.pc-btn:hover,.mi-buy:hover,.buy-btn:hover{background:var(--alinco-navy)!important;}
-.pc-img-wrap{background:repeating-linear-gradient(135deg,#E6F1F7 0 10px,#D7E9F2 10px 11px)!important;}
-.pc-img-wrap svg{stroke:var(--alinco-blue)!important;opacity:.65!important;}
-.product-card,.up-card{border-top:5px solid var(--alinco-yellow)!important;}
-.prog-fill{background:var(--alinco-yellow)!important;}
-.loader{border-color:#D7E9F2!important;border-top-color:var(--alinco-blue)!important;}
-.income-strip,.alert-info{background:#E6F1F7!important;color:var(--alinco-navy)!important;border-left:5px solid var(--alinco-yellow)!important;}
-.section-title,.sec-row h2,.mi-head-title{color:var(--alinco-navy)!important;letter-spacing:.03em!important;}
-.welcome-card{border-top:6px solid var(--alinco-yellow)!important;}
-.seal,.logo-icon,.ab-seal{border-radius:3px!important;background:var(--alinco-yellow)!important;color:var(--alinco-navy)!important;border-color:var(--alinco-navy)!important;}
+html,body{min-height:100%;background:var(--alinco-bg)!important;color:var(--alinco-text)!important;}
+body{background:radial-gradient(circle at 50% -10%,rgba(38,104,255,.24),transparent 33%),linear-gradient(180deg,#0B1527 0,#07101E 38%,#050B15 100%)!important;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.26;background-image:linear-gradient(90deg,rgba(122,162,227,.05) 1px,transparent 1px),linear-gradient(rgba(122,162,227,.035) 1px,transparent 1px);background-size:30px 30px;mask-image:linear-gradient(#000,transparent 80%);}
+a{color:inherit;}.page-wrap{max-width:480px!important;min-height:100vh;background:rgba(7,15,29,.86)!important;margin:0 auto!important;padding-bottom:90px!important;box-shadow:0 0 65px rgba(0,0,0,.28);}
+h1,h2,h3,h4,.display{color:var(--alinco-text)!important;letter-spacing:-.025em;}
+p,.menu-sub,.topbar-sub,.li-sub,.stat-lbl,.section-title{color:var(--alinco-muted)!important;}
+
+/* App chrome */
+.topbar,.header{background:rgba(17,29,51,.94)!important;border-bottom:1px solid var(--alinco-line)!important;box-shadow:0 8px 20px rgba(0,0,0,.22)!important;backdrop-filter:blur(18px);}
+.topbar{min-height:66px!important;padding:14px 20px!important;}.topbar-title,.topbar-sub,.header .logo-text,.header .nav-links a{color:var(--alinco-text)!important;}
+.back-btn{background:#1A2942!important;border:1px solid rgba(151,182,232,.18)!important;color:#EAF5FF!important;border-radius:14px!important;}
+.seal,.logo-icon,.ab-seal{background:var(--alinco-gradient)!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 5px 16px rgba(25,133,255,.3)!important;}
 .logo-icon{font-size:0!important;}.logo-icon::after{content:"A";font-family:var(--display);font-size:18px;font-weight:800;}
-.field-input:focus,.field-select:focus,.form-input:focus{border-color:var(--alinco-blue)!important;box-shadow:0 0 0 3px rgba(11,77,130,.13)!important;}
-@media (prefers-reduced-motion:no-preference){.card,.stat-box,.product-card,.up-card,.quick-item{transition:transform .18s cubic-bezier(.23,1,.32,1),box-shadow .18s ease!important;}.card:hover,.stat-box:hover,.product-card:hover,.up-card:hover,.quick-item:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(11,77,130,.12)!important;}}
+
+/* Elevated mobile surfaces */
+.card,.menu-group,.stat-box,.package-card,.product-card,.up-card,.ab-card,.ab-feature,.welcome-card,.list-item,.menu-item,.field-input,.field-select,.form-input,.form-select,input,select,textarea,[class*="-card"]{background-color:var(--alinco-surface)!important;color:var(--alinco-text)!important;border-color:var(--alinco-line)!important;box-shadow:none!important;}
+.card,.menu-group,.stat-box,.package-card,.product-card,.up-card,.ab-card,.ab-feature,.welcome-card{border-radius:20px!important;border:1px solid var(--alinco-line)!important;}
+.section{margin:16px 14px!important;}.section-title,.sec-row h2,.mi-head-title{color:var(--alinco-text)!important;}.sec-row h2::before,.mi-head-title::before{content:"";display:inline-block;width:4px;height:18px;border-radius:4px;background:var(--alinco-gradient);margin-right:9px;vertical-align:-2px;}
+.menu-item,.list-item{border-bottom-color:var(--alinco-line)!important;}.menu-icon,.quick-item-icon,.stat-ic,.ab-feature-ic{background:#1B2942!important;color:var(--alinco-cyan)!important;border-radius:14px!important;}
+.menu-label,.li-title,.field-label{color:var(--alinco-text)!important;}.menu-arrow{color:#7787A0!important;}
+.field-input,.field-select,.form-input,.form-select,input,select,textarea{border:1px solid var(--alinco-line)!important;border-radius:14px!important;padding:14px 15px!important;}.field-input:focus,.field-select:focus,.form-input:focus,input:focus,select:focus,textarea:focus{border-color:var(--alinco-blue)!important;box-shadow:0 0 0 3px rgba(46,124,255,.16)!important;}
+
+/* Buttons, badges, and bottom navigation */
+.btn,.hero-btn,.pc-btn,.mi-buy,.buy-btn,.promo-btn{border-radius:16px!important;font-weight:700!important;}.btn-primary,.hero-btn.fill,.pc-btn,.mi-buy,.buy-btn,.promo-btn{background:var(--alinco-gradient)!important;color:#fff!important;box-shadow:0 8px 20px rgba(12,140,240,.22)!important;}.btn-outline,.hero-btn.ghost{background:#1A2942!important;border:1px solid rgba(118,169,240,.32)!important;color:#EAF5FF!important;}.btn-ghost{background:#192A44!important;color:#D7E8FF!important;}
+.pill,.vip-badge,.tab{border-radius:14px!important;border:1px solid var(--alinco-line)!important;background:#17243A!important;color:#9CAAC1!important;}.tab.on,.vip-badge{background:linear-gradient(110deg,rgba(50,126,255,.86),rgba(10,204,221,.86))!important;color:#fff!important;border-color:transparent!important;box-shadow:0 5px 14px rgba(31,134,255,.22)!important;}
+.bottom-nav{max-width:480px!important;background:rgba(17,29,51,.97)!important;border-top:1px solid var(--alinco-line)!important;box-shadow:0 -10px 34px rgba(0,0,0,.28)!important;padding:10px 0 18px!important;border-radius:20px 20px 0 0!important;}.nav-item{color:#78869D!important;}.nav-item.active{color:var(--alinco-blue)!important;}.nav-icon{stroke:currentColor!important;}
+
+/* Dashboard and account blocks */
+.hero-card,.auto-hero,.promo-banner,.ab-hero,.welcome-hero{background-image:linear-gradient(110deg,rgba(12,22,43,.92),rgba(13,30,57,.76)),url("../images/dashboard-banner.jpg")!important;background-size:cover!important;background-position:center!important;border:1px solid rgba(117,159,222,.18)!important;border-radius:22px!important;box-shadow:var(--alinco-glow)!important;overflow:hidden;}.hero-card::after,.auto-hero::after,.promo-banner::after{display:none!important;}.hero-label,.hero-meta,.hero-meta b{color:#A7B4C9!important;}.hero-amount{color:#fff!important;font-size:36px!important;}.hero-actions{gap:10px!important;}.hero-btn{border-radius:16px!important;}
+.stats-row{gap:10px!important;}.stat-box{padding:15px 9px!important;}.stat-val,.mp-earn,.up-name{color:var(--alinco-aqua)!important;}.quick-grid{grid-template-columns:repeat(3,1fr)!important;gap:10px!important;}.quick-item{min-height:92px!important;background:var(--alinco-surface)!important;border:1px solid var(--alinco-line)!important;border-radius:17px!important;color:#EAF5FF!important;padding:12px 8px!important;box-shadow:none!important;}.quick-item:first-child{background:var(--alinco-gradient)!important;border-color:transparent!important;}.quick-item:first-child .quick-item-icon{background:rgba(255,255,255,.17)!important;color:#fff!important;}.income-strip{background:var(--alinco-gradient)!important;color:#fff!important;border:0!important;border-radius:20px!important;padding:20px!important;box-shadow:0 10px 25px rgba(21,148,244,.17)!important;}.income-strip .txt strong,.income-strip .txt span{color:#fff!important;}.income-strip .ic{background:rgba(255,255,255,.16)!important;border-radius:16px!important;}.promo-banner{padding:20px!important;}
+
+/* Two-column, image-led oil package grid */
+#productsList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;padding:0 14px 96px!important;align-items:stretch!important;}.product-card{margin:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:#121C30!important;border:1px solid rgba(126,158,207,.20)!important;border-radius:21px!important;min-width:0!important;box-shadow:0 8px 22px rgba(0,0,0,.20)!important;}.pc-img-wrap{height:125px!important;min-height:125px!important;position:relative!important;overflow:hidden!important;background-color:#152039!important;background-position:center!important;background-size:cover!important;border-bottom:1px solid rgba(146,177,221,.15)!important;}.pc-img-wrap svg{display:none!important;}.pc-img-wrap::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(6,13,28,.72));}.pc-img-wrap::after{content:"ALINCO\A OIL";white-space:pre;position:absolute;left:13px;bottom:11px;color:rgba(255,255,255,.94);font-size:10px;line-height:1.05;font-weight:800;letter-spacing:.11em;text-shadow:0 2px 6px rgba(0,0,0,.4);}.product-card.tier-0 .pc-img-wrap{background-image:linear-gradient(130deg,rgba(10,23,47,.10),rgba(10,23,47,.76)),url("../images/diesel-package.jpg"),linear-gradient(135deg,#2D82FC,#0C3B70)!important;}.product-card.tier-1 .pc-img-wrap{background-image:linear-gradient(130deg,rgba(10,23,47,.10),rgba(10,23,47,.76)),url("../images/lubricants-package.jpg"),linear-gradient(135deg,#0B6E86,#113A65)!important;}.product-card.tier-2 .pc-img-wrap{background-image:linear-gradient(130deg,rgba(10,23,47,.10),rgba(10,23,47,.76)),url("../images/lpg-package.jpg"),linear-gradient(135deg,#3276E4,#2A1B67)!important;}.product-card.tier-3 .pc-img-wrap{background-image:linear-gradient(130deg,rgba(10,23,47,.10),rgba(10,23,47,.76)),url("../images/storage-package.jpg"),linear-gradient(135deg,#2C3550,#102C4B)!important;}.product-card.tier-4 .pc-img-wrap{background-image:linear-gradient(130deg,rgba(10,23,47,.10),rgba(10,23,47,.76)),url("../images/marine-fuel-package.jpg"),linear-gradient(135deg,#26344F,#075C72)!important;}.pc-body{padding:14px 13px 13px!important;display:flex!important;flex-direction:column!important;gap:10px!important;flex:1!important;}.pc-name{font-size:18px!important;line-height:1.08!important;color:#F4F8FF!important;font-weight:800!important;}.pc-desc{display:none!important;}.pc-stats{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px 7px!important;}.pc-stats>div{min-width:0!important;}.pc-stat-label{color:#7D8BA2!important;font-size:10px!important;line-height:1.2!important;text-transform:none!important;}.pc-stat-val{color:#F6FAFF!important;font-size:14px!important;font-weight:800!important;white-space:nowrap!important;}.pc-stat-val.profit{color:var(--alinco-aqua)!important;}.pc-footer{margin-top:auto!important;display:block!important;}.pc-price{display:none!important;}.pc-btn{width:100%!important;padding:11px 6px!important;font-size:13px!important;border-radius:16px!important;}.pc-chip{font-size:10px!important;justify-content:center!important;width:100%!important;border-radius:13px!important;}.pc-note{color:#8A9AB2!important;font-size:10px!important;text-align:center!important;}
+
+/* Activity, profile, history, and modal surfaces */
+.up-card{border-top:0!important;background:#121C30!important;}.up-header{border-bottom-color:var(--alinco-line)!important;}.up-name{color:#F4F8FF!important;}.us-val,.dc-amount,.collect-amount{color:#F6FAFF!important;}.us-lbl,.up-started,.prog-label,.dc-label,.dc-sub{color:#7F8DA5!important;}.prog-bar{background:#26344E!important;}.prog-fill{background:var(--alinco-gradient)!important;}.mi-empty,.empty{color:#8191A8!important;background:#121C30!important;border:1px solid var(--alinco-line)!important;border-radius:20px!important;}.welcome-card{background:#121C30!important;}.welcome-hero{background:linear-gradient(135deg,#142B55,#0A172D)!important;}.welcome-link{background:#18243A!important;border-color:var(--alinco-line)!important;}.welcome-link strong{color:#F4F8FF!important;}.welcome-link span{color:#8796AE!important;}.alert-info{background:#13294A!important;color:#BBD8FF!important;border:1px solid rgba(62,141,255,.32)!important;}
+
+/* Public access screens remain cohesive with the app */
+.auth-card,.login-card,.register-card,[class*="auth-"]{background:rgba(18,29,51,.96)!important;border:1px solid var(--alinco-line)!important;box-shadow:0 18px 45px rgba(0,0,0,.28)!important;}.header .nav-links a:hover{color:var(--alinco-cyan)!important;}
+@media (max-width:380px){#productsList{gap:10px!important;padding-left:10px!important;padding-right:10px!important;}.pc-img-wrap{height:112px!important;min-height:112px!important;}.pc-body{padding:12px 10px!important;}.pc-name{font-size:16px!important;}.pc-stat-val{font-size:13px!important;}.quick-grid{gap:8px!important;}}
+@media (min-width:700px){body{padding:24px 0!important;}.page-wrap{border:1px solid rgba(136,171,221,.13)!important;border-radius:26px!important;overflow:hidden!important;}.bottom-nav{border-radius:0 0 26px 26px!important;}}
+
+/* Profile/account page — reference-style stacked account panels */
+.profile-hero{padding:74px 22px 58px!important;background-image:linear-gradient(180deg,rgba(8,17,35,.27),rgba(8,17,35,.82)),url("../images/account-banner.jpg"),linear-gradient(135deg,#17365E,#0D1C34)!important;background-size:cover!important;background-position:center!important;text-align:left!important;border-bottom:1px solid var(--alinco-line)!important;box-shadow:none!important;}.profile-hero::before{display:none!important;}.profile-hero::after{display:block!important;right:20px!important;top:19px!important;left:auto!important;bottom:auto!important;width:46px!important;height:46px!important;border:1px solid rgba(255,255,255,.24)!important;border-radius:15px!important;background:rgba(17,31,53,.48)!important;}.profile-hero .avatar{width:58px!important;height:58px!important;margin:0 0 10px!important;border:2px solid rgba(74,159,255,.72)!important;background:#132A4C!important;box-shadow:0 0 0 8px rgba(20,102,241,.10)!important;}.profile-name{font-size:23px!important;color:#fff!important;}.profile-email,.profile-ref{color:#AEBBD0!important;}.profile-hero .vip-badge{background:rgba(19,41,75,.82)!important;color:#D7E8FF!important;border:1px solid rgba(91,157,255,.35)!important;box-shadow:none!important;}.cards-strip{margin:-27px 14px 20px!important;gap:0!important;background:#121D33!important;border:1px solid var(--alinco-line)!important;border-radius:20px!important;overflow:hidden!important;box-shadow:var(--alinco-glow)!important;}.strip-card{background:transparent!important;border:0!important;border-right:1px solid var(--alinco-line)!important;border-radius:0!important;padding:17px 6px!important;box-shadow:none!important;}.strip-card:last-child{border-right:0!important;}.strip-val{color:#F5F8FF!important;font-size:20px!important;}.strip-lbl{color:#8998B0!important;text-transform:none!important;font-size:10px!important;letter-spacing:0!important;}.profile-hero + .cards-strip + .section-title{margin-top:16px!important;}.mi-ic{background:#1A2942!important;color:var(--alinco-blue)!important;border:1px solid rgba(123,161,220,.13)!important;border-radius:13px!important;}.mi-txt strong{color:#F4F8FF!important;}.mi-txt span{color:#8290A7!important;}.mi-go{color:#72819B!important;}.signout-btn{background:#121D33!important;border-color:var(--alinco-line)!important;border-radius:18px!important;color:#FB6686!important;}
+
+/* Compact financial workspaces shared by funding and payout pages */
+.amount-card,.fund-card,.withdraw-card,.recharge-card,.bank-card,.instruction-card,.instructions-card,.history-card{background:#121D33!important;border:1px solid var(--alinco-line)!important;border-radius:20px!important;box-shadow:none!important;}.amount-option,.quick-amount,.amount-btn{background:#18243B!important;border:1px solid var(--alinco-line)!important;border-radius:15px!important;color:#F4F8FF!important;}.amount-option.active,.quick-amount.active,.amount-btn.active{border-color:var(--alinco-blue)!important;background:#172949!important;color:#6BA6FF!important;}.history-item,.transaction-item{background:#121D33!important;border-color:var(--alinco-line)!important;}.history-item .amount.credit,.transaction-item .credit{color:var(--alinco-aqua)!important;}
+
+/* Dashboard action hierarchy from the reference */
+.dashboard-header,.dash-hero,.account-summary,.summary-card{background:#121D33!important;border:1px solid var(--alinco-line)!important;border-radius:20px!important;}.quick-item:nth-child(1){background:var(--alinco-gradient)!important;}.quick-item:nth-child(2),.quick-item:nth-child(3){background:#18243B!important;}.quick-item:nth-child(2) .quick-item-icon,.quick-item:nth-child(3) .quick-item-icon{background:#101B30!important;}.promo-banner .promo-text,.promo-banner .pt-title,.promo-banner .pt-sub{position:relative!important;z-index:1!important;}
+
+/* Funding, payment, and withdrawal controls */
+.balance-pill{margin:16px!important;background:#121D33!important;border:1px solid var(--alinco-line)!important;border-radius:18px!important;color:#93A3BC!important;box-shadow:none!important;}.balance-pill strong{color:#F5F8FF!important;}.amount-grid{gap:10px!important;padding:0 16px!important;}.amt-chip{background:#18243B!important;border:1px solid var(--alinco-line)!important;border-radius:15px!important;box-shadow:none!important;}.amt-chip.active,.amt-chip.selected{background:#172949!important;border-color:var(--alinco-blue)!important;box-shadow:0 0 0 1px rgba(46,124,255,.18)!important;}.amt-val{color:#F5F8FF!important;}.amt-chip.active .amt-val,.amt-chip.selected .amt-val{color:#6DA7FF!important;}.method-card{margin-left:16px!important;margin-right:16px!important;background:#121D33!important;border:1px solid var(--alinco-line)!important;border-radius:20px!important;box-shadow:none!important;}.method-badge{background:#18243B!important;color:#EDF6FF!important;border-bottom:1px solid var(--alinco-line)!important;}.transfer-info{background:transparent!important;}.ti-row{border-bottom-color:var(--alinco-line)!important;}.ti-label{color:#8392AA!important;}.ti-val{color:#F4F8FF!important;}.copy-btn{background:#1A2942!important;border:1px solid rgba(87,151,255,.38)!important;color:#71A9FF!important;border-radius:10px!important;}.narration-box,.info-box,.monnify-perm-note{margin-left:16px!important;margin-right:16px!important;background:#13294A!important;color:#C6DEFF!important;border:1px solid rgba(54,139,255,.26)!important;border-radius:18px!important;}.info-box-title,.info-box li{color:#C6DEFF!important;}.status-bar{margin-left:16px!important;margin-right:16px!important;border-radius:14px!important;}
