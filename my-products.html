@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Greenew — My active plans</title>
+  <title>Alinco Oil Investments — My active plans</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -110,7 +110,7 @@
 
     var el=document.getElementById("prodList");
     if(!active.length){
-      el.innerHTML='<div class="empty"><div class="empty-icon">📦</div><p>No active products.<br><a href="products.html" style="color:var(--purple);font-weight:700">Browse energy plans →</a></p></div>';
+      el.innerHTML='<div class="empty"><div class="empty-icon">📦</div><p>No active products.<br><a href="products.html" style="color:var(--purple);font-weight:700">Browse oil packages →</a></p></div>';
     } else {
       el.innerHTML=active.map(function(p){
         var pct=p.duration_days?Math.min(100,Math.round((p.days_collected/p.duration_days)*100)):0;

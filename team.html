@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Schweppes — My Team</title>
+  <title>Alinco Oil Investments — My Team</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -341,7 +341,7 @@
   window.copyCode=function(){ navigator.clipboard.writeText(refCode).then(function(){window.AradelAuth.toast("Referral code copied!");}); };
   window.shareLink=function(){
     var link=location.origin+"/register.html?ref="+refCode;
-    if(navigator.share){ navigator.share({title:"Join Schweppes",text:"Join me on Schweppes and earn daily! Use my code: "+refCode,url:link}); }
+    if(navigator.share){ navigator.share({title:"Join Alinco Oil Investments",text:"Join me on Alinco Oil Investments and earn daily! Use my code: "+refCode,url:link}); }
     else { navigator.clipboard.writeText(link).then(function(){window.AradelAuth.toast("Referral link copied!");}); }
   };
 })();
