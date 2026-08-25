@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alinco Oil Investments — Payout Request</title>
+  <title>Aradel — Withdraw</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -16,18 +16,16 @@
     .saved-card-name { font-size:13px; font-weight:700; color:var(--ink); }
     .saved-card-num { font-size:11px; color:var(--muted); margin-top:1px; }
   </style>
-  <link rel="stylesheet" href="assets/css/alinco-ui.css">
-  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
-  <div class="topbar"><a class="back-btn" href="dashboard.html">‹</a><span class="topbar-title">💸 Payout Request</span></div>
+  <div class="topbar"><a class="back-btn" href="dashboard.html">‹</a><span class="topbar-title">💸 Withdraw</span></div>
   <div class="bal-card"><div class="bal-label">Available Balance</div><div class="bal-amount" id="balance">₦0.00</div><div class="min-note" id="limitsNote">Loading limits…</div></div>
 
   <div class="section">
     <div id="alert" class="alert"></div>
     <div id="lockedBanner" style="display:none;background:var(--danger-bg);border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center">
-      <div style="font-size:14px;font-weight:700;color:var(--danger)">🔒 Payout requests are temporarily paused</div>
+      <div style="font-size:14px;font-weight:700;color:var(--danger)">🔒 Withdrawals are temporarily paused</div>
       <div style="font-size:12px;color:var(--danger);margin-top:4px">Please check back later, or contact customer service.</div>
     </div>
 
@@ -45,7 +43,7 @@
       <div class="field"><label class="field-label">Account Name</label><input class="field-input" id="acctName" placeholder="Full account name"/></div>
     </div>
 
-    <button class="btn btn-primary" id="withdrawBtn" onclick="doWithdraw()">Request Payout</button>
+    <button class="btn btn-primary" id="withdrawBtn" onclick="doWithdraw()">Request Withdrawal</button>
   </div>
 </div>
 <div id="toast"></div>
@@ -67,7 +65,7 @@
       if(lockData.locked){
         document.getElementById("lockedBanner").style.display="block";
         document.getElementById("withdrawBtn").disabled=true;
-        document.getElementById("withdrawBtn").textContent="Payout Requests Paused";
+        document.getElementById("withdrawBtn").textContent="Withdrawals Paused";
       }
     }catch(e){}
 
@@ -126,12 +124,12 @@
     var r=await fetch("/api/withdraw",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({user_id:uid,amount:amt,bank_name:bank,bank_id:bankId,account_number:num,account_name:name})});
     var d=await r.json();
     if(d.ok){
-      al.textContent="✅ Payout request submitted! We'll process it within 24 hours.";
+      al.textContent="✅ Withdrawal request submitted! We'll process it within 24 hours.";
       al.className="alert alert-success show"; btn.textContent="Submitted ✓";
       balance-=amt; document.getElementById("balance").textContent=window.AradelAuth.money(balance);
     } else {
       al.textContent=d.error||"Error processing request"; al.className="alert alert-error show";
-      btn.disabled=false; btn.textContent="Request Payout";
+      btn.disabled=false; btn.textContent="Request Withdrawal";
     }
   };
 })();

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alinco Oil Investments — Network Overview</title>
+  <title>Schweppes — My Team</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -76,7 +76,7 @@
     .share-row .copy-btn svg{width:15px;height:15px;stroke-width:2;}
 
     /* ============================================================
-       Package Tier PROGRESS
+       VIP PROGRESS
        ============================================================ */
     .vip-progress{
       background:var(--white);border-radius:22px;margin:-30px 16px 18px;padding:20px;
@@ -162,8 +162,6 @@
       .ref-code{font-size:18px;}
     }
   </style>
-  <link rel="stylesheet" href="assets/css/alinco-ui.css">
-  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
@@ -189,25 +187,25 @@
   </div>
 
   <div class="vip-progress anim anim-2" id="vipProgressCard" style="display:none">
-    <div class="vip-prog-title">Package Tier Level Progress <span id="activeRefs" style="color:var(--text-muted);font-weight:400;font-size:12px"></span></div>
+    <div class="vip-prog-title">VIP Level Progress <span id="activeRefs" style="color:var(--text-muted);font-weight:400;font-size:12px"></span></div>
     <div class="vip-tiers">
-      <div class="vip-tier" id="vt1"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">Package Tier 1</div><div class="vt-req">3 refs</div></div>
-      <div class="vip-tier" id="vt2"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">Package Tier 2</div><div class="vt-req">5 refs</div></div>
-      <div class="vip-tier" id="vt3"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">Package Tier 3</div><div class="vt-req">10 refs</div></div>
-      <div class="vip-tier" id="vt4"><div class="vt-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg></div><div class="vt-label">Package Tier 4</div><div class="vt-req">25 refs</div></div>
+      <div class="vip-tier" id="vt1"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 1</div><div class="vt-req">3 refs</div></div>
+      <div class="vip-tier" id="vt2"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 2</div><div class="vt-req">5 refs</div></div>
+      <div class="vip-tier" id="vt3"><div class="vt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="vt-label">VIP 3</div><div class="vt-req">10 refs</div></div>
+      <div class="vip-tier" id="vt4"><div class="vt-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg></div><div class="vt-label">VIP 4</div><div class="vt-req">25 refs</div></div>
     </div>
   </div>
 
   <div class="section anim anim-3">
     <div class="stats-row">
-      <div class="stat-box"><div class="stat-val" id="totalTeam">0</div><div class="stat-lbl">Network Total</div></div>
+      <div class="stat-box"><div class="stat-val" id="totalTeam">0</div><div class="stat-lbl">Total Team</div></div>
       <div class="stat-box"><div class="stat-val" id="activeTeam">0</div><div class="stat-lbl">Active</div></div>
       <div class="stat-box"><div class="stat-val" id="refEarnings">₦0</div><div class="stat-lbl">Earned</div></div>
     </div>
   </div>
 
   <div class="deposits-card card anim anim-3">
-    <div class="dc-header"><div class="dc-label">Network Capital Funded</div><div class="dc-amount" id="teamDepositsTotal">₦0</div><div class="dc-sub" id="dcSub">Combined capital funding from your network</div></div>
+    <div class="dc-header"><div class="dc-label">Total Team Deposits</div><div class="dc-amount" id="teamDepositsTotal">₦0</div><div class="dc-sub" id="dcSub">Combined deposits from your entire downline</div></div>
     <div class="dc-breakdown" id="dcBreakdown">
       <div class="dc-item"><div class="dc-item-val" id="l1Deposits">₦0</div><div class="dc-item-lbl">Level 1</div></div>
       <div class="dc-item" id="l2DepositsItem"><div class="dc-item-val" id="l2Deposits">₦0</div><div class="dc-item-lbl">Level 2</div></div>
@@ -225,9 +223,9 @@
 
 <nav class="bottom-nav">
   <button class="nav-item" onclick="location.href='dashboard.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-  <button class="nav-item" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Packages</button>
-  <button class="nav-item active" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</button>
-  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</button>
+  <button class="nav-item" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products</button>
+  <button class="nav-item active" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Team</button>
+  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
 </nav>
 <div id="toast"></div>
 
@@ -251,7 +249,7 @@
     refCode=p?.referral_code||""; document.getElementById("refCode").textContent=refCode;
     var link=location.origin+"/register.html?ref="+refCode;
     document.getElementById("refLink").textContent=link;
-    window.AradelAuth.loadProfile(userId); // fills the Package Tier badge in the hero via [data-vip]
+    window.AradelAuth.loadProfile(userId); // fills the VIP badge in the hero via [data-vip]
 
     try {
       var r=await fetch("/api/team?user_id="+userId);
@@ -260,7 +258,7 @@
       l1Members=d.l1||[]; l2Members=d.l2||[]; l3Members=d.l3||[];
       var activeCount=d.active_count||0, totalTeam=d.total_team||0;
 
-      // ── Apply admin-controlled settings (referral depth + Package Tier toggle) ──
+      // ── Apply admin-controlled settings (referral depth + VIP toggle) ──
       var settings=d.settings||{};
       referralLevels=settings.referral_levels||3;
       vipEnabled=settings.vip_enabled!==false;
@@ -292,7 +290,7 @@
     }
   });
 
-  // Shows/hides the Package Tier card and Level 2/3 UI to match what the admin
+  // Shows/hides the VIP card and Level 2/3 UI to match what the admin
   // has configured in site_settings (vip_enabled, referral_levels).
   function applySettingsToUI(settings){
     document.getElementById("vipProgressCard").style.display = vipEnabled ? "" : "none";
@@ -313,12 +311,12 @@
     if(referralLevels < 2){
       document.getElementById("ltab2").style.display="none";
       document.getElementById("l2DepositsItem").style.display="none";
-      document.getElementById("dcSub").textContent="Deposits from your direct network members";
+      document.getElementById("dcSub").textContent="Deposits from your direct referrals";
     } else {
       document.getElementById("ltab2").style.display="";
       document.getElementById("l2DepositsItem").style.display="";
       document.getElementById("ltab2").textContent = "Level 2 ("+l2Pct+"%)";
-      document.getElementById("dcSub").textContent="Combined capital funding from your network";
+      document.getElementById("dcSub").textContent="Combined deposits from your entire downline";
     }
     if(referralLevels<3) document.getElementById("dcBreakdown").classList.add(referralLevels<2?"levels-1":"");
   }
@@ -343,7 +341,7 @@
   window.copyCode=function(){ navigator.clipboard.writeText(refCode).then(function(){window.AradelAuth.toast("Referral code copied!");}); };
   window.shareLink=function(){
     var link=location.origin+"/register.html?ref="+refCode;
-    if(navigator.share){ navigator.share({title:"Join Alinco Oil Investments",text:"Join me on Alinco Oil Investments and explore oil-product packages! Use my code: "+refCode,url:link}); }
+    if(navigator.share){ navigator.share({title:"Join Schweppes",text:"Join me on Schweppes and earn daily! Use my code: "+refCode,url:link}); }
     else { navigator.clipboard.writeText(link).then(function(){window.AradelAuth.toast("Referral link copied!");}); }
   };
 })();
