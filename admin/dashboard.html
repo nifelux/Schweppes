@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Schweppes Admin</title>
+  <title>Alinco Oil Investments Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/styles.css"/>
   <style>
@@ -66,11 +66,13 @@
     .tg-balance-meta { margin-top:4px; font-size:11px; color:#8A7F78; }
     .tg-balance-error { color:#F87171; font-size:13px; font-weight:600; }
   </style>
+  <link rel="stylesheet" href="../assets/css/alinco-ui.css">
+  <script src="../assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 
 <div class="admin-top">
-  <div class="admin-brand">Schweppes<span>Admin</span></div>
+  <div class="admin-brand">Alinco Oil Investments<span>Admin</span></div>
   <div style="display:flex;gap:8px;align-items:center"><div class="admin-tag">ADMIN</div><button onclick="window.AradelAuth.logout()" style="background:none;border:none;color:#8A7F78;cursor:pointer;font-size:13px">Sign out</button></div>
 </div>
 
@@ -133,7 +135,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div class="a-field"><label class="a-label">Name</label><input class="a-input" id="pname" placeholder="Product name"/></div>
           <div class="a-field"><label class="a-label">Type</label><select class="a-select" id="ptype" onchange="toggleVipField()"><option value="newbie">Newbie</option><option value="vip">VIP</option></select></div>
-          <div class="a-field" id="vipField" style="display:none"><label class="a-label">VIP Level (1-4)</label><input class="a-input" id="pvip" type="number" min="1" max="4"/></div>
+          <div class="a-field" id="vipField" style="display:none"><label class="a-label">Package Tier Level (1-4)</label><input class="a-input" id="pvip" type="number" min="1" max="4"/></div>
           <div class="a-field"><label class="a-label">Price (₦)</label><input class="a-input" id="pprice" type="number"/></div>
           <div class="a-field"><label class="a-label">Daily Income (₦)</label><input class="a-input" id="pdaily" type="number"/></div>
           <div class="a-field"><label class="a-label">Duration (days)</label><input class="a-input" id="pdur" type="number"/></div>
@@ -274,10 +276,10 @@
     </div>
 
     <div class="a-card" style="margin-bottom:14px">
-      <div class="a-card-title">VIP Products</div>
+      <div class="a-card-title">Oil Packages</div>
       <div style="padding:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <div><div style="font-size:14px;font-weight:700;color:#fff">VIP products enabled</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="vipEnabledDesc">Loading…</div></div>
+          <div><div style="font-size:14px;font-weight:700;color:#fff">oil packages enabled</div><div style="font-size:12px;color:#8A7F78;margin-top:2px" id="vipEnabledDesc">Loading…</div></div>
           <button id="vipEnabledToggle" onclick="toggleVipEnabled()" style="flex-shrink:0;width:52px;height:30px;border-radius:20px;border:none;cursor:pointer;position:relative;background:#3A2E29"><span id="vipEnabledKnob" style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s"></span></button>
         </div>
       </div>
@@ -519,7 +521,7 @@
         ? '<span style="margin-top:6px;display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.06);color:#8A7F78;font-size:10px;font-weight:700">Admin</span>'
         : '<button onclick="event.stopPropagation();toggleUserBan(\''+u.id+'\','+(!banned)+')" style="margin-top:6px;padding:4px 10px;border-radius:6px;border:none;background:'+(banned?'rgba(52,211,153,.12)':'rgba(239,68,68,.12)')+';color:'+(banned?'#34D399':'#f87171')+';font-size:10px;font-weight:700;cursor:pointer">'+(banned?'✅ Unban':'🚫 Ban')+'</button>';
       var teamBtn = '<button onclick="event.stopPropagation();openTeamModal(\''+u.id+'\')" style="margin-top:6px;margin-left:6px;padding:4px 10px;border-radius:6px;border:none;background:rgba(59,130,246,.14);color:#60A5FA;font-size:10px;font-weight:700;cursor:pointer">👥 Team</button>';
-      return '<div class="user-row" onclick="openWalletModal(\''+u.id+'\')" style="'+(banned?'opacity:.55':'')+'"><div class="user-avatar">'+(u.full_name||u.email||"?")[0].toUpperCase()+'</div><div style="flex:1"><div class="user-name">'+(u.full_name||"—")+(u.is_admin?' <span style="font-size:10px;background:rgba(239,68,68,.15);color:#f87171;padding:2px 6px;border-radius:4px">Admin</span>':'')+(banned?' <span style="font-size:10px;background:rgba(239,68,68,.3);color:#fff;padding:2px 6px;border-radius:4px">🚫 Banned</span>':'')+' <span style="font-size:10px;color:#34D399">VIP '+u.vip_level+'</span></div><div class="user-meta">'+u.email+' · '+new Date(u.created_at).toLocaleDateString()+'</div></div><div style="text-align:right"><div class="user-bal">₦'+Number(u.wallets?.balance||0).toLocaleString()+'</div><div>'+banBtn+teamBtn+'</div></div></div>';
+      return '<div class="user-row" onclick="openWalletModal(\''+u.id+'\')" style="'+(banned?'opacity:.55':'')+'"><div class="user-avatar">'+(u.full_name||u.email||"?")[0].toUpperCase()+'</div><div style="flex:1"><div class="user-name">'+(u.full_name||"—")+(u.is_admin?' <span style="font-size:10px;background:rgba(239,68,68,.15);color:#f87171;padding:2px 6px;border-radius:4px">Admin</span>':'')+(banned?' <span style="font-size:10px;background:rgba(239,68,68,.3);color:#fff;padding:2px 6px;border-radius:4px">🚫 Banned</span>':'')+' <span style="font-size:10px;color:#34D399">Package Tier '+u.vip_level+'</span></div><div class="user-meta">'+u.email+' · '+new Date(u.created_at).toLocaleDateString()+'</div></div><div style="text-align:right"><div class="user-bal">₦'+Number(u.wallets?.balance||0).toLocaleString()+'</div><div>'+banBtn+teamBtn+'</div></div></div>';
     }).join("");
   }
   window.toggleUserBan=async function(userId,willBan){
@@ -917,15 +919,15 @@
   var vipEnabledOn=true;
   function applyVipEnabledUI(){
     var toggle=document.getElementById("vipEnabledToggle"),knob=document.getElementById("vipEnabledKnob"),desc=document.getElementById("vipEnabledDesc");
-    if(vipEnabledOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — users can purchase VIP products"; desc.style.color="#34D399"; }
-    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — VIP purchases are blocked"; desc.style.color="#8A7F78"; }
+    if(vipEnabledOn){ toggle.style.background="#00c853"; knob.style.transform="translateX(22px)"; desc.textContent="✅ On — users can purchase oil packages"; desc.style.color="#34D399"; }
+    else { toggle.style.background="#3A2E29"; knob.style.transform="translateX(0)"; desc.textContent="Off — Package Tier purchases are blocked"; desc.style.color="#8A7F78"; }
   }
   window.toggleVipEnabled=async function(){
     var newState=!vipEnabledOn;
     document.getElementById("vipEnabledDesc").textContent="Updating…";
     var r=await fetch("/api/admin?action=set-vip-enabled",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({enabled:newState,admin_id:adminId})});
     var d=await r.json();
-    if(d.ok){ vipEnabledOn=newState; applyVipEnabledUI(); window.AradelAuth.toast(vipEnabledOn?"✅ VIP products enabled":"🚫 VIP products disabled"); }
+    if(d.ok){ vipEnabledOn=newState; applyVipEnabledUI(); window.AradelAuth.toast(vipEnabledOn?"✅ oil packages enabled":"🚫 oil packages disabled"); }
     else { window.AradelAuth.toast("❌ "+d.error); applyVipEnabledUI(); }
   };
 
