@@ -218,9 +218,9 @@
 
 <nav class="bottom-nav">
   <button class="nav-item" onclick="location.href='dashboard.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-  <button class="nav-item active" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Oil Packages</button>
+  <button class="nav-item active" onclick="location.href='products.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Packages</button>
   <button class="nav-item" onclick="location.href='team.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</button>
-  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
+  <button class="nav-item" onclick="location.href='profile.html'"><svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account</button>
 </nav>
 <div id="toast"></div>
 
@@ -287,29 +287,18 @@
         }
         var oilName=window.AlincoDisplay.packageName(p,currentTier); var oilDescription=window.AlincoDisplay.packageDescription(p,currentTier);
         return `
-          <div class="product-card">
+          <div class="product-card tier-${currentTier}">
             <div class="pc-img-wrap">${boxIconSvg}</div>
             <div class="pc-body">
               <div class="pc-name">${oilName}</div>
               <div class="pc-desc">${oilDescription}</div>
               <div class="pc-stats">
-                <div>
-                  <div class="pc-stat-label">Daily Package Credit</div>
-                  <div class="pc-stat-val profit">₦${p.daily_income.toLocaleString()}</div>
-                </div>
-                <div>
-                  <div class="pc-stat-label">Package Cycle Value</div>
-                  <div class="pc-stat-val">₦${(p.daily_income * p.duration_days).toLocaleString()}</div>
-                </div>
-                <div>
-                  <div class="pc-stat-label">Package Window</div>
-                  <div class="pc-stat-val">${p.duration_days} Days</div>
-                </div>
+                <div><div class="pc-stat-label">Product price</div><div class="pc-stat-val">₦${p.price.toLocaleString()}</div></div>
+                <div><div class="pc-stat-label">Revenue cycle</div><div class="pc-stat-val">${p.duration_days} days</div></div>
+                <div><div class="pc-stat-label">Daily credit</div><div class="pc-stat-val profit">₦${p.daily_income.toLocaleString()}</div></div>
+                <div><div class="pc-stat-label">Cycle value</div><div class="pc-stat-val profit">₦${(p.daily_income * p.duration_days).toLocaleString()}</div></div>
               </div>
-              <div class="pc-footer">
-                <div class="pc-price">₦${p.price.toLocaleString()}</div>
-                ${footerAction}
-              </div>
+              <div class="pc-footer">${footerAction}</div>
               ${count===1 && !adminLocked ? '<div class="pc-note">Package added once — 1 more allocation available</div>' : ''}
             </div>
           </div>
