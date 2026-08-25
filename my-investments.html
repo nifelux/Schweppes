@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alinco Oil Investments — My Investments</title>
+  <title>Alinco Oil Investments — My Oil Packages</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -56,6 +56,8 @@
     .mi-loader{width:26px;height:26px;border-radius:50%;border:3px solid var(--border-light);border-top-color:var(--primary-pink);animation:mispin .8s linear infinite;}
     @keyframes mispin{to{transform:rotate(360deg);}}
   </style>
+  <link rel="stylesheet" href="assets/css/alinco-ui.css">
+  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
@@ -63,23 +65,23 @@
     <a class="back-btn" href="profile.html">‹</a>
     <span class="topbar-title" style="display:flex;align-items:center;gap:8px">
       <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--primary-pink);stroke-width:2;fill:none"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-      My Investments
+      My Oil Packages
     </span>
   </div>
 
   <div class="auto-hero">
     <div class="auto-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
-    <div class="auto-title">Income drops automatically</div>
-    <div class="auto-sub">Every active plan below credits its daily income to your wallet automatically at midnight — nothing to tap, nothing to remember.</div>
+    <div class="auto-title">Oil package credits are tracked automatically</div>
+    <div class="auto-sub">Every active oil package below follows the existing daily-credit schedule configured in the platform.</div>
   </div>
 
   <div class="mi-head">
-    <span class="mi-head-title">Active</span>
-    <a href="products.html">+ Buy More</a>
+    <span class="mi-head-title">Active Oil Packages</span>
+    <a href="products.html">+ Choose Package</a>
   </div>
   <div id="prodList"><div class="mi-loader-wrap"><div class="mi-loader"></div></div></div>
 
-  <div class="mi-section-title">Completed</div>
+  <div class="mi-section-title">Completed Oil Packages</div>
   <div id="doneList"></div>
   <div style="height:16px"></div>
 </div>
@@ -104,7 +106,7 @@
 
     var el=document.getElementById("prodList");
     if(!active.length){
-      el.innerHTML='<div class="mi-empty"><div class="mi-empty-icon">'+boxIconSvg+'</div><p>No active investments.<br><a href="products.html" style="color:var(--primary-pink);font-weight:700">Browse products →</a></p></div>';
+      el.innerHTML='<div class="mi-empty"><div class="mi-empty-icon">'+boxIconSvg+'</div><p>No active oil packages.<br><a href="products.html" style="color:var(--primary-pink);font-weight:700">Browse oil packages →</a></p></div>';
     } else {
       el.innerHTML=active.map(function(p){
         var pct=p.duration_days?Math.min(100,Math.round((p.days_collected/p.duration_days)*100)):0;
@@ -114,12 +116,12 @@
         // purchase time), so days_collected is the source of truth here.
         var credited = p.days_collected > 0 && p.last_claim_date;
         var lastCreditHtml = credited
-          ? moonIconSvg+' Last credited: '+new Date(p.last_claim_date).toDateString()
-          : clockIconSvg+' First payout credits tonight at midnight';
-        return '<div class="up-card"><div class="up-header"><div><div class="up-name">'+p.products?.name+'</div><div class="up-started">Started '+new Date(p.start_date).toLocaleDateString()+'</div></div></div>'+
-          '<div class="up-body"><div class="up-stats"><div><div class="us-val">'+window.AradelAuth.money(p.daily_income)+'</div><div class="us-lbl">Daily</div></div>'+
+          ? moonIconSvg+' Last package credit: '+new Date(p.last_claim_date).toDateString()
+          : clockIconSvg+' First package credit follows the configured schedule';
+        return '<div class="up-card"><div class="up-header"><div><div class="up-name">'+window.AlincoDisplay.packageName(p.products)+'</div><div class="up-started">Started '+new Date(p.start_date).toLocaleDateString()+'</div></div></div>'+
+          '<div class="up-body"><div class="up-stats"><div><div class="us-val">'+window.AradelAuth.money(p.daily_income)+'</div><div class="us-lbl">Package Credit</div></div>'+
           '<div><div class="us-val">'+p.days_collected+'/'+p.duration_days+'</div><div class="us-lbl">Days</div></div>'+
-          '<div><div class="us-val">'+window.AradelAuth.money(p.total_earned)+'</div><div class="us-lbl">Earned</div></div></div>'+
+          '<div><div class="us-val">'+window.AradelAuth.money(p.total_earned)+'</div><div class="us-lbl">Package Credit</div></div></div>'+
           '<div class="prog-bar"><div class="prog-fill" style="width:'+pct+'%"></div></div><div class="prog-label"><span>Progress</span><span>'+pct+'%</span></div>'+
           '<div class="last-credit'+(credited?'':' pending')+'">'+lastCreditHtml+'</div></div></div>';
       }).join("");
@@ -128,13 +130,13 @@
     var dl=document.getElementById("doneList");
     if(done.length){
       dl.innerHTML=done.map(function(p){
-        return '<div class="up-card"><div class="up-header"><div class="up-name">'+p.products?.name+'</div><span class="status-done">'+checkIconSvg+' Completed</span></div>'+
-          '<div class="up-body"><div class="up-stats"><div><div class="us-val">'+p.duration_days+'d</div><div class="us-lbl">Duration</div></div>'+
+        return '<div class="up-card"><div class="up-header"><div class="up-name">'+window.AlincoDisplay.packageName(p.products)+'</div><span class="status-done">'+checkIconSvg+' Completed</span></div>'+
+          '<div class="up-body"><div class="up-stats"><div><div class="us-val">'+p.duration_days+'d</div><div class="us-lbl">Package Window</div></div>'+
           '<div><div class="us-val">'+window.AradelAuth.money(p.total_earned)+'</div><div class="us-lbl">Total Earned</div></div>'+
-          '<div><div class="us-val">'+window.AradelAuth.money(p.amount_paid)+'</div><div class="us-lbl">Invested</div></div></div></div></div>';
+          '<div><div class="us-val">'+window.AradelAuth.money(p.amount_paid)+'</div><div class="us-lbl">Package Amount</div></div></div></div></div>';
       }).join("");
     } else {
-      dl.innerHTML='<div class="mi-empty" style="padding:20px"><p style="font-size:13px;color:var(--text-muted)">No completed investments yet.</p></div>';
+      dl.innerHTML='<div class="mi-empty" style="padding:20px"><p style="font-size:13px;color:var(--text-muted)">No completed oil packages yet.</p></div>';
     }
   });
 })();

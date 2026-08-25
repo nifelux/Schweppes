@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alinco Oil Investments — Recharge History</title>
+  <title>Alinco Oil Investments — Funding History</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -19,10 +19,12 @@
     .gateway-id-value { min-width:0; overflow-wrap:anywhere; color:var(--text-dark); font-family:monospace; font-size:11px; font-weight:700; }
     .gateway-id-copy { flex:0 0 auto; padding:4px 7px; border:1px solid var(--border); border-radius:7px; background:var(--white); color:var(--red); cursor:pointer; font-size:10px; font-weight:800; }
   </style>
+  <link rel="stylesheet" href="assets/css/alinco-ui.css">
+  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
-  <div class="topbar"><a class="back-btn" href="profile.html">‹</a><span class="topbar-title">📥 Recharge History</span></div>
+  <div class="topbar"><a class="back-btn" href="profile.html">‹</a><span class="topbar-title">📥 Funding History</span></div>
   <div class="hist-tabs">
     <button class="htab on" onclick="switchTab(this,'all')">All</button>
     <button class="htab" onclick="switchTab(this,'pending')">Pending</button>

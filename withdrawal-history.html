@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alinco Oil Investments — Withdrawal History</title>
+  <title>Alinco Oil Investments — Payout History</title>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="assets/css/styles.css"/>
   <style>
@@ -11,10 +11,12 @@
     .s-approved { background:var(--success-bg); color:var(--success); }
     .s-rejected { background:var(--danger-bg); color:var(--danger); }
   </style>
+  <link rel="stylesheet" href="assets/css/alinco-ui.css">
+  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body data-supabase-url="YOUR_SUPABASE_URL" data-supabase-anon="YOUR_SUPABASE_ANON_KEY">
 <div class="page-wrap">
-  <div class="topbar"><a class="back-btn" href="profile.html">‹</a><span class="topbar-title">📤 Withdrawal History</span></div>
+  <div class="topbar"><a class="back-btn" href="profile.html">‹</a><span class="topbar-title">📤 Payout History</span></div>
   <div class="card" style="margin:16px;overflow:hidden" id="histList"><div class="loader-wrap"><div class="loader"></div></div></div>
 </div>
 <div id="toast"></div>

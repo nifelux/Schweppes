@@ -330,6 +330,8 @@
       stroke-linejoin: round;
     }
   </style>
+  <link rel="stylesheet" href="assets/css/alinco-ui.css">
+  <script src="assets/js/alinco-display.js"></script>
 </head>
 <body>
   <div class="wrap">
@@ -359,8 +361,8 @@
               <line x1="23" y1="11" x2="17" y2="11"/>
             </svg>
           </div>
-          <h1 class="title">Create Account</h1>
-          <p class="subtitle">Join Alinco Oil Investments and start earning daily</p>
+          <h1 class="title">Open an Alinco Oil account</h1>
+          <p class="subtitle">Join Alinco Oil Investments and explore oil-product packages</p>
         </div>
 
         <!-- Register Card -->
@@ -413,13 +415,13 @@
               <input type="text" id="refCode" class="form-input uppercase" placeholder="ENTER CODE">
             </div>
 
-            <button type="submit" class="btn btn-primary" id="regBtn">Create Account</button>
+            <button type="submit" class="btn btn-primary" id="regBtn">Open an Alinco Oil account</button>
           </form>
         </div>
 
         <!-- Footer -->
         <p class="footer-text">
-          Already have an account? <a href="index.html">Sign in</a>
+          Already have an account? <a href="index.html">Access Account</a>
         </p>
       </div>
     </main>
@@ -487,11 +489,11 @@
             options: { data: { full_name:name, phone:phone, referral_code: ref||null } }
           });
 
-          if(error){ showAlert(error.message||"Registration failed. Try again.","error"); btn.disabled=false; btn.textContent="Create Account"; return; }
+          if(error){ showAlert(error.message||"Registration failed. Try again.","error"); btn.disabled=false; btn.textContent="Open an Alinco Oil account"; return; }
 
           if(!data?.session){
             showAlert("✅ Account created! Check your email for a confirmation link, then sign in.","success");
-            btn.disabled=false; btn.textContent="Create Account"; return;
+            btn.disabled=false; btn.textContent="Open an Alinco Oil account"; return;
           }
 
           showAlert("✅ Account created! Signing you in…","success");
@@ -502,7 +504,7 @@
         } catch(e){
           console.error("Registration error:", e);
           showAlert(cleanMsg(e?.message)||"Registration failed. Please check your Supabase setup and try again.","error");
-          btn.disabled=false; btn.textContent="Create Account";
+          btn.disabled=false; btn.textContent="Open an Alinco Oil account";
         }
       });
     })();
